@@ -60,7 +60,7 @@ class Reactivation extends RestController
 			$pass = $this->post('password', true);
 
 			$where = array(
-				'email' => $mail,
+				'users.email' => $mail,
 				'username' => $user);
 
 			$check_user = $this->model_auth->check_user_reactive($where);
@@ -93,7 +93,6 @@ class Reactivation extends RestController
 						if($rekode['code'] != 200) {
 							$res['status'] = false;
 							$res['message'] = $rekode['message'];
-							$res['cek'] = $where;
 							$this->response($res, $rekode['code']);
 						} else {
 							$res['status'] = true;

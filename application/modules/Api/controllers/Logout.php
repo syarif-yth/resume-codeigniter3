@@ -23,9 +23,8 @@ class Logout extends RestController
 
 	public function index_get()
 	{
-		// $log = $this->auth_token->logout();
+		$res['status'] = true;
 		$res['data'] = $this->dt_user;
-		// $res['cek'] = $log;
 		$this->response($res);
 	}
 }

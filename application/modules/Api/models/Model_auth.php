@@ -3,18 +3,14 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Model_auth extends CI_Model
 {
-	private $db_table;
+	private $tb_users;
+	private $tb_attr;
 	function __construct()
 	{
 		parent::__construct();
-		$this->db_table = $this->db->protect_identifiers('users', TRUE);
-	}
-
-	private function res_error($err)
-	{
-		$res['code'] = 500;
-		$res['message'] = $err['message'];
-		return $res;
+		$this->tb_users = $this->db->protect_identifiers('users', TRUE);
+		$this->tb_attr = $this->db->protect_identifiers('attr_users', TRUE);
+		$this->load->helper('db_helper');
 	}
 
 	public function check_username_login($username)
@@ -22,10 +18,10 @@ class Model_auth extends CI_Model
 		$column = array('nip');
 		$this->db->select($column);
 		$this->db->where('username', $username);
-		$kueri = $this->db->get_where($this->db_table);
+		$kueri = $this->db->get_where($this->tb_users);
 		if(!$kueri) {
 			$err = $this->db->error();
-			return $this->res_error($err);
+			return res_error($err);
 		} else {
 			if($kueri->num_rows() == 0) {
 				$res['code'] = 400;
@@ -40,15 +36,17 @@ class Model_auth extends CI_Model
 
 	public function login($user, $pass)
 	{
-		$column = array('nip', 'username', 'email', 
+		$column = array('users.nip', 'username', 'users.email', 
 			'nama', 'avatar', 'profesi', 'kode_aktifasi');
 		$this->db->select($column);
+		$this->db->from($this->tb_users);
+		$this->db->join($this->tb_attr, 'attr_users.nip = users.nip');
 		$this->db->where('username', $user);
 		$this->db->where('password', $pass);
-		$kueri = $this->db->get_where($this->db_table);
+		$kueri = $this->db->get_where();
 		if(!$kueri) {
 			$err = $this->db->error();
-			return $this->res_error($err);
+			return res_error($err);
 		} else {
 			if($kueri->num_rows() == 0) {
 				$res['code'] = 400;
@@ -66,10 +64,10 @@ class Model_auth extends CI_Model
 		$column = array('nip');
 		$this->db->select($column);
 		$this->db->where('email', $email);
-		$kueri = $this->db->get_where($this->db_table);
+		$kueri = $this->db->get_where($this->tb_users);
 		if(!$kueri) {
 			$err = $this->db->error();
-			return $this->res_error($err);
+			return res_error($err);
 		} else {
 			if($kueri->num_rows() > 0) {
 				$res['code'] = 400;
@@ -87,10 +85,10 @@ class Model_auth extends CI_Model
 		$column = array('nip');
 		$this->db->select($column);
 		$this->db->where('username', $username);
-		$kueri = $this->db->get_where($this->db_table);
+		$kueri = $this->db->get_where($this->tb_users);
 		if(!$kueri) {
 			$err = $this->db->error();
-			return $this->res_error($err);
+			return res_error($err);
 		} else {
 			if($kueri->num_rows() > 0) {
 				$res['code'] = 400;
@@ -105,10 +103,41 @@ class Model_auth extends CI_Model
 
 	public function regist($data)
 	{
-		$kueri = $this->db->insert($this->db_table, $data);
+		$this->load->helper('array_helper');
+		$this->db->trans_begin();
+		$user = array_unset($data, 'kode_aktifasi');
+		$kueri = $this->db->insert($this->tb_users, $user);
 		if(!$kueri) {
 			$err = $this->db->error();
-			return $this->res_error($err);
+			return res_error($err);
+		} else {
+			if($this->db->affected_rows() == 0) {
+				$res['code'] = 401;
+				$res['message'] = "No user has been registed!";
+				return $res;
+			} else {
+				$attr = array_unset($data, array('username', 'password'));
+				$kueri_attr = $this->regist_attr_users($attr);
+				if($kueri_attr['code'] != 200) {
+					$this->db->trans_rollback();
+					$res = $kueri_attr;
+				} else {
+					$this->db->trans_commit();
+					$res['code'] = 200;
+					$res['message'] = "Regist new user success";
+					$res['data'] = array_unset($data, array('password', 'kode_aktifasi'));
+				}
+				return $res;
+			}
+		}
+	}
+
+	private function regist_attr_users($data)
+	{
+		$kueri = $this->db->insert($this->tb_attr, $data);
+		if(!$kueri) {
+			$err = $this->db->error();
+			return res_error($err);
 		} else {
 			if($this->db->affected_rows() == 0) {
 				$res['code'] = 401;
@@ -116,9 +145,6 @@ class Model_auth extends CI_Model
 			} else {
 				$res['code'] = 200;
 				$res['message'] = "Regist new user success";
-				unset($data['password']);
-				unset($data['kode_aktifasi']);
-				$res['data'] = $data;
 			}
 			return $res;
 		}
@@ -126,15 +152,17 @@ class Model_auth extends CI_Model
 
 	public function getkode_aktifasi($email)
 	{
-		$column = array('nip', 'username', 
-			'email', 'tgl_regist');
+		$column = array('username', 
+			'users.email', 'tgl_regist');
 		$this->db->select($column);
-		$this->db->where('email', $email);
+		$this->db->from($this->tb_users);
+		$this->db->join($this->tb_attr, 'attr_users.nip = users.nip');
+		$this->db->where('users.email', $email);
 		$this->db->where('kode_aktifasi !=', NULL);
-		$kueri = $this->db->get_where($this->db_table);
+		$kueri = $this->db->get_where();
 		if(!$kueri) {
 			$err = $this->db->error();
-			return $this->res_error($err);
+			return res_error($err);
 		} else {
 			if($kueri->num_rows() == 1) {
 				$res['code'] = 200;
@@ -149,14 +177,16 @@ class Model_auth extends CI_Model
 
 	public function activate($where)
 	{
-		$column = array('nip', 'username', 
-			'email', 'nama');
+		$column = array('users.nip', 'username', 
+			'users.email', 'nama');
 		$this->db->select($column);
+		$this->db->from($this->tb_users);
+		$this->db->join($this->tb_attr, 'attr_users.nip = users.nip');
 		$this->db->where($where);
-		$kueri = $this->db->get_where($this->db_table);
+		$kueri = $this->db->get_where();
 		if(!$kueri) {
 			$err = $this->db->error();
-			return $this->res_error($err);
+			return res_error($err);
 		} else {
 			if($kueri->num_rows() == 1) {
 				$res['code'] = 200;
@@ -171,13 +201,13 @@ class Model_auth extends CI_Model
 
 	public function set_active($email)
 	{
-		$this->db->where('email', $email);
 		$this->db->set('kode_aktifasi', NULL);
 		$this->db->set('time_email', NULL);
-		$kueri = $this->db->update($this->db_table);
+		$this->db->where('email', $email);
+		$kueri = $this->db->update($this->tb_attr);
 		if(!$kueri) {
 			$err = $this->db->error();
-			return $this->res_error($err);
+			return res_error($err);
 		} else {
 			if($this->db->affected_rows() == 0) {
 				$res['code'] = 500;
@@ -195,10 +225,10 @@ class Model_auth extends CI_Model
 		$column = array('nip');
 		$this->db->select($column);
 		$this->db->where($where);
-		$kueri = $this->db->get_where($this->db_table);
+		$kueri = $this->db->get_where($this->tb_users);
 		if(!$kueri) {
 			$err = $this->db->error();
-			return $this->res_error($err);
+			return res_error($err);
 		} else {
 			if($kueri->num_rows() == 1) {
 				$res['code'] = 200;
@@ -216,10 +246,10 @@ class Model_auth extends CI_Model
 		$column = array('nip');
 		$this->db->select($column);
 		$this->db->where($where);
-		$kueri = $this->db->get_where($this->db_table);
+		$kueri = $this->db->get_where($this->tb_users);
 		if(!$kueri) {
 			$err = $this->db->error();
-			return $this->res_error($err);
+			return res_error($err);
 		} else {
 			if($kueri->num_rows() == 1) {
 				$res['code'] = 200;
@@ -234,46 +264,52 @@ class Model_auth extends CI_Model
 
 	public function rekode($where, $key)
 	{
-		$this->load->helper('time_helper');
-		$now = now('Y-m-d H:i:s');
-		$this->db->set('kode_aktifasi', $key);
-		$this->db->set('tgl_regist', $now);
-		$this->db->where($where);
-		$kueri = $this->db->update($this->db_table);
-		if(!$kueri) {
-			$err = $this->db->error();
-			return $this->res_error($err);
+		$user = $where['username'];
+		$pass = $where['password'];
+		$login = $this->login($user, $pass);
+		if($login['code'] != 200) {
+			return $login;
 		} else {
-			if($this->db->affected_rows() == 0) {
-				$res['code'] = 500;
-				$res['message'] = "Internal Server Error";
+			$nip = $login['data']['nip'];
+			$this->load->helper('time_helper');
+			$now = now('Y-m-d H:i:s');
+
+			$this->db->set('kode_aktifasi', $key);
+			$this->db->set('tgl_regist', $now);
+			$this->db->where('nip', $nip);
+			$kueri = $this->db->update($this->tb_attr);
+
+			if(!$kueri) {
+				$err = $this->db->error();
+				return res_error($err);
 			} else {
-				$res['code'] = 200;
-				$res['message'] = "Re activation account success";
-				unset($where['password']);
-				$res['data'] = $where;
+				if($this->db->affected_rows() == 0) {
+					$res['code'] = 500;
+					$res['message'] = "Internal Server Error";
+				} else {
+					$res['code'] = 200;
+					$res['message'] = "Re activation account success";
+					unset($where['password']);
+					$res['data'] = res_data($where);
+				}
+				return $res;
 			}
-			return $res;
 		}
 	}
 
 	public function set_token($nip, $key)
 	{
 		$this->db->set('token', $key);
-		$this->db->set('online', '1');
 		$this->db->where('nip', $nip);
-		$kueri = $this->db->update($this->db_table);
+		$kueri = $this->db->update($this->tb_attr);
 		if(!$kueri) {
 			$err = $this->db->error();
-			return $this->res_error($err);
+			return res_error($err);
 		} else {
-			if($this->db->affected_rows() == 0) {
-				$res['code'] = 500;
-				$res['message'] = "No data has been updated";
-			} else {
-				$res['code'] = 200;
-				$res['message'] = "Data has been updated";
-			}
+			$where = array('nip' => $nip);
+			$this->set_online($nip);
+			$res['code'] = 200;
+			$res['message'] = "Data has been updated";
 			return $res;
 		}
 	}
@@ -283,10 +319,10 @@ class Model_auth extends CI_Model
 		$this->db->set('token', NULL);
 		$this->db->set('online', '0');
 		$this->db->where($where);
-		$kueri = $this->db->update($this->db_table);
+		$kueri = $this->db->update($this->tb_attr);
 		if(!$kueri) {
 			$err = $this->db->error();
-			return $this->res_error($err);
+			return res_error($err);
 		} else {
 			if($this->db->affected_rows() == 0) {
 				$res['code'] = 500;
@@ -308,18 +344,13 @@ class Model_auth extends CI_Model
 			$this->db->set('online', '1');
 		}
 		$this->db->where($where);
-		$kueri = $this->db->update($this->db_table);
+		$kueri = $this->db->update($this->tb_attr);
 		if(!$kueri) {
 			$err = $this->db->error();
-			return $this->res_error($err);
+			return res_error($err);
 		} else {
-			if($this->db->affected_rows() == 0) {
-				$res['code'] = 500;
-				$res['message'] = "no data has been updated";
-			} else {
-				$res['code'] = 200;
-				$res['message'] = "data has been updated";
-			}
+			$res['code'] = 200;
+			$res['message'] = "data has been updated";
 			return $res;
 		}
 	}
@@ -329,10 +360,10 @@ class Model_auth extends CI_Model
 		$time = time();
 		$this->db->set('time_email', $time);
 		$this->db->where('email', $email);
-		$kueri = $this->db->update($this->db_table);
+		$kueri = $this->db->update($this->tb_attr);
 		if(!$kueri) {
 			$err = $this->db->error();
-			return $this->res_error($err);
+			return res_error($err);
 		} else {
 			if($this->db->affected_rows() == 0) {
 				$res['code'] = 500;
@@ -349,11 +380,12 @@ class Model_auth extends CI_Model
 	{
 		$column = array('time_email');
 		$this->db->select($column);
+		// $this->db->join($this->tb_attr, 'attr_users.nip = users.nip');
 		$this->db->where('email', $email);
-		$kueri = $this->db->get_where($this->db_table);
+		$kueri = $this->db->get_where($this->tb_attr);
 		if(!$kueri) {
 			$err = $this->db->error();
-			return $this->res_error($err);
+			return res_error($err);
 		} else {
 			if($kueri->num_rows() == 0) {
 				$res['code'] = 400;

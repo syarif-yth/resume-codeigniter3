@@ -36,7 +36,7 @@ class Activation extends RestController
 					$this->response($res, 404);
 				} else {
 					$kode = $this->post('kode_aktifasi', true);
-					$where = array('email' => $email,
+					$where = array('users.email' => $email,
 						'username' => $data['username'],
 						'kode_aktifasi' => $kode);
 					$activate = $this->model_auth->activate($where);

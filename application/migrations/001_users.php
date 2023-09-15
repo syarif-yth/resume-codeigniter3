@@ -83,6 +83,10 @@ class Migration_users extends CI_migration
 				'constraint' => 255,
 				'null' => true,
 				'default' => NULL),
+			'time_email' => array(
+				'type' => 'INT',
+				'null' => true,
+				'default' => NULL),
 			'tgl_regist datetime default current_timestamp'
 		);
 		return $field;

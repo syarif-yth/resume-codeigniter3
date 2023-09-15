@@ -10,21 +10,6 @@ class Migrate extends MX_Controller
 		$this->load->helper('tree_helper');
   }
 
-	private function check_db()
-	{
-		$this->load->database();
-		$this->load->dbutil();
-		$db_name = $this->db->database;
-		if(!$this->dbutil->database_exists($db_name)) {
-			$res['status'] = false;
-			$res['message'] = 'Not connected database, or database not exists';
-		} else {
-			$res['status'] = true;
-			$res['message'] = 'Connected to '.$db_name;
-		}
-		return $res;
-	}
-
 	public function index()
 	{
 		$this->load->database();
@@ -42,7 +27,8 @@ class Migrate extends MX_Controller
 
 	private function migration()
 	{
-		$version = 4;
+		$this->load->config('migration');
+		$version = $this->config->item('migration_version');
 		$migrate = array();
 		for($v=1; $v<=$version; $v++) {
 			if(!$this->migration->version($v)) {

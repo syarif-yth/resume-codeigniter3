@@ -21,5 +21,31 @@ if(!function_exists('set_column')) {
 	}
 }
 
+if(!function_exists('res_data')) {
+	function res_data($data)
+	{
+		$res = array();
+		foreach($data as $key => $val) {
+			$exp = explode('.', $key);
+			$last = count($exp)-1;
+			if(count($exp) > 1) {
+				$res[$exp[$last]] = $val;
+			} else {
+				$res[$key] = $val;
+			}
+		}
+		return $res;
+	}
+}
+
+if(!function_exists('res_error')) {
+	function res_error($err)
+	{
+		$res['code'] = 500;
+		$res['message'] = $err['message'];
+		return $res;
+	}
+}
+
 ?>
 
