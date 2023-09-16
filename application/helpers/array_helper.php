@@ -1,30 +1,14 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-if(!function_exists('array_unset')) {
-	// UNSET WITHOUT REMOVE
-	function array_unset($array, $unset)
+if(!function_exists('array_remove')) {
+	// removing array by key without delete like array_unset
+	function array_remove($array, $remove = null)
 	{
-		$data = array();
-		$d = array();
-		foreach($array as $key => $val) {		
-			if(is_array($unset)) {
-				$d = array();
-				foreach($unset as $k => $v) {
-					if($key == $v) {
-						$d[] = false;
-					} 
-				}
-
-				if(!in_array(false, $d)) {
-					$data[$key] = $val;
-				} 
-			} else {
-				if($key != $unset) {
-					$data[$key] = $val;
-				}
-			}
+		if($array && $remove) {
+			return array_diff_key($array, array_flip((array) $remove));
+		} else {
+			return $array;
 		}
-		return $data;
 	}
 }

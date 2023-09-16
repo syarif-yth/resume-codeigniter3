@@ -8,7 +8,6 @@ class Table_users extends CI_Model
 	{
 		parent::__construct();
 		$this->db_table = $this->db->protect_identifiers('users', TRUE);
-		$this->load->helper('db_helper');
 	}
 
 	public function select_all($column = null)

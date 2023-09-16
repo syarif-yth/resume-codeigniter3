@@ -1,7 +1,7 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
-require APPPATH . "libraries/format.php";
-require APPPATH . "libraries/RestController.php";
+require APPPATH."libraries/format.php";
+require APPPATH."libraries/RestController.php";
 
 use chriskacerguis\RestServer\RestController;
 
@@ -11,24 +11,25 @@ class Check extends RestController
 	function __construct()
 	{
 		parent::__construct();
-		$auth = $this->auth_token->valid_token();
-		if($auth['status'] === true) {
-			$data = $auth['body']['data'];
-			$this->dt_user = $data->user;
-			$this->load->library('session');
-		} else {
-			$this->response($auth['body'], $auth['code']);
-			die();
-		}
+		// $auth = $this->auth_token->valid_token();
+		// if($auth['status'] === true) {
+		// 	$data = $auth['body']['data'];
+		// 	$this->dt_user = $data->user;
+		// } else {
+		// 	$this->response($auth['body'], $auth['code']);
+		// 	die();
+		// }
 	}
 
-	public function index_get()
+	public function index_post()
 	{
-		
 		$res['status'] = true;
-		$res['response'] = 'ok';
+		$res['post'] = $this->post();
+
 		$this->response($res);
 	}
+
+	
 
 	
 

@@ -12,7 +12,7 @@
 		<h1>Migrate System</h1>
 
 		<div id="body">
-			<p>This migration is supported by the presence of a database '<strong><i><?=$dbName?>.</i></strong>'</p>
+			<p>This migration is supported by the presence of a database '<strong><i><?=$dbName?></i></strong>' which has <?=$jmlTable?> tables</p>
 
 			<p>Click this link if you are ready to migrate system:</p>
 			<code><a href="<?=base_url()?>migrate/process">Migrate</a></code>

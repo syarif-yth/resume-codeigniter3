@@ -14,8 +14,20 @@ class Migrate extends MX_Controller
 	{
 		$this->load->database();
 		$db_name = $this->db->database;
-		$view = array('dbName' => $db_name);
+		$view = array('dbName' => $db_name,
+			'jmlTable' => $this->count_table());
 		$this->load->view('migrate', $view);
+	}
+
+	private function count_table()
+	{
+		$jml = -3;
+		$path = APPPATH.'migrations/';
+		$glob = glob($path."*_*.php");
+		foreach($glob as $file) {
+			$jml++;
+		}
+		return $jml;
 	}
 
 	public function process()
@@ -27,8 +39,7 @@ class Migrate extends MX_Controller
 
 	private function migration()
 	{
-		$this->load->config('migration');
-		$version = $this->config->item('migration_version');
+		$version = $this->count_table();
 		$migrate = array();
 		for($v=1; $v<=$version; $v++) {
 			if(!$this->migration->version($v)) {

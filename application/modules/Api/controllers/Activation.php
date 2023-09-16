@@ -1,7 +1,7 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
-require APPPATH . "libraries/format.php";
-require APPPATH . "libraries/RestController.php";
+require APPPATH."libraries/format.php";
+require APPPATH."libraries/RestController.php";
 
 use chriskacerguis\RestServer\RestController;
 
@@ -69,8 +69,7 @@ class Activation extends RestController
 
 	private function check_time($tgl)
 	{
-		$this->load->helper('time_helper');
-		$now = now('Y-m-d H:i:s');
+		$now = date('Y-m-d H:i:s');
 		$str_now = strtotime($now);
 		$str_tgl = strtotime($tgl);
 		$selisih = round(abs($str_tgl - $str_now) / 60);

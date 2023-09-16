@@ -1,7 +1,7 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
-require APPPATH . "libraries/format.php";
-require APPPATH . "libraries/RestController.php";
+require APPPATH."libraries/format.php";
+require APPPATH."libraries/RestController.php";
 
 use chriskacerguis\RestServer\RestController;
 
@@ -36,7 +36,7 @@ class Reactivation extends RestController
 			$time_db = $get['data'];
 			$time_now = time();
 			$sisa = $time_now-$time_db;
-			// 30 detik untuk kirim ulang kode
+			// 30 detik untuk dapat kirim ulang kode
 			if($sisa >= 30) {
 				$res['code'] = 200;
 				$res['message'] = 'Re Activation is ready';

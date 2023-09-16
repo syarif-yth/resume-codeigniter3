@@ -8,7 +8,6 @@ class Validation extends CI_Model
 	{
 		parent::__construct();
 		$this->tb_users = $this->db->protect_identifiers('users', TRUE);
-		$this->load->helper('db_helper');
 	}
 
 	public function is_unique($where)

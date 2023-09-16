@@ -1,12 +1,5 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
-/**
- * ----------------------------------------------------------------------------
- * @author      Syarif YTH.
- * @link        https://syarif-yth.github.io
- * ----------------------------------------------------------------------------
- */
-
 
 if(!function_exists('create_nip')) {
 	function create_nip()

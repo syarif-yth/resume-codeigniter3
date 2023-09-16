@@ -10,7 +10,6 @@ class Model_auth extends CI_Model
 		parent::__construct();
 		$this->tb_users = $this->db->protect_identifiers('users', TRUE);
 		$this->tb_attr = $this->db->protect_identifiers('attr_users', TRUE);
-		$this->load->helper('db_helper');
 	}
 
 	public function check_username_login($username)
@@ -103,9 +102,9 @@ class Model_auth extends CI_Model
 
 	public function regist($data)
 	{
-		$this->load->helper('array_helper');
+		$this->load->helper('array');
 		$this->db->trans_begin();
-		$user = array_unset($data, 'kode_aktifasi');
+		$user = array_remove($data, 'kode_aktifasi');
 		$kueri = $this->db->insert($this->tb_users, $user);
 		if(!$kueri) {
 			$err = $this->db->error();
@@ -116,7 +115,7 @@ class Model_auth extends CI_Model
 				$res['message'] = "No user has been registed!";
 				return $res;
 			} else {
-				$attr = array_unset($data, array('username', 'password'));
+				$attr = array_remove($data, array('username', 'password'));
 				$kueri_attr = $this->regist_attr_users($attr);
 				if($kueri_attr['code'] != 200) {
 					$this->db->trans_rollback();
@@ -125,7 +124,7 @@ class Model_auth extends CI_Model
 					$this->db->trans_commit();
 					$res['code'] = 200;
 					$res['message'] = "Regist new user success";
-					$res['data'] = array_unset($data, array('password', 'kode_aktifasi'));
+					$res['data'] = array_remove($data, array('password', 'kode_aktifasi'));
 				}
 				return $res;
 			}

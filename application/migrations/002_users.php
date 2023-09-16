@@ -68,41 +68,28 @@ class Migration_users extends CI_migration
 				'type' => 'VARCHAR',
 				'constraint' => 100,
 				'null' => true,
-				'defult' => NULL),
-			'online' => array(
-				'type' => 'ENUM("0","1")',
-				'null' => true,
-				'default' => '0'),
-			'kode_aktifasi' => array(
-				'type' => 'VARCHAR',
-				'constraint' => 6,
-				'null' => true,
-				'default' => NULL),
-			'token' => array(
-				'type' => 'VARCHAR',
-				'constraint' => 255,
-				'null' => true,
-				'default' => NULL),
-			'time_email' => array(
-				'type' => 'INT',
-				'null' => true,
-				'default' => NULL),
-			'tgl_regist datetime default current_timestamp'
+				'defult' => NULL)
 		);
 		return $field;
 	}
 
-	private function set_value()
+	private function set_users($nip)
 	{
-		$this->load->helper('input_helper');
-		$nip = create_nip();
-		$pass = encrypt_pass($nip, 'admin');
+		$pass = encrypt_pass($nip, 'Adm1n@pp');
 		$data[] = array(
 			'nip' => $nip,
 			'email' => 'syarif.yth@gmail.com',
-			'username' => 'admin',
+			'username' => 'admin_app',
 			'password' => $pass,
 			'nama' => 'Admin APP');
+		return $data;
+	}
+
+	private function set_attr($nip)
+	{
+		$data[] = array(
+			'nip' => $nip,
+			'email' => 'syarif.yth@gmail.com');
 		return $data;
 	}
 
@@ -114,9 +101,14 @@ class Migration_users extends CI_migration
 			$this->dbforge->add_key($this->tb_key, TRUE);
 			$this->dbforge->create_table($this->tb_name, FALSE, $this->tb_engine);
 
-			$value = $this->set_value();
+			$this->load->helper('input_helper');
+			$nip = create_nip();
+			$users = $this->set_users($nip);
+			$attr = $this->set_attr($nip);
+
 			$this->load->database();
-			$this->db->insert_batch($this->tb_name, $value);
+			$this->db->insert_batch($this->tb_name, $users);
+			$this->db->insert_batch('attr_users', $attr);
 		}
 	}
 
