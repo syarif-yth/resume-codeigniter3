@@ -16,7 +16,7 @@ class Table_users extends CI_Model
 		$kueri = $this->db->get($this->db_table);
 		if(!$kueri) {
 			$err = $this->db->error();
-			return res_error($err);
+			return db_error($err);
 		} else {
 			if($kueri->num_rows() == 0) {
 				$res['code'] = 404;
@@ -36,7 +36,7 @@ class Table_users extends CI_Model
 		$kueri = $this->db->get($this->db_table);
 		if(!$kueri) {
 			$err = $this->db->error();
-			return res_error($err);
+			return db_error($err);
 		} else {
 			if($kueri->num_rows() == 1) {
 				$res['code'] = 200;
@@ -56,7 +56,7 @@ class Table_users extends CI_Model
 		$kueri = $this->db->get($this->db_table);
 		if(!$kueri) {
 			$err = $this->db->error();
-			return res_error($err);
+			return db_error($err);
 		} else {
 			if($kueri->num_rows() == 0) {
 				$res['code'] = 404;
@@ -76,7 +76,7 @@ class Table_users extends CI_Model
 		$kueri = $this->db->get($this->db_table);
 		if(!$kueri) {
 			$err = $this->db->error();
-			return res_error($err);
+			return db_error($err);
 		} else {
 			if($kueri->num_rows() == 0) {
 				$res['code'] = 404;
@@ -94,7 +94,7 @@ class Table_users extends CI_Model
 		$kueri = $this->db->insert($this->db_table, $data);
 		if(!$kueri) {
 			$err = $this->db->error();
-			return res_error($err);
+			return db_error($err);
 		} else {
 			if($this->db->affected_rows() == 0) {
 				$res['code'] = 400;
@@ -113,7 +113,7 @@ class Table_users extends CI_Model
 		$kueri = $this->db->insert_batch($this->db_table, $data);
 		if(!$kueri) {
 			$err = $this->db->error();
-			return res_error($err);
+			return db_error($err);
 		} else {
 			if($this->db->affected_rows() == 0) {
 				$res['code'] = 400;
@@ -133,7 +133,7 @@ class Table_users extends CI_Model
 		$kueri = $this->db->update($this->db_table, $data);
 		if(!$kueri) {
 			$err = $this->db->error();
-			return res_error($err);
+			return db_error($err);
 		} else {
 			if($this->db->affected_rows() == 0) {
 				$res['code'] = 400;
@@ -153,7 +153,7 @@ class Table_users extends CI_Model
 		$kueri = $this->db->update($this->db_table, $data);
 		if(!$kueri) {
 			$err = $this->db->error();
-			return res_error($err);
+			return db_error($err);
 		} else {
 			if($this->db->affected_rows() == 0) {
 				$res['code'] = 400;
@@ -173,7 +173,7 @@ class Table_users extends CI_Model
 		$kueri = $this->db->delete($this->db_table);
 		if(!$kueri) {
 			$err = $this->db->error();
-			return res_error($err);
+			return db_error($err);
 		} else {
 			if($this->db->affected_rows() == 0) {
 				$res['code'] = 400;
@@ -192,7 +192,7 @@ class Table_users extends CI_Model
 		$kueri = $this->db->delete($this->db_table);
 		if(!$kueri) {
 			$err = $this->db->error();
-			return res_error($err);
+			return db_error($err);
 		} else {
 			if($this->db->affected_rows() == 0) {
 				$res['code'] = 400;

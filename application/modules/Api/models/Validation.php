@@ -18,7 +18,7 @@ class Validation extends CI_Model
 		$kueri = $this->db->get($this->tb_users);
 		if(!$kueri) {
 			$err = $this->db->error();
-			return res_error($err);
+			return db_error($err);
 		} else {
 			if($kueri->num_rows() == 0) {
 				$res['code'] = 200;
@@ -37,7 +37,7 @@ class Validation extends CI_Model
 		$kueri = $this->db->get($this->tb_users);
 		if(!$kueri) {
 			$err = $this->db->error();
-			return res_error($err);
+			return db_error($err);
 		} else {
 			if($kueri->num_rows() == 1) {
 				$res['code'] = 200;

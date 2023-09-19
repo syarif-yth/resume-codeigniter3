@@ -101,31 +101,27 @@ if(!function_exists('res_data')) {
 	// convert "user.email" to "email"
 	function res_data($data)
 	{
-		if($data) {
-			$res = array();
-			foreach($data as $key => $val) {
-				$exp = explode('.', $key);
-				$last = count($exp)-1;
-				if(count($exp) > 1) {
-					$res[$exp[$last]] = $val;
-				} else {
-					$res[$key] = $val;
-				}
+		$res = array();
+		foreach($data as $key => $val) {
+			$exp = explode('.', $key);
+			$last = count($exp)-1;
+			if(count($exp) > 1) {
+				$res[$exp[$last]] = $val;
+			} else {
+				$res[$key] = $val;
 			}
-			return $res;
-		} else { return false; }
+		}
+		return $res;
 	}
 }
 
-if(!function_exists('res_error')) {
+if(!function_exists('db_error')) {
 	// setting db error return message only
-	function res_error($err)
+	function db_error($err)
 	{
-		if($err) {
-			$res['code'] = 500;
-			$res['message'] = $err['message'];
-			return $res;
-		} else { return false; }
+		$res['code'] = 500;
+		$res['message'] = $err['message'];
+		return $res;
 	}
 }
 

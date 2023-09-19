@@ -10,9 +10,7 @@ class Login extends RestController
 	function __construct()
 	{
 		parent::__construct();
-		$model = array('model_auth',
-			'validation');
-		$this->load->model($model);
+		$this->load->model('model_auth');
 		$this->load->helper('input_helper');
 	}
 
@@ -76,9 +74,9 @@ class Login extends RestController
 		$this->form_validation->set_data($this->post());
     $data = array(
       array('field' => 'username',
-        'rules' => 'trim|required|min_length[5]|max_length[20]|callback_username'),
+        'rules' => 'trim|required|min_length[5]|max_length[20]|valid_username'),
       array('field' => 'password',
-        'rules' => 'required|min_length[5]callback_password')
+        'rules' => 'required|min_length[5]valid_password')
     );
     $this->form_validation->set_rules($data);
 		if($this->form_validation->run($this) == false) {
@@ -87,31 +85,5 @@ class Login extends RestController
 			return true;
 		}
   }
-
-	public function username($str)
-	{
-		if($str != '') {
-			$preg = preg_user($str);
-			if(!$preg) {
-				$this->form_validation->set_message('username', 'The {field} field may only contain alpha-numeric characters, underscores, and dashes.');
-				return false;
-			} else {
-				return true;
-			}
-		}
-	}
-
-	public function password($str)
-	{
-		if($str != '') {
-			$preg = preg_pass($str);
-			if(!$preg) {
-				$this->form_validation->set_message('password', 'The {field} field must contain uppercase letters, lowercase letters, numbers and special characters.');
-				return false;
-			} else {
-				return true;
-			}
-		}
-	}
 }
 ?>

@@ -20,7 +20,7 @@ class Model_auth extends CI_Model
 		$kueri = $this->db->get_where($this->tb_users);
 		if(!$kueri) {
 			$err = $this->db->error();
-			return res_error($err);
+			return db_error($err);
 		} else {
 			if($kueri->num_rows() == 0) {
 				$res['code'] = 400;
@@ -45,7 +45,7 @@ class Model_auth extends CI_Model
 		$kueri = $this->db->get_where();
 		if(!$kueri) {
 			$err = $this->db->error();
-			return res_error($err);
+			return db_error($err);
 		} else {
 			if($kueri->num_rows() == 0) {
 				$res['code'] = 400;
@@ -66,7 +66,7 @@ class Model_auth extends CI_Model
 		$kueri = $this->db->get_where($this->tb_users);
 		if(!$kueri) {
 			$err = $this->db->error();
-			return res_error($err);
+			return db_error($err);
 		} else {
 			if($kueri->num_rows() > 0) {
 				$res['code'] = 400;
@@ -87,7 +87,7 @@ class Model_auth extends CI_Model
 		$kueri = $this->db->get_where($this->tb_users);
 		if(!$kueri) {
 			$err = $this->db->error();
-			return res_error($err);
+			return db_error($err);
 		} else {
 			if($kueri->num_rows() > 0) {
 				$res['code'] = 400;
@@ -108,7 +108,7 @@ class Model_auth extends CI_Model
 		$kueri = $this->db->insert($this->tb_users, $user);
 		if(!$kueri) {
 			$err = $this->db->error();
-			return res_error($err);
+			return db_error($err);
 		} else {
 			if($this->db->affected_rows() == 0) {
 				$res['code'] = 401;
@@ -136,7 +136,7 @@ class Model_auth extends CI_Model
 		$kueri = $this->db->insert($this->tb_attr, $data);
 		if(!$kueri) {
 			$err = $this->db->error();
-			return res_error($err);
+			return db_error($err);
 		} else {
 			if($this->db->affected_rows() == 0) {
 				$res['code'] = 401;
@@ -152,7 +152,7 @@ class Model_auth extends CI_Model
 	public function getkode_aktifasi($email)
 	{
 		$column = array('username', 
-			'users.email', 'tgl_regist');
+			'users.email', 'exp_aktifasi');
 		$this->db->select($column);
 		$this->db->from($this->tb_users);
 		$this->db->join($this->tb_attr, 'attr_users.nip = users.nip');
@@ -161,7 +161,7 @@ class Model_auth extends CI_Model
 		$kueri = $this->db->get_where();
 		if(!$kueri) {
 			$err = $this->db->error();
-			return res_error($err);
+			return db_error($err);
 		} else {
 			if($kueri->num_rows() == 1) {
 				$res['code'] = 200;
@@ -185,7 +185,7 @@ class Model_auth extends CI_Model
 		$kueri = $this->db->get_where();
 		if(!$kueri) {
 			$err = $this->db->error();
-			return res_error($err);
+			return db_error($err);
 		} else {
 			if($kueri->num_rows() == 1) {
 				$res['code'] = 200;
@@ -201,12 +201,12 @@ class Model_auth extends CI_Model
 	public function set_active($email)
 	{
 		$this->db->set('kode_aktifasi', NULL);
-		$this->db->set('time_email', NULL);
+		$this->db->set('exp_aktifasi', NULL);
 		$this->db->where('email', $email);
 		$kueri = $this->db->update($this->tb_attr);
 		if(!$kueri) {
 			$err = $this->db->error();
-			return res_error($err);
+			return db_error($err);
 		} else {
 			if($this->db->affected_rows() == 0) {
 				$res['code'] = 500;
@@ -227,7 +227,7 @@ class Model_auth extends CI_Model
 		$kueri = $this->db->get_where($this->tb_users);
 		if(!$kueri) {
 			$err = $this->db->error();
-			return res_error($err);
+			return db_error($err);
 		} else {
 			if($kueri->num_rows() == 1) {
 				$res['code'] = 200;
@@ -248,7 +248,7 @@ class Model_auth extends CI_Model
 		$kueri = $this->db->get_where($this->tb_users);
 		if(!$kueri) {
 			$err = $this->db->error();
-			return res_error($err);
+			return db_error($err);
 		} else {
 			if($kueri->num_rows() == 1) {
 				$res['code'] = 200;
@@ -270,17 +270,16 @@ class Model_auth extends CI_Model
 			return $login;
 		} else {
 			$nip = $login['data']['nip'];
-			$this->load->helper('time_helper');
-			$now = now('Y-m-d H:i:s');
+			$now = strtotime('now');
 
 			$this->db->set('kode_aktifasi', $key);
-			$this->db->set('tgl_regist', $now);
+			$this->db->set('exp_aktifasi', $now);
 			$this->db->where('nip', $nip);
 			$kueri = $this->db->update($this->tb_attr);
 
 			if(!$kueri) {
 				$err = $this->db->error();
-				return res_error($err);
+				return db_error($err);
 			} else {
 				if($this->db->affected_rows() == 0) {
 					$res['code'] = 500;
@@ -303,7 +302,7 @@ class Model_auth extends CI_Model
 		$kueri = $this->db->update($this->tb_attr);
 		if(!$kueri) {
 			$err = $this->db->error();
-			return res_error($err);
+			return db_error($err);
 		} else {
 			$where = array('nip' => $nip);
 			$this->set_online($nip);
@@ -321,7 +320,7 @@ class Model_auth extends CI_Model
 		$kueri = $this->db->update($this->tb_attr);
 		if(!$kueri) {
 			$err = $this->db->error();
-			return res_error($err);
+			return db_error($err);
 		} else {
 			if($this->db->affected_rows() == 0) {
 				$res['code'] = 500;
@@ -346,7 +345,7 @@ class Model_auth extends CI_Model
 		$kueri = $this->db->update($this->tb_attr);
 		if(!$kueri) {
 			$err = $this->db->error();
-			return res_error($err);
+			return db_error($err);
 		} else {
 			$res['code'] = 200;
 			$res['message'] = "data has been updated";
@@ -354,15 +353,16 @@ class Model_auth extends CI_Model
 		}
 	}
 
-	public function set_time_email($email)
+	public function set_exp_aktifasi($email)
 	{
-		$time = time();
-		$this->db->set('time_email', $time);
+		// 60 detik * 10 = 10 menit
+		$exp = time()+(60*10);
+		$this->db->set('exp_aktifasi', $exp);
 		$this->db->where('email', $email);
 		$kueri = $this->db->update($this->tb_attr);
 		if(!$kueri) {
 			$err = $this->db->error();
-			return res_error($err);
+			return db_error($err);
 		} else {
 			if($this->db->affected_rows() == 0) {
 				$res['code'] = 500;
@@ -375,23 +375,127 @@ class Model_auth extends CI_Model
 		}
 	}
 
-	public function get_time_email($email)
+	public function get_exp_aktifasi($email)
 	{
-		$column = array('time_email');
+		$column = array('exp_aktifasi');
 		$this->db->select($column);
 		// $this->db->join($this->tb_attr, 'attr_users.nip = users.nip');
 		$this->db->where('email', $email);
 		$kueri = $this->db->get_where($this->tb_attr);
 		if(!$kueri) {
 			$err = $this->db->error();
-			return res_error($err);
+			return db_error($err);
 		} else {
 			if($kueri->num_rows() == 0) {
 				$res['code'] = 400;
 				$res['message'] = 'The email is incorrect.';
 			} else {
 				$res['code'] = 200;
-				$res['data'] = $kueri->result_array()[0]['time_email'];
+				$res['data'] = $kueri->result_array()[0]['exp_aktifasi'];
+			}
+			return $res;
+		}
+	}
+
+	public function check_recovery($mail, $user)
+	{
+		$column = array('nip');
+		$this->db->select($column);
+		$this->db->where('email', $mail);
+		$this->db->where('username', $user);
+		$kueri = $this->db->get_where($this->tb_users);
+		if(!$kueri) {
+			$err = $this->db->error();
+			return db_error($err);
+		} else {
+			if($kueri->num_rows() == 0) {
+				$res['code'] = 400;
+				$res['message'] = 'Email or username is incorrect.';
+			} else {
+				$res['code'] = 200;
+				$res['data'] = $kueri->result_array()[0]['nip'];
+			}
+			return $res;
+		}
+	}
+
+	public function insert_recovery($kode, $where)
+	{
+		$exp = strtotime('now')+3600;
+		$this->db->set('exp_recovery', $exp);
+		$this->db->set('kode_recovery', $kode);
+		$this->db->where($where);
+		$kueri = $this->db->update($this->tb_attr);
+		if(!$kueri) {
+			$err = $this->db->error();
+			return db_error($err);
+		} else {
+			if($this->db->affected_rows() == 0) {
+				$res['code'] = 500;
+				$res['message'] = "no data has been updated";
+			} else {
+				$res['code'] = 200;
+				$res['message'] = "data has been updated";
+			}
+			return $res;
+		}
+	}
+
+	public function check_kode_recovery($kode)
+	{
+		$column = array('nip','exp_recovery');
+		$this->db->select($column);
+		$this->db->where('kode_recovery', $kode);
+		$kueri = $this->db->get_where($this->tb_attr);
+		if(!$kueri) {
+			$err = $this->db->error();
+			return db_error($err);
+		} else {
+			if($kueri->num_rows() == 0) {
+				$res['code'] = 400;
+				$res['message'] = 'Unknown method';
+			} else {
+				$res['code'] = 200;
+				$res['data'] = $kueri->result_array()[0];
+			}
+			return $res;
+		}
+	}
+
+	public function reset_password($kode, $pass)
+	{
+		$sql = "UPDATE users
+			JOIN attr_users ON users.nip = attr_users.nip
+			SET password = ?
+			WHERE 1=1
+			AND kode_recovery = ?";
+		$kueri = $this->db->query($sql, array($pass, $kode));
+		if(!$kueri) {
+			$err = $this->db->error();
+			return db_error($err);
+		} else {
+			$res['code'] = 200;
+			$res['message'] = "data has been updated";
+			return $res;
+		}
+	}
+
+	public function reset_recovery_kode($nip)
+	{
+		$this->db->set('exp_recovery', NULL);
+		$this->db->set('kode_recovery', NULL);
+		$this->db->where('nip', $nip);
+		$kueri = $this->db->update($this->tb_attr);
+		if(!$kueri) {
+			$err = $this->db->error();
+			return db_error($err);
+		} else {
+			if($this->db->affected_rows() == 0) {
+				$res['code'] = 500;
+				$res['message'] = "no data has been updated";
+			} else {
+				$res['code'] = 200;
+				$res['message'] = "data has been updated";
 			}
 			return $res;
 		}

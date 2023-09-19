@@ -10,9 +10,7 @@ class Activation extends RestController
 	function __construct()
 	{
 		parent::__construct();
-		$model = array('model_auth',
-			'validation');
-		$this->load->model($model);
+		$this->load->model('model_auth');
 	}
 
 	public function index_post()
@@ -28,13 +26,15 @@ class Activation extends RestController
 				$this->response($res, $get['code']);
 			} else {
 				$data = $get['data'];
-				$tgl_regist = $data['tgl_regist'];
-				$check_time = $this->check_time($tgl_regist);
+				$exp_aktifasi = $data['exp_aktifasi'];
+				$check_time = $this->check_time($exp_aktifasi);
+
 				if(!$check_time) {
 					$res['status'] = false;
 					$res['message'] = 'Code activation has been expired!';
 					$this->response($res, 404);
 				} else {
+					// tambahkan apabila salah 5x akan dibanned 1 jam untuk reactivation
 					$kode = $this->post('kode_aktifasi', true);
 					$where = array('users.email' => $email,
 						'username' => $data['username'],
@@ -67,14 +67,12 @@ class Activation extends RestController
 		}
 	}
 
-	private function check_time($tgl)
+	private function check_time($exp)
 	{
-		$now = date('Y-m-d H:i:s');
-		$str_now = strtotime($now);
-		$str_tgl = strtotime($tgl);
-		$selisih = round(abs($str_tgl - $str_now) / 60);
+		$str_now = strtotime('now');
+		$selisih = round(abs($exp - $str_now)/60);
 		// 10 menit kode aktifasi berlaku
-		if($selisih > 10) {
+		if($selisih == 0) {
 			return false;
 		} else {
 			return true;
@@ -86,7 +84,7 @@ class Activation extends RestController
 		$this->form_validation->set_data($this->post());
     $data = array(
       array('field' => 'email',
-        'rules' => 'required|min_length[5]|max_length[100]|valid_email|callback_email'),
+        'rules' => 'required|min_length[5]|max_length[100]|valid_email|db_email_is_exist'),
       array('field' => 'kode_aktifasi',
         'rules' => 'required|min_length[6]|max_length[6]')
     );
@@ -97,23 +95,5 @@ class Activation extends RestController
 			return true;
 		}
   }
-
-	public function email($str)
-	{
-		if($str != '') {
-			$where = array('email' => $str);
-			$is_exist = $this->validation->is_exist($where);
-			if($is_exist['code'] != 200) {
-				if($is_exist['code'] == 400) {
-					$this->form_validation->set_message('email', 'Email not registed.');
-				} else {
-					$this->form_validation->set_message('email', $is_exist['message']);
-				}
-				return false;
-			} else {
-				return true;
-			}
-		}
-	}
 }
 ?>

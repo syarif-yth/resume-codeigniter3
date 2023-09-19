@@ -17,6 +17,16 @@ if(!function_exists('encrypt_pass')) {
 	}
 }
 
+if(!function_exists('encrypt_url')) {
+	function encrypt_url($nip, $user)
+	{
+		$time = new DateTime();
+		$now = $time->format('YmdHis');
+		$mix = md5($nip).md5($user).md5($now);
+		return sha1($mix);
+	}
+}
+
 if(!function_exists('value_cookie')) {
 	function value_cookie($nip)
 	{
@@ -36,7 +46,7 @@ if(!function_exists('preg_user')) {
 		// tidak boleh dua garis bawah dan dua tanda hubung berturut-turut
 		// tidak boleh ada garis bawah, atau tanda hubung di awal atau akhir
 		$preg = preg_match('/^[A-Za-z0-9]+(?:[_-][A-Za-z0-9]+)*$/', $str);
-		return $preg;
+		return (bool) $preg;
 	}
 }
 
@@ -45,7 +55,15 @@ if(!function_exists('preg_pass')) {
 	{
 		// minimal satu huruf besar, satu huruf kecil, satu angka, dan satu karakter khusus
 		$preg = preg_match('/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&#])[A-Za-z\d@$!%*?&#]{0,}$/', $str);
-		return $preg;
+		return (bool) $preg;
+	}
+}
+
+if(!function_exists('preg_sha1')) {
+	function preg_sha1($str)
+	{
+		$preg = preg_match('/^[0-9a-f]{40}$/i', $str);
+		return (bool) $preg;
 	}
 }
 
