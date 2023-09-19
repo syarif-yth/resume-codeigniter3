@@ -25,7 +25,6 @@ class Check extends RestController
 	{
 		$res['status'] = true;
 		$res['post'] = $this->post();
-
 		$this->response($res);
 	}
 

@@ -42,10 +42,23 @@ class Migration_attr_users extends CI_migration
 				'constraint' => 6,
 				'null' => true,
 				'default' => NULL),
-			'time_email' => array(
+			'exp_aktifasi' => array(
 				'type' => 'INT',
 				'null' => true,
 				'default' => NULL),
+			'kode_recovery' => array(
+				'type' => 'VARCHAR',
+				'constraint' => 40,
+				'null' => true,
+				'default' => NULL),
+			'exp_recovery' => array(
+				'type' => 'INT',
+				'null' => true,
+				'default' => NULL),
+			'non_aktif' => array(
+				'type' => 'ENUM("0","1")',
+				'null' => true,
+				'default' => '0'),
 			'tgl_regist datetime default CURRENT_TIMESTAMP',
 			'tgl_modif datetime default CURRENT_TIMESTAMP on update CURRENT_TIMESTAMP'
 		);

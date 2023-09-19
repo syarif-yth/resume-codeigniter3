@@ -10,8 +10,17 @@ class Login extends RestController
 	function __construct()
 	{
 		parent::__construct();
-		$this->load->model('model_auth');
-		$this->load->helper('input_helper');
+		$this->load->library('session');
+		$penalty = $this->session->userdata('penalty');
+		if(!$penalty) {
+			$this->load->model('model_auth');
+			$this->load->helper('input');
+		} else {
+			$res['status'] = false;
+			$res['message'] = 'Login errors occur too often, try again after 6 hours';
+			$this->response($res, 401);
+			die();
+		}
 	}
 
 	public function index_post()
@@ -23,18 +32,20 @@ class Login extends RestController
 		if($is_valid === true) {
 			$check = $this->model_auth->check_username_login($username);
 			if($check['code'] != 200) {
+				$mistake = $this->count_mistake($check);
 				$res['status'] = false;
-				$res['message'] = $check['message'];
-				$this->response($res, $check['code']);
+				$res['message'] = $mistake['message'];
+				$this->response($res, $mistake['code']);
 			} else {
 				$nip = $check['data'];
 				$pass = encrypt_pass($nip, $password);
 
 				$login = $this->model_auth->login($username, $pass);
 				if($login['code'] != 200) {
+					$mistake = $this->count_mistake($login);
 					$res['status'] = false;
-					$res['message'] = $login['message'];
-					$this->response($res, $login['code']);
+					$res['message'] = $mistake['message'];
+					$this->response($res, $mistake['code']);
 				} else {
 					$data_log = $login['data'];
 					if($data_log['kode_aktifasi'] != NULL) {
@@ -66,6 +77,29 @@ class Login extends RestController
 			$res['message'] = 'Your request not valid';
 			$res['errors'] = [$is_valid];
 			$this->response($res, 400);
+		}
+	}
+
+	private function count_mistake($response)
+	{
+		if($response['code'] == 400) {
+			$attempt = $this->session->userdata('attempt');
+			$attempt++;
+			$this->session->set_userdata('attempt', $attempt);
+			if($attempt >= 5) {
+				$attempt = 0;
+				$this->session->set_userdata('attempt', $attempt);
+				$one_day = 86400;
+				$time_penalty = ($one_day/4); // 6JAM
+				$this->session->set_tempdata('penalty', true, $time_penalty);
+				$res['code'] = $response['code'];
+				$res['message'] = 'Login errors occur too often, try again after 6 hours';
+				return $res;
+			} else {
+				return $response;
+			}
+		} else {
+			return $response;
 		}
 	}
 

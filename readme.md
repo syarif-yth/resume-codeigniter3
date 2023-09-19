@@ -1,6 +1,6 @@
 # Resume with CodeIgniter 3.1.13
 
-Pesonal project API Resume with CodeIgniter 3 for learning needs
+Pesonal project API Resume with CodeIgniter 3.1.13 for portfolio needs
 
 ## Technologi
 
@@ -9,9 +9,13 @@ Pesonal project API Resume with CodeIgniter 3 for learning needs
 - [RestServer 4.0.0 by Chriskacerguis](https://github.com/chriskacerguis/codeigniter-restserver)
 - [Authentication JWT by Bui Sy Nguyen](https://github.com/firebase/php-jwt)
 
-## Specification
+## Feature
 
-- Sign in and login with Google
+- Sign in and login with Google Account
+- Login count mistake
+- Activation code with gmail 
+- Recovery account/Reset password
+- 
 - 
 
 ## Installation
@@ -20,3 +24,4 @@ Pesonal project API Resume with CodeIgniter 3 for learning needs
 git clone https://github.com/syarif-yth/resume-codeigniter3.git
 ```
 
+## Using

@@ -10,12 +10,21 @@ class Reactivation extends RestController
 	function __construct()
 	{
 		parent::__construct();
-		$this->load->model('model_auth');
-		$this->load->helper('input');
-
-		$check_time = $this->check_time();
-		if($check_time['code'] != 200) {
-			$this->response($check_time['body'], $check_time['code']);
+		$this->load->library('session');
+		$penalty = $this->session->userdata('penalty');
+		if(!$penalty) {
+			$check_time = $this->check_time();
+			if($check_time['code'] == 200) {
+				$this->load->model('model_auth');
+				$this->load->helper('input');
+			} else {
+				$this->response($check_time['body'], $check_time['code']);
+				die();
+			}
+		} else {
+			$res['status'] = false;
+			$res['message'] = 'Activation errors occur too often, try again after 6 hours';
+			$this->response($res, 401);
 			die();
 		}
 	}
@@ -35,7 +44,6 @@ class Reactivation extends RestController
 			$time_now = strtotime('now');
 			$sisa = round(abs($time_now-$time_db));
 			// 30 detik untuk dapat kirim ulang kode
-			// tambah kan apabila reactivate lebih dari 5x banned
 			if($sisa > 30) {
 				$res['code'] = 200;
 				$res['message'] = 'Re Activation is ready';
@@ -64,9 +72,10 @@ class Reactivation extends RestController
 
 			$check_user = $this->model_auth->check_user_reactive($where);
 			if($check_user['code'] != 200) {
+				$mistake = $this->count_mistake($check_user);
 				$res['status'] = false;
-				$res['message'] = $check_user['message'];
-				$this->response($res, $check_user['code']);
+				$res['message'] = $mistake['message'];
+				$this->response($res, $mistake['code']);
 			} else {
 				$nip = $check_user['data']['nip'];
 				$password = array(
@@ -76,16 +85,18 @@ class Reactivation extends RestController
 				$reactivate = $this->model_auth->reactivate($where);
 
 				if($reactivate['code'] != 200) {
+					$mistake = $this->count_mistake($reactivate);
 					$res['status'] = false;
-					$res['message'] = $reactivate['message'];
-					$this->response($res, $reactivate['code']);
+					$res['message'] = $mistake['message'];
+					$this->response($res, $mistake['code']);
 				} else {
 					$key = mt_rand(100000, 999999);
 					$rekode = $this->model_auth->rekode($where, $key);
 					if($rekode['code'] != 200) {
+						$mistake = $this->count_mistake($rekode);
 						$res['status'] = false;
-						$res['message'] = $rekode['message'];
-						$this->response($res, $rekode['code']);
+						$res['message'] = $mistake['message'];
+						$this->response($res, $mistake['code']);
 					} else {
 						$this->load->library('email');
 						$send_key = $this->email->send_key($mail, $key);
@@ -108,6 +119,29 @@ class Reactivation extends RestController
 			$res['message'] = 'Your request not valid!';
 			$res['errors'] = [$is_valid];
 			$this->response($res, 400);
+		}
+	}
+
+	private function count_mistake($response)
+	{
+		if($response['code'] == 400) {
+			$attempt = $this->session->userdata('attempt');
+			$attempt++;
+			$this->session->set_userdata('attempt', $attempt);
+			if($attempt >= 5) {
+				$attempt = 0;
+				$this->session->set_userdata('attempt', $attempt);
+				$one_day = 86400;
+				$time_penalty = ($one_day/4); // 6JAM
+				$this->session->set_tempdata('penalty', true, $time_penalty);
+				$res['code'] = $response['code'];
+				$res['message'] = 'Activation errors occur too often, try again after 6 hours';
+				return $res;
+			} else {
+				return $response;
+			}
+		} else {
+			return $response;
 		}
 	}
 
