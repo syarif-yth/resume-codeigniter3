@@ -11,50 +11,38 @@ class Reactivation extends RestController
 	{
 		parent::__construct();
 		$this->load->library('session');
-		$penalty = $this->session->userdata('penalty');
-		if(!$penalty) {
-			$check_time = $this->check_time();
-			if($check_time['code'] == 200) {
-				$this->load->model('model_auth');
-				$this->load->helper('input');
-			} else {
-				$this->response($check_time['body'], $check_time['code']);
-				die();
-			}
+		$access = $this->check_access();
+		if($access['code'] == 200) {
+			$this->load->model('model_auth');
+			$this->load->helper('input');
 		} else {
-			$res['status'] = false;
-			$res['message'] = 'Activation errors occur too often, try again after 6 hours';
-			$this->response($res, 401);
+			$this->response($access['body'], $access['code']);
 			die();
 		}
 	}
 
-	private function check_time()
+	private function check_access()
 	{
-		$mail = $this->post('email', true);
-		$get = $this->model_auth->get_exp_aktifasi($mail);
-		if($get['code'] != 200) {
-			$res['code'] = $get['code'];
-			$res['body'] = array(
-				'status' => false,
-				'message' => $get['message']);
-			return $res;
-		} else {
-			$time_db = $get['data'];
-			$time_now = strtotime('now');
-			$sisa = round(abs($time_now-$time_db));
-			// 30 detik untuk dapat kirim ulang kode
-			if($sisa > 30) {
+		$penalty = $this->session->userdata('penalty_reactive');
+		if(!$penalty) {
+			$expired = $this->session->userdata('send_key');
+			if(!$expired) {
 				$res['code'] = 200;
 				$res['message'] = 'Re Activation is ready';
-				return $res;
+				return $res; 
 			} else {
-				$res['code'] = 400;
+				$res['code'] = 401;
 				$res['body'] = array(
 					'status' => false,
-					'message' => 'Re Activation is cooldown');
+					'message' => 'Send code is cooldown, please try again after 2 hours');
 				return $res;
 			}
+		} else {
+			$res['code'] = 400;
+			$res['body'] = array(
+				'status' => false,
+				'message' => 'Activation errors occur too often, please try again after 6 hours');
+			return $res;
 		}
 	}
 
@@ -100,6 +88,9 @@ class Reactivation extends RestController
 					} else {
 						$this->load->library('email');
 						$send_key = $this->email->send_key($mail, $key);
+						$one_day = 86400;
+						$time_expired = ($one_day/12);
+						$this->session->set_tempdata('send_key', true, $time_expired);
 						if($send_key['code'] != 200) {
 							$res['status'] = false;
 							$res['message'] = 'Send code activation failed!';
@@ -125,17 +116,17 @@ class Reactivation extends RestController
 	private function count_mistake($response)
 	{
 		if($response['code'] == 400) {
-			$attempt = $this->session->userdata('attempt');
+			$attempt = $this->session->userdata('attempt_reactive');
 			$attempt++;
-			$this->session->set_userdata('attempt', $attempt);
+			$this->session->set_userdata('attempt_reactive', $attempt);
 			if($attempt >= 5) {
 				$attempt = 0;
-				$this->session->set_userdata('attempt', $attempt);
+				$this->session->set_userdata('attempt_reactive', $attempt);
 				$one_day = 86400;
 				$time_penalty = ($one_day/4); // 6JAM
-				$this->session->set_tempdata('penalty', true, $time_penalty);
+				$this->session->set_tempdata('penalty_reactive', true, 30);
 				$res['code'] = $response['code'];
-				$res['message'] = 'Activation errors occur too often, try again after 6 hours';
+				$res['message'] = 'Activation errors occur too often, please try again after 6 hours';
 				return $res;
 			} else {
 				return $response;

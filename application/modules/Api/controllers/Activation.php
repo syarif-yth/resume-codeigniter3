@@ -11,15 +11,34 @@ class Activation extends RestController
 	{
 		parent::__construct();
 		$this->load->library('session');
-		$penalty = $this->session->userdata('penalty');
-		if(!$penalty) {
+		$penalty = $this->check_penalty();
+		if($penalty['code'] == 200) {
 			$this->load->model('model_auth');
 		} else {
-			$res['status'] = false;
-			$res['message'] = 'Activation errors occur too often, try again after 6 hours';
-			$this->response($res, 401);
+			$this->response($penalty['body'], $penalty['code']);
 			die();
 		}
+	}
+
+	private function check_penalty()
+	{
+		$penalty = $this->session->userdata('penalty_activation');
+		if(!$penalty) {
+			$res['code'] = 200;
+			$res['message'] = 'Acces allowed';
+		} else {
+			$res['code'] = 400;
+			$res['body'] = array(
+				'status' => false,
+				'message' => 'Login errors occur too often, please try again after 6 hours');
+		}
+		return $res;
+	}
+
+	// TAMBAHKAN KIRIM ULANG KODE dengan cooldown 1menit
+	public function resend_post()
+	{
+		
 	}
 
 	public function index_post()
@@ -78,17 +97,17 @@ class Activation extends RestController
 	private function count_mistake($response)
 	{
 		if($response['code'] == 400) {
-			$attempt = $this->session->userdata('attempt');
+			$attempt = $this->session->userdata('attempt_activation');
 			$attempt++;
-			$this->session->set_userdata('attempt', $attempt);
+			$this->session->set_userdata('attempt_activation', $attempt);
 			if($attempt >= 5) {
 				$attempt = 0;
-				$this->session->set_userdata('attempt', $attempt);
+				$this->session->set_userdata('attempt_activation', $attempt);
 				$one_day = 86400;
 				$time_penalty = ($one_day/4); // 6JAM
-				$this->session->set_tempdata('penalty', true, $time_penalty);
+				$this->session->set_tempdata('penalty_activation', true, $time_penalty);
 				$res['code'] = $response['code'];
-				$res['message'] = 'Activation errors occur too often, try again after 6 hours';
+				$res['message'] = 'Activation errors occur too often, please try again after 6 hours';
 				return $res;
 			} else {
 				return $response;

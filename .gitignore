@@ -8,8 +8,8 @@ application/logs/*
 
 !application/*/.htaccess
 application/config/secret.php
-application/modules/api/controllers/prototype.php
-application/modules/api/controllers/wilayah.php
+readme_design.md
+application/modules/Api/controllers/ignore.php
 
 composer.lock
 tests/mocks/database/ci_test.sqlite
