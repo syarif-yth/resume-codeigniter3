@@ -22,6 +22,7 @@ class Regist extends RestController
 			$user = $this->post('username', true);
 			$nip = create_nip();
 			$pass = $this->post('password', true);
+			$conf = $this->post('passconf', true);
 			$key = mt_rand(100000, 999999);
 
 			$data = array(
@@ -66,11 +67,17 @@ class Regist extends RestController
 		$this->form_validation->set_data($this->post());
     $data = array(
 			array('field' => 'email',
+				'label' => 'Email',
 				'rules' => 'trim|required|min_length[5]|max_length[100]|valid_email|db_email_is_unique'),
       array('field' => 'username',
+				'label' => 'Username',
         'rules' => 'trim|required|min_length[5]|max_length[20]|valid_username|db_username_is_unique'),
       array('field' => 'password',
-        'rules' => 'required|min_length[5]|valid_password')
+				'label' => 'Password',
+        'rules' => 'required|min_length[5]|valid_password'),
+      array('field' => 'passconf',
+				'label' => 'Confirm Password',
+        'rules' => 'required|min_length[5]|valid_password|matches[password]')
     );
     $this->form_validation->set_rules($data);
 		if($this->form_validation->run($this) == false) {

@@ -151,7 +151,7 @@ class Model_auth extends CI_Model
 
 	public function getkode_aktifasi($email)
 	{
-		$column = array('username', 
+		$column = array('users.nip', 'username', 
 			'users.email', 'exp_aktifasi');
 		$this->db->select($column);
 		$this->db->from($this->tb_users);
@@ -397,12 +397,11 @@ class Model_auth extends CI_Model
 		}
 	}
 
-	public function check_recovery($mail, $user)
+	public function check_recovery($mail)
 	{
-		$column = array('nip');
+		$column = array('nip', 'username');
 		$this->db->select($column);
 		$this->db->where('email', $mail);
-		$this->db->where('username', $user);
 		$kueri = $this->db->get_where($this->tb_users);
 		if(!$kueri) {
 			$err = $this->db->error();
@@ -413,7 +412,7 @@ class Model_auth extends CI_Model
 				$res['message'] = 'Email or username is incorrect.';
 			} else {
 				$res['code'] = 200;
-				$res['data'] = $kueri->result_array()[0]['nip'];
+				$res['data'] = $kueri->result_array()[0];
 			}
 			return $res;
 		}
@@ -496,6 +495,31 @@ class Model_auth extends CI_Model
 			} else {
 				$res['code'] = 200;
 				$res['message'] = "data has been updated";
+			}
+			return $res;
+		}
+	}
+
+	public function resend_code($email, $key)
+	{
+		$now = strtotime('now');
+
+		$this->db->set('kode_aktifasi', $key);
+		$this->db->set('exp_aktifasi', $now);
+		$this->db->where('email', $email);
+		$kueri = $this->db->update($this->tb_attr);
+
+		if(!$kueri) {
+			$err = $this->db->error();
+			return db_error($err);
+		} else {
+			if($this->db->affected_rows() == 0) {
+				$res['code'] = 500;
+				$res['message'] = "Internal Server Error";
+			} else {
+				$res['code'] = 200;
+				$res['message'] = "Resend code success";
+				$res['data'] = $email;
 			}
 			return $res;
 		}

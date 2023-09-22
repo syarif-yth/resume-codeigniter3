@@ -35,10 +35,45 @@ class Activation extends RestController
 		return $res;
 	}
 
-	// TAMBAHKAN KIRIM ULANG KODE dengan cooldown 1menit
 	public function resend_post()
 	{
-		
+		$expired = $this->session->userdata('send_key');
+		if(!$expired) {
+			$is_valid = $this->valid_resend();
+			if($is_valid === true) {
+				$mail = $this->post('email', true);
+				$key = mt_rand(100000, 999999);
+				$rekode = $this->model_auth->resend_code($mail, $key);
+				if($rekode['code'] != 200) {
+					$res['status'] = false;
+					$res['message'] = $rekode['message'];
+					$this->response($res, $rekode['code']);
+				} else {
+					$this->load->library('email');
+					$send_key = $this->email->send_key($mail, $key);
+					$this->session->set_tempdata('send_key', true, 60);
+					if($send_key['code'] != 200) {
+						$res['status'] = false;
+						$res['message'] = 'Send code activation failed!';
+						$res['errors'] = $send_key['message'];
+						$this->response($res, $send_key['code']);
+					} else {
+						$res['status'] = true;
+						$res['message'] = 'Send code activation success!';
+						$this->response($res);
+					}
+				}
+			} else {
+				$res['status'] = false;
+				$res['message'] = 'Your request not valid';
+				$res['errors'] = $is_valid;
+				$this->response($res, 400);
+			}
+		} else {
+			$res['status'] = false;
+			$res['message'] = 'Send code is cooldown, please try again after 1 minutes';
+			$this->response($res, 400);
+		}
 	}
 
 	public function index_post()
@@ -78,10 +113,21 @@ class Activation extends RestController
 							$res['message'] = $set_active['message'];
 							$this->response($res, $set_active['code']);
 						} else {
-							$res['status'] = true;
-							$res['message'] = 'Your account has been activated!';
-							$res['data'] = $activate['data'];
-							$this->response($res);
+							$param = array('nip' => $data['nip'], 
+								'email' => $email, 
+								'username' => $data['username']);
+							$create = $this->auth_token->create_token($param);
+							if($create['code'] != 200) {
+								$res['status'] = false;
+								$res['message'] = $create['message'];
+								$this->response($res, $create['code']);
+							} else {
+								$res['status'] = true;
+								$res['message'] = 'Your account has been activated!';
+								$res['data'] = array('user' => $activate['data'],
+									'auth' => $create['data']);
+								$this->response($res);
+							}
 						}
 					}
 				}
@@ -134,8 +180,10 @@ class Activation extends RestController
 		$this->form_validation->set_data($this->post());
     $data = array(
       array('field' => 'email',
+				'label' => 'Email',
         'rules' => 'required|min_length[5]|max_length[100]|valid_email|db_email_is_exist'),
       array('field' => 'kode_aktifasi',
+				'label' => 'Code Activation',
         'rules' => 'required|min_length[6]|max_length[6]')
     );
     $this->form_validation->set_rules($data);
@@ -145,5 +193,22 @@ class Activation extends RestController
 			return true;
 		}
   }
+
+	private function valid_resend()
+	{
+		$this->form_validation->set_data($this->post());
+    $data = array(
+      array('field' => 'email',
+				'label' => 'Email',
+        'rules' => 'required|min_length[5]|max_length[100]|valid_email|db_email_is_exist')
+    );
+    $this->form_validation->set_rules($data);
+		if($this->form_validation->run($this) == false) {
+			$this->form_validation->set_error_delimiters('', '');
+			return $this->form_validation->error_string();
+		} else {
+			return true;
+		}
+	}
 }
 ?>

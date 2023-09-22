@@ -103,7 +103,7 @@ class Login extends RestController
 				$this->session->set_userdata('attempt_login', $attempt);
 				$one_day = 86400;
 				$time_penalty = ($one_day/4); // 6JAM
-				$this->session->set_tempdata('penalty_login', true, 30);
+				$this->session->set_tempdata('penalty_login', true, $time_penalty);
 				$res['code'] = $response['code'];
 				$res['message'] = 'Login errors occur too often, please try again after 6 hours';
 				return $res;
@@ -122,7 +122,7 @@ class Login extends RestController
       array('field' => 'username',
         'rules' => 'trim|required|min_length[5]|max_length[20]|valid_username'),
       array('field' => 'password',
-        'rules' => 'required|min_length[5]valid_password')
+        'rules' => 'required|min_length[5]|valid_password')
     );
     $this->form_validation->set_rules($data);
 		if($this->form_validation->run($this) == false) {

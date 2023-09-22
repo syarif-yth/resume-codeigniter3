@@ -10,43 +10,30 @@ class Recovery extends RestController
 	function __construct()
 	{
 		parent::__construct();
-		$this->load->model('model_auth');
-		$this->load->helper('input');
-
-		// $check_time = $this->check_time();
-		// if($check_time['code'] != 200) {
-		// 	$this->response($check_time['body'], $check_time['code']);
-		// 	die();
-		// }
+		$this->load->library('session');
+		$access = $this->check_access();
+		if($access['code'] == 200) {
+			$this->load->model('model_auth');
+			$this->load->helper('input');
+		} else {
+			$this->response($access['body'], $access['code']);
+			die();
+		}
 	}
 
-	private function check_time()
+	private function check_access()
 	{
-		$mail = $this->post('email', true);
-		$get = $this->model_auth->get_exp_aktifasi($mail);
-		if($get['code'] != 200) {
-			$res['code'] = $get['code'];
+		$expired = $this->session->userdata('send_url');
+		if(!$expired) {
+			$res['code'] = 200;
+			$res['message'] = 'Recovery is ready';
+			return $res; 
+		} else {
+			$res['code'] = 401;
 			$res['body'] = array(
 				'status' => false,
-				'message' => $get['message']);
+				'message' => 'Send code is cooldown, please try again after 2 hours');
 			return $res;
-		} else {
-			$time_db = $get['data'];
-			$time_now = strtotime('now');
-			$sisa = round(abs($time_now-$time_db));
-			// 30 detik untuk dapat kirim ulang kode
-			// tambah kan apabila reactivate lebih dari 5x banned
-			if($sisa > 30) {
-				$res['code'] = 200;
-				$res['message'] = 'Re Activation is ready';
-				return $res;
-			} else {
-				$res['code'] = 400;
-				$res['body'] = array(
-					'status' => false,
-					'message' => 'Re Activation is cooldown');
-				return $res;
-			}
 		}
 	}
 
@@ -55,14 +42,14 @@ class Recovery extends RestController
 		$is_valid = $this->validpost();
 		if($is_valid === true) {
 			$email = $this->post('email', true);
-			$username = $this->post('username', true);
-			$check = $this->model_auth->check_recovery($email, $username);
+			$check = $this->model_auth->check_recovery($email);
 			if($check['code'] != 200) {
 				$res['status'] = false;
 				$res['message'] = $check['message'];
 				$this->response($res, $check['code']);
 			} else {
-				$nip = $check['data'];
+				$nip = $check['data']['nip'];
+				$username = $check['data']['username'];
 				$kode = encrypt_url($nip, $username);
 				$where = array('nip' => $nip,
 					'email' => $email);
@@ -75,6 +62,9 @@ class Recovery extends RestController
 					$url = base_url('recovery/'.$kode);
 					$this->load->library('email');
 					$send_url = $this->email->send_link($email, $url);
+					$one_day = 86400;
+					$time_expired = ($one_day/12);
+					$this->session->set_tempdata('send_url', true, $time_expired);
 					if($send_url['code'] != 200) {
 						$res['status'] = false;
 						$res['message'] = $send_url['message'];
@@ -149,9 +139,8 @@ class Recovery extends RestController
 		$this->form_validation->set_data($this->post());
     $data = array(
 			array('field' => 'email',
-				'rules' => 'trim|required|min_length[5]|valid_email'),
-      array('field' => 'username',
-        'rules' => 'trim|required|min_length[5]|max_length[20]|valid_username')
+				'label' => 'Email',
+				'rules' => 'trim|required|min_length[5]|valid_email|db_email_is_exist')
     );
     $this->form_validation->set_rules($data);
 		if($this->form_validation->run($this) == false) {
@@ -166,8 +155,10 @@ class Recovery extends RestController
 		$this->form_validation->set_data($this->put());
     $data = array(
 			array('field' => 'password',
+				'label' => 'Password',
 				'rules' => 'trim|required|min_length[5]|valid_password'),
       array('field' => 'passconf',
+				'label' => 'Confirm Password',
         'rules' => 'trim|required|min_length[5]|valid_password|matches[password]')
     );
     $this->form_validation->set_rules($data);
