@@ -305,7 +305,7 @@ class Model_auth extends CI_Model
 			return db_error($err);
 		} else {
 			$where = array('nip' => $nip);
-			$this->set_online($nip);
+			$this->set_online($where, true);
 			$res['code'] = 200;
 			$res['message'] = "Data has been updated";
 			return $res;

@@ -19,6 +19,7 @@ for a given task.
 - [RestServer 4.0.0 by Chriskacerguis](https://github.com/chriskacerguis/codeigniter-restserver)
 - [Authentication JWT by Bui Sy Nguyen](https://github.com/firebase/php-jwt)
 - [MySQL 8.0.31](https://dev.mysql.com/doc/relnotes/mysql/8.0/en/news-8-0-3.html)
+- [ElaAdmin](https://colorlib.com/polygon/elaadmin/index.html)
 
 ## Installation
 
