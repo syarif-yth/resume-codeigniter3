@@ -1,0 +1,15 @@
+
+
+
+#addUser .input-group-btn .btn {
+	padding: 10px !important;
+}
+#addUser label span.text-muted {
+	font-size: 0.8em !important;
+	margin-left: 1em !important;
+}
+form .profile-pic {
+  width: 95px !important;
+  height: 95px !important;
+  border-radius: 100%;
+}

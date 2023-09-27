@@ -8,10 +8,7 @@
   <link rel="icon" href="<?=base_url()?>assets/img/codeigniter.png">
   <title>Login - Resume</title>
 
-  <link href="<?=base_url()?>vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
-  <link href="<?=base_url()?>vendor/elaadmin/css/helper.css" rel="stylesheet">
-  <link href="<?=base_url()?>vendor/elaadmin/css/style.css" rel="stylesheet">
-  <link href="<?=base_url()?>assets/css/login.css" rel="stylesheet">
+  <?=$this->load->view('assets/auth_css');?>
 </head>
 
 <body class="fix-header fix-sidebar">
@@ -32,24 +29,24 @@
 								<a href="<?=base_url()?>">
 									<img src="<?=base_url()?>assets/img/codeigniter.png">
 								</a>
-								<form id="login-form">
+								<form>
 									<div class="form-group">
 										<label>Username</label>
 										<input type="username" name="username" class="form-control" placeholder="Username">
+										<small class="form-control-feedback text-danger" id="err-username"></small>
 									</div>
 
 									<div class="form-group">
 										<label>Password</label>
 										<div class="input-group">
 											<input type="password" name="password" class="form-control" id="password" placeholder="Password">
-											
 											<span class="input-group-btn">
-													<button class="btn btn-flat" type="button" id="showpass-log">
+													<button class="btn btn-flat" type="button" id="show-pass">
 														<i class="fa fa-eye"></i>
 													</button>
 											</span>
-											
 										</div>
+										<small class="form-control-feedback text-danger" id="err-password"></small>
 									</div>
 
 									<div class="checkbox">
@@ -61,8 +58,8 @@
 										</label>
 									</div>
 									
-									<button type="submit" class="btn btn-primary btn-flat m-b-30 m-t-10">Log in</button>
-									<div class="register-link m-t-15 text-center">
+									<button type="submit" class="btn btn-primary btn-flat m-b-10 m-t-10">Log in</button>
+									<div class="register-link m-t-10 text-center">
 										<p>Don't have account ? <a href="<?=base_url()?>signup"> Sign Up Here</a></p>
 									</div>
 								</form>
@@ -75,15 +72,8 @@
 		</div>
 	</div>
 	
-	<script src="<?=base_url()?>vendor/jquery/jquery.min.js"></script>
-	<script src="<?=base_url()?>vendor/bootstrap/js/popper.min.js"></script>
-	<script src="<?=base_url()?>vendor/bootstrap/js/bootstrap.min.js"></script>
-	<script src="<?=base_url()?>vendor/jquery/jquery.slimscroll.js"></script>
-	<script src="<?=base_url()?>vendor/elaadmin/js/sidebarmenu.js"></script>
-	<script src="<?=base_url()?>vendor/sticky-kit-master/dist/sticky-kit.min.js"></script>
-	<script src="<?=base_url()?>vendor/elaadmin/js/scripts.js"></script>
-	<script src="<?=base_url()?>assets/js/global.js"></script>
-	<script src="<?=base_url()?>assets/js/auth.js"></script>
+	<?=$this->load->view('assets/auth_js');?>
+	<script src="<?=base_url()?>assets/js/auth/login.js"></script>
 
 </body>
 </html>

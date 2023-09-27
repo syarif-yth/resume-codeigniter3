@@ -58,9 +58,10 @@ $(function() {
 
         $(".scroll-sidebar").slimScroll({
             position: "left",
-            size: "5px",
+            size: "2px",
+			distance: '1px',
             height: "100%",
-            color: "#dcdcdc"
+            color: "none"
         }),
 
         $(".message-center").slimScroll({

@@ -6,12 +6,9 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="author" content="syarif-yth.github.io">
   <link rel="icon" href="<?=base_url()?>assets/img/codeigniter.png">
-  <title>Recovery - Resume</title>
+  <title>Reset - Resume</title>
 
-  <link href="<?=base_url()?>vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
-  <link href="<?=base_url()?>vendor/elaadmin/css/helper.css" rel="stylesheet">
-  <link href="<?=base_url()?>vendor/elaadmin/css/style.css" rel="stylesheet">
-  <link href="<?=base_url()?>assets/css/login.css" rel="stylesheet">
+  <?=$this->load->view('assets/auth_css')?>
 </head>
 <body class="fix-header fix-sidebar">
 	
@@ -32,25 +29,24 @@
 									<img src="<?=base_url()?>assets/img/codeigniter.png">
 								</a>
 								<p><center>Reset your password.</center></p><br>
-								<form id="reset-form">
+								<form>
 									<div class="form-group">
-										<label style="width: 100%">
-											New Password
-											<div class="pull-right">
-												<span class="input-group-btn">
-														<button class="btn btn-flat" type="button" id="showpass-sign">
-															<i class="fa fa-eye"></i>
-														</button>
-												</span>
-											</div>
-										</label>
-										<input type="password" name="password" class="form-control" id="password" placeholder="New Password">
-										
+										<label>New Password</label>
+										<div class="input-group">
+											<input type="password" name="password" class="form-control" id="password" placeholder="New Password">
+											<span class="input-group-btn">
+												<button class="btn btn-flat" type="button" id="show-pass">
+													<i class="fa fa-eye"></i>
+												</button>
+											</span>
+										</div>
+										<small class="form-control-feedback text-danger" id="err-password"></small>
 									</div>
 
 									<div class="form-group">
 										<label>Confirm New Password</label>
 										<input type="password" class="form-control" name="passconf" id="passconf" placeholder="Confirm New Password">
+										<small class="form-control-feedback text-danger" id="err-passconf"></small>
 									</div>
 									
 									<button type="submit" class="btn btn-primary btn-flat m-b-30 m-t-10">Reset Password</button>
@@ -64,15 +60,8 @@
 		</div>
 	</div>
 	
-	<script src="<?=base_url()?>vendor/jquery/jquery.min.js"></script>
-	<script src="<?=base_url()?>vendor/bootstrap/js/popper.min.js"></script>
-	<script src="<?=base_url()?>vendor/bootstrap/js/bootstrap.min.js"></script>
-	<script src="<?=base_url()?>vendor/jquery/jquery.slimscroll.js"></script>
-	<script src="<?=base_url()?>vendor/elaadmin/js/sidebarmenu.js"></script>
-	<script src="<?=base_url()?>vendor/sticky-kit-master/dist/sticky-kit.min.js"></script>
-	<script src="<?=base_url()?>vendor/elaadmin/js/scripts.js"></script>
-	<script src="<?=base_url()?>assets/js/global.js"></script>
-	<script src="<?=base_url()?>assets/js/auth.js"></script>
+	<?=$this->load->view('assets/auth_js')?>
+	<script src="<?=base_url()?>assets/js/auth/reset.js"></script>
 
 </body>
 </html>

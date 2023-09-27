@@ -9,6 +9,7 @@
   <title>Recovery - Resume</title>
 
   <?=$this->load->view('assets/auth_css')?>
+  <link href="<?=base_url()?>assets/css/login.css" rel="stylesheet">
 </head>
 
 <body class="fix-header fix-sidebar">
@@ -29,11 +30,21 @@
 								<a href="<?=base_url()?>">
 									<img src="<?=base_url()?>assets/img/codeigniter.png">
 								</a>
-								<p><center>Check your inbox email address and follow the instructions to reset your password.</center></p><br>
+								<p><center>Check your inbox email address and enter code activation for activate your account.</center></p><br>
+								<form>
+									<div class="form-group">
+										<label>Code Activation</label>
+										<input type="number" name="kode_aktifasi" id="kode_aktifasi" class="form-control" placeholder="Code Activation">
+										<small class="form-control-feedback text-danger" id="err-kode_aktifasi"></small>
+									</div>
 									
-								<div class="register-link m-t-10 text-center">
-									<a href="<?=base_url()?>">Log In</a>
-								</div>
+									<button type="submit" class="btn btn-primary btn-flat m-b-10 m-t-5">Activate</button>
+									<div class="register-link m-t-10 text-center">										
+										<div id="count-group"></div>
+										<div id="resend-button"></div>
+									</div>
+								</form>
+
 							</div>
 						</div>
 					</div>
@@ -42,8 +53,8 @@
 		</div>
 	</div>
 	
-	
 	<?=$this->load->view('assets/auth_js')?>
+	<script src="<?=base_url()?>assets/js/auth/activation.js"></script>
 
 </body>
 </html>

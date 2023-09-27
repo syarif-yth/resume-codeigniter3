@@ -8,10 +8,7 @@
   <link rel="icon" href="<?=base_url()?>assets/img/codeigniter.png">
   <title>Recovery - Resume</title>
 
-  <link href="<?=base_url()?>vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
-  <link href="<?=base_url()?>vendor/elaadmin/css/helper.css" rel="stylesheet">
-  <link href="<?=base_url()?>vendor/elaadmin/css/style.css" rel="stylesheet">
-  <link href="<?=base_url()?>assets/css/login.css" rel="stylesheet">
+  <?=$this->load->view('assets/auth_css')?>
 </head>
 
 <body class="fix-header fix-sidebar">
@@ -33,16 +30,16 @@
 									<img src="<?=base_url()?>assets/img/codeigniter.png">
 								</a>
 								<p><center>Enter your email address and we will send you instructions on how to reset your password.</center></p><br>
-								<form id="recovery-form">
+								<form>
 									<div class="form-group">
-										<label>Email Addrress</label>
+										<label>Email Address</label>
 										<input type="email" name="email" class="form-control" placeholder="Email Address">
+										<small class="form-control-feedback text-danger" id="err-email"></small>
 									</div>
 									
-									<button type="submit" class="btn btn-primary btn-flat m-b-30 m-t-10">Reset Password</button>
+									<button type="submit" class="btn btn-primary btn-flat m-b-10 m-t-5">Send</button>
 									<div class="register-link m-t-10 text-center">
-										<p><a href="<?=base_url()?>">Log In</a><br>
-										<a href="<?=base_url()?>signup">Sign Up</a></p>
+										<a href="<?=base_url()?>">Log In</a>
 									</div>
 								</form>
 
@@ -54,15 +51,8 @@
 		</div>
 	</div>
 	
-	<script src="<?=base_url()?>vendor/jquery/jquery.min.js"></script>
-	<script src="<?=base_url()?>vendor/bootstrap/js/popper.min.js"></script>
-	<script src="<?=base_url()?>vendor/bootstrap/js/bootstrap.min.js"></script>
-	<script src="<?=base_url()?>vendor/jquery/jquery.slimscroll.js"></script>
-	<script src="<?=base_url()?>vendor/elaadmin/js/sidebarmenu.js"></script>
-	<script src="<?=base_url()?>vendor/sticky-kit-master/dist/sticky-kit.min.js"></script>
-	<script src="<?=base_url()?>vendor/elaadmin/js/scripts.js"></script>
-	<script src="<?=base_url()?>assets/js/global.js"></script>
-	<script src="<?=base_url()?>assets/js/auth.js"></script>
+	<?=$this->load->view('assets/auth_js')?>
+	<script src="<?=base_url()?>assets/js/auth/recovery.js"></script>
 
 </body>
 </html>

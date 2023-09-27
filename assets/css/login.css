@@ -1,4 +1,8 @@
 /* LOGIN CUSTOM */
+html, body {
+	height: 100% !important;
+	background: #F1F1F1 !important;
+}
 .btn-primary {
 	background: #EE4323 !important;
   border: 1px solid #EE4323 !important;
@@ -26,4 +30,10 @@ a {
 }
 .login-form .pull-right button#showpass-sign {
 	padding: 3px 7px !important;
+}
+.btn {
+	padding: 7px 12px !important;
+}
+#toast-container.toast-top-center {
+	top: 12px !important;
 }

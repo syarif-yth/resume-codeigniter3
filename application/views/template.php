@@ -14,14 +14,15 @@ defined('BASEPATH') OR exit('No direct script access allowed');
   <title><?=$title?> - Resume</title>
 
 	<link href="<?=base_url()?>vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+	<link href="<?=base_url()?>vendor/toastr/toastr.min.css" rel="stylesheet">
   <link href="<?=base_url()?>vendor/elaadmin/css/helper.css" rel="stylesheet">
   <link href="<?=base_url()?>vendor/elaadmin/css/style.css" rel="stylesheet">
   <link href="<?=base_url()?>assets/css/template.css" rel="stylesheet">
 
 	<?php if($assets_css) $this->load->view('assets/'.$assets_css);?>
-</head>
+</head> 
 
-<body class="fix-header fix-sidebar">
+<body class="fix-header fix-sidebar dark">
 	<div class="preloader">
 		<svg class="circular" viewBox="25 25 50 50">
 			<circle class="path" cx="50" cy="50" r="20" fill="none" stroke-width="4" stroke-miterlimit="10">
@@ -50,13 +51,23 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 								<i class="ti-menu"></i>
 							</a>
 						</li>
+
+						<li class="nav-item m-l-10">
+							<label>
+								<input type="checkbox" id="dark-theme" checked>
+								Dark Theme
+							</label>
+						</li>
 					</ul>
 					
 					<ul class="navbar-nav my-lg-0">
-						<li class="nav-item dropdown">
-							<a class="nav-link dropdown-toggle text-muted" href="#">
+						<li class="nav-item">
+							<a class="nav-link text-muted" href="<?=base_url()?>profile">
+								<div class="display-user">
+									<span><?=$name_display?></span><br>
+									<small><?=$user_display?></small>
+								</div>
 								<img src="<?=base_url().$avatar?>" alt="user" class="profile-pic">
-								<span><?=$user_display?></span>
 							</a>
 						</li>
 					</ul>
@@ -95,7 +106,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 						<li class="nav-label">ACCOUNT</li>
 
 						<li class="<?=$class_profile?>">
-							<a href="#">
+							<a href="<?=base_url()?>profile">
 								<i class="fa fa-user"></i>
 								<span class="hide-menu">Profile</span>
 							</a>
@@ -143,30 +154,32 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 			</div>
 		</div>
 		
-		<div class="page-wrapper p-b-10">
-			<div class="row page-titles">
-				<div class="col-md-5 align-self-center">
-					<h3 class="text-primary"><?=$title?></h3> 
+		<div class="scroller">
+			<div class="page-wrapper p-b-10">
+				<div class="row page-titles">
+					<div class="col-md-5 align-self-center">
+						<h3 class="text-primary"><?=$title?></h3> 
+					</div>
+					<div class="col-md-7 align-self-center">
+						<ol class="breadcrumb">
+							<li class="breadcrumb-item">
+								<a href="javascript:void(0)"><?=$breadcrumb?></a>
+							</li>
+							<li class="breadcrumb-item active"><?=$title?></li>
+						</ol>
+					</div>
 				</div>
-				<div class="col-md-7 align-self-center">
-					<ol class="breadcrumb">
-						<li class="breadcrumb-item">
-							<a href="javascript:void(0)"><?=$breadcrumb?></a>
-						</li>
-						<li class="breadcrumb-item active"><?=$title?></li>
-					</ol>
+
+				<div class="container-fluid" id="container">
+					<?=$this->load->view($content)?>
 				</div>
 			</div>
 
-			<div class="container-fluid" id="container">
-				<?=$this->load->view($content)?>
-			</div>
-			
-    </div>
-
-		<footer class="footer">
-			© 2023 All rights reserved. Developer by <a href="https://syarif-yth.github.io">Syarif YTH</a>
-		</footer>
+		
+			<footer class="footer">
+				<text>© 2023 All rights reserved. Developer by <a href="https://syarif-yth.github.io">Syarif YTH</a></text>
+			</footer>
+		</div>
 	</div>
 
 	<script src="<?=base_url()?>vendor/jquery/jquery.min.js"></script>
@@ -175,9 +188,11 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 	<script src="<?=base_url()?>vendor/jquery/jquery.slimscroll.js"></script>
 	<script src="<?=base_url()?>vendor/elaadmin/js/sidebarmenu.js"></script>
 	<script src="<?=base_url()?>vendor/sticky-kit-master/dist/sticky-kit.min.js"></script>
+	<script src="<?=base_url()?>vendor/toastr/toastr.min.js"></script>
 	<script src="<?=base_url()?>vendor/elaadmin/js/scripts.js"></script>
+	<script src="<?=base_url()?>assets/js/global.js"></script>
 
 	<?php if($assets_js) $this->load->view('assets/'.$assets_js);?>
-</body>
 
+</body>
 </html>

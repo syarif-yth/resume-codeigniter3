@@ -1,7 +1,7 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-class Dashboard extends MX_Controller 
+class Profile extends MX_Controller 
 {
 	function __construct()
 	{
@@ -10,19 +10,21 @@ class Dashboard extends MX_Controller
 
 	public function index()
 	{
-		$view = $this->data_view();
+		$default = $this->data_view();
+		$data['content'] = 'profile';
+		$data['assets_js'] = 'profile_js';
+		$view = array_merge($default, $data);
 		$this->load->view('template', $view);
 	}
 
 	private function data_view()
 	{
-		$data['title'] = 'Dashboard';
+		$data['title'] = 'Profile';
 		$data['avatar'] = 'assets/img/avatar-default.png';
 		$data['name_display'] = 'Admin App';
 		$data['user_display'] = 'administrator';
-		$data['breadcrumb'] = 'Home';
-		$data['class_dashboard'] = 'aktif';
-		$data['content'] = 'dashboard';
+		$data['breadcrumb'] = 'Account';
+		$data['class_profile'] = 'aktif';
 		return $data;
 	}
 }

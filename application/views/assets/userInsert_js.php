@@ -1,3 +1,4 @@
 
 
-<script src="<?=base_url()?>assets/js/userInsert.js"></script>
+
+<script src="<?=base_url()?>assets/js/users/userinsert.js"></script>

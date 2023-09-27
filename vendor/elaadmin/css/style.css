@@ -2255,7 +2255,7 @@ textarea {
   padding: 0;
 }
 .card {
-  background: #ffffff none repeat scroll 0 0;
+  /* background: #ffffff none repeat scroll 0 0; */
   margin: 15px 0;
   padding: 20px;
   border: 0 solid #e7e7e7;

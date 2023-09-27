@@ -1,5 +1,7 @@
 
 
+
+let BASE_URL = baseUrl();
 $(document).ready(function() {
 	$("#pilih").on('change', function() {
 		readURL(this);
@@ -17,4 +19,9 @@ function readURL(input)
 		reader.readAsDataURL(input.files[0]);
 	}
 }
+
+$('form').on('submit', function() {
+	window.location.href = BASE_URL+'../';
+})
+
 

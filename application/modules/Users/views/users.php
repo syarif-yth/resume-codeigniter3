@@ -4,7 +4,7 @@
 	<div class="col-12">
 		<div class="card">
 			<div class="card-body">
-				<button type="button" class="btn btn-info m-l-5 pull-right">
+				<button type="button" id="pdf" class="btn btn-info m-l-5 pull-right">
 					<i class="fa fa-file-pdf-o"></i> PDF
 				</button>
 				<a href="<?=base_url()?>users/add" class="btn btn-info pull-right">
@@ -25,6 +25,7 @@
 							</tr>
 						</thead>
 						<tbody>
+							<?php for($i=0; $i<=10; $i++) { ?>
 							<tr>
 								<td>Tiger Nixon</td>
 								<td>System Architect</td>
@@ -36,7 +37,7 @@
 										<button type="button" class="btn btn-info">
 											<i class="fa fa-eye"></i>
 										</button>
-										<button type="button" class="btn btn-warning">
+										<button type="button" class="btn btn-warning" onclick="edit()">
 											<i class="fa fa-edit"></i>
 										</button>
 										<button type="button" class="btn btn-danger">
@@ -45,6 +46,7 @@
 									</div>
 								</td>
 							</tr>
+							<?php } ?>
 						</tbody>
 					</table>
 				</div>
