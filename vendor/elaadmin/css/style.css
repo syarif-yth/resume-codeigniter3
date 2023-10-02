@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css?family=Open+Sans:300i,400,600,700,800');
+/* @import url('https://fonts.googleapis.com/css?family=Open+Sans:300i,400,600,700,800'); */
 @import url(../icons/font-awesome/css/font-awesome.min.css);
 @import url(../icons/simple-line-icons/css/simple-line-icons.css);
 @import url(../icons/weather-icons/css/weather-icons.min.css);
@@ -2347,21 +2347,21 @@ textarea {
   background: #1976d2 none repeat scroll 0 0;
   color: #ffffff;
 }
-.modal-dialog {
+/* .modal-dialog {
   margin: 30px auto;
   position: relative;
   top: 50%;
   transform: translateY(-50%) !important;
   width: 70%;
-}
-.modal-header .close {
+} */
+/* .modal-header .close {
   font-size: 14px;
   margin-right: 15px;
   margin-top: 5px;
-}
-.modal-content {
+} */
+/* .modal-content {
   border-radius: 3px;
-}
+} */
 .timeline {
   list-style: none;
   padding: 0 0 8px;
@@ -5884,9 +5884,9 @@ tbody tr td:last-child {
 .fc-view {
   margin-top: 30px;
 }
-.none-border .modal-footer {
+/* .none-border .modal-footer {
   border-top: none;
-}
+} */
 .fc-toolbar {
   margin-bottom: 5px;
   margin-top: 15px;
@@ -5967,10 +5967,10 @@ tbody tr td:last-child {
   margin: 0px;
   top: 3px;
 }
-#event-modal .modal-dialog,
+/* #event-modal .modal-dialog,
 #add-category .modal-dialog {
   max-width: 600px;
-}
+} */
 .flotTip {
   background: #252525;
   border: 1px solid #252525;

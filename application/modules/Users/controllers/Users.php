@@ -12,8 +12,6 @@ class Users extends MX_Controller
 	{
 		$default = $this->data_view();
 		$data['content'] = 'users';
-		$data['assets_css'] = 'users_css';
-		$data['assets_js'] = 'users_js';
 		$view = array_merge($default, $data);
 		$this->load->view('template', $view);
 	}
@@ -22,8 +20,6 @@ class Users extends MX_Controller
 	{
 		$default = $this->data_view();
 		$data['content'] = 'insert';
-		$data['assets_css'] = 'users_css';
-		$data['assets_js'] = 'userinsert_js';
 		$view = array_merge($default, $data);
 		$this->load->view('template', $view);
 	}
@@ -31,20 +27,26 @@ class Users extends MX_Controller
 	public function edit()
 	{
 		$default = $this->data_view();
-		$data['content'] = 'insert';
-		$data['assets_css'] = 'users_css';
-		$data['assets_js'] = 'userinsert_js';
+		$data['content'] = 'edit';
+		$view = array_merge($default, $data);
+		$this->load->view('template', $view);
+	}
+
+	public function view()
+	{
+		$default = $this->data_view();
+		$data['content'] = 'detail';
 		$view = array_merge($default, $data);
 		$this->load->view('template', $view);
 	}
 
 	private function data_view()
 	{
-		$data['title'] = 'Users';
-		$data['avatar'] = 'assets/img/avatar-default.png';
+		$data['avatar'] = 'assets/img/avatar-default.jpg';
+		$data['cover'] = 'assets/img/cover-default.jpg';
 		$data['name_display'] = 'Admin App';
 		$data['user_display'] = 'administrator';
-		$data['breadcrumb'] = 'Home';
+		$data['breadcrumb'] = 'Main';
 		$data['class_users'] = 'aktif';
 		return $data;
 	}

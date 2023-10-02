@@ -1,0 +1,259 @@
+
+
+.card-two { text-align: center; }
+.card-two small {
+  font-size: 0.7em !important;
+}
+ul.profile-timeline, ul.profile-timeline li {
+  list-style: none;
+  padding: 0;
+}
+ul.profile-timeline {
+  border-radius: 12px;
+  position: relative;
+}
+ul.profile-timeline li {
+  padding-bottom: 1.5rem;
+  border-left: 1px solid #AAA;
+  position: relative;
+  padding-left: 20px;
+  margin-left: 10px;
+  &:last-child{
+    border: 0px;
+    padding-bottom: 0;
+  }
+  &:before{
+    content: '';
+    width: 15px;
+    height: 15px;
+    background: white;
+    border: 1px solid #EE4323;
+    box-shadow: 3px 3px 0px #DDD;
+    box-shadow: 3px 3px 0px #DDD;
+    border-radius: 50%;
+    position: absolute;
+    left: -10px;
+    top: 0px;
+  }
+}
+
+ul.profile-timeline p {
+	position: relative !important;
+	top: -4px;
+  color: #4f4f4f;
+	font-family: sans-serif;
+  line-height: 1.5;
+}
+
+.info-body {
+	height: 338px !important;
+	max-height: 338px !important;
+}
+.cover {
+	background-repeat: no-repeat;
+  background-size: cover;
+	height: 120px !important;
+  background-position: center;
+	background-position-y: center;
+}
+
+.card-two .kontak {
+  width: 250px !important;
+  max-width: 100% !important;
+  margin: 0 auto 3.5rem;
+}
+.card-two .kontak .capsule {
+  /* width: calc(100% / 5) !important; */
+  display: block;
+  float: left;
+  text-align: center;
+  color: #1976d2;
+}
+
+.profile-tab li a.nav-link {
+  color: #99ABB4;
+  padding: 10px 15px;
+}
+.card .profile-tab li a.nav-link.active {
+  border-bottom: 2px solid #EE4323;
+  color: #EE4323;
+}
+/* BUTTON TAB */
+.nav-button {
+	position: absolute !important;
+	right: 20px !important;
+	color: #99ABB4 !important;
+}
+.tag-skills {
+	display: flex;
+	flex-direction: row;
+	flex-wrap: wrap;
+}
+.tag-skills li {
+	display: inline-block !important;
+	padding: 5px 13px;
+	margin: 5px;
+	border-radius: 2px;
+}
+.media-list ul li {
+	border-bottom: 1px solid #DDD;				
+	padding: 10px 20px 20px 10px;
+	width: 100% !important;
+}
+.media-list ul li:last-child {
+	border-bottom: none !important;
+}
+.media-list ul li:hover {
+	/* background: #F1F1F1; */
+}
+.media-list ul li .media {
+	display: flex;
+	width: 100% !important;
+}
+.media-list ul li .media .media-left {
+	width: 60px;
+	height: 60px;
+	padding: 10px;
+	display: block;
+	text-align: center;
+	background: #E1E1E1;
+	vertical-align: bottom !important;
+	position: relative;
+	line-height: 45px !important;
+}
+.media-list ul li .media .media-body {
+	max-width: 30% !important;
+	display: block !important;
+}
+.media-list ul li .media .media-left i.fa {
+	font-size: 1.5em;
+	position: relative !important;
+}
+.media-list ul li .media .media-right {
+	text-align: right !important;
+}
+.info-body .media .media-left {
+	width: 25px;
+	height: 25px;
+	display: block;
+	padding: 1px;
+	display: block;
+	text-align: center;
+	background: #E1E1E1;
+	vertical-align: bottom !important;
+	position: relative;
+}
+.info-body .media .media-left i.fa {
+	position: relative !important;
+}
+#modal-skills .tag-skills li {
+	padding-right: 10px;
+	cursor: default !important;
+}
+#modal-skills .tag-skills li i {
+	margin-left: 10px;
+}
+#modal-skills .tag-skills li a:hover {
+	color: #EE4323;
+}
+#modal-experience .modal-body,
+#modal-education .modal-body {
+	max-height: 300px !important;
+	overflow-y: scroll;
+}
+#modal-skills .modal-body .scroll-skills {
+	min-height: 240px !important;
+	max-height: 240px !important;
+	overflow-y: scroll;
+}
+textarea.form-control {
+	height: auto !important;
+}
+.media-list a,
+.media-list a:hover,
+.card-two a,
+.card-two a:hover {
+	color: #455A64;
+}
+.info-body .media a:hover {
+	color: #EE4323;
+}
+
+#addUser .input-group-btn .btn {
+	padding: 10px !important;
+}
+#addUser label span.text-muted {
+	font-size: 0.8em !important;
+	margin-left: 1em !important;
+}
+form .profile-pic {
+  width: 120px !important;
+  height: 120px !important;
+  border-radius: 100%;
+}
+form .cover-pic {
+	background-repeat: no-repeat;
+  background-size: cover;
+	height: 120px !important;
+  background-position: center;
+	background-position-y: center;
+}
+@media screen and (max-width: 768px) {
+	.form-body .input-group-cover {
+		position: absolute !important;
+		top: 0px !important;
+	}
+	.form-body .input-group-cover label {
+		display: none;
+	}
+	.form-body .input-group-cover input {
+		background: none !important;
+		border: none !important;
+		color: transparent;
+		overflow: hidden;
+		float: right !important;
+		width: 120px !important;
+	}
+	.row-avatar {
+		position: relative;
+		top: -70px;
+	}
+	.row-avatar label {
+		margin-left: 55px;
+	}
+	.row-avatar label span.small {
+		display: none !important;
+	}
+	.profile-pic {
+		border: 3px solid #F1F1F1;
+	}
+	.input-text-group,
+	.form-actions {
+		position: relative;
+		top: -70px;
+	}
+	.input-text-group,
+	.form-actions,
+	.input-text-group .row {
+		padding-bottom: 0 !important;
+		padding-top: 0 !important;
+		margin-bottom: 0 !important;
+		margin-top: 0 !important;
+	}
+	.card {
+		padding-bottom: 0 !important;
+		height: 93% !important;
+	}
+	.container-fluid {
+		padding-bottom: 0 !important;
+		margin-bottom: 0 !important;
+	}
+}
+.nav-button {
+	margin-top: -5px;
+}
+
+
+
+
+

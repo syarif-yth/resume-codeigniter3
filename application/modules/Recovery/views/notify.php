@@ -1,3 +1,4 @@
+<?php defined('BASEPATH') OR exit('No direct script access allowed');?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -8,7 +9,7 @@
   <link rel="icon" href="<?=base_url()?>assets/img/codeigniter.png">
   <title>Recovery - Resume</title>
 
-  <?=$this->load->view('assets/auth_css')?>
+  <?=$this->load->view('assets/css/auth')?>
 </head>
 
 <body class="fix-header fix-sidebar">
@@ -43,7 +44,7 @@
 	</div>
 	
 	
-	<?=$this->load->view('assets/auth_js')?>
+	<?=$this->load->view('assets/js/auth')?>
 
 </body>
 </html>

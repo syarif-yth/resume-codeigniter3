@@ -1,3 +1,4 @@
+<?php defined('BASEPATH') OR exit('No direct script access allowed');?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -8,7 +9,7 @@
 	<link rel="icon" href="<?=base_url()?>assets/img/codeigniter.png">
 	<title>Signup - Resume</title>
 
-	<?=$this->load->view('assets/auth_css')?>
+	<?=$this->load->view('assets/css/auth')?>
 </head>
 
 <body class="fix-header fix-sidebar">
@@ -44,9 +45,9 @@
 									<div class="form-group">
 										<label>Password</label>
 										<div class="input-group">
-											<input type="password" name="password" class="form-control" id="password" placeholder="Password">
+											<input type="password" name="password" class="form-control" placeholder="Password">
 											<span class="input-group-btn">
-													<button class="btn btn-flat" type="button" id="show-pass">
+													<button class="btn btn-flat" type="button" onclick="showPass(this)">
 														<i class="fa fa-eye"></i>
 													</button>
 											</span>
@@ -56,7 +57,14 @@
 
 									<div class="form-group">
 										<label>Confirm Password</label>
-										<input type="password" name="passconf" class="form-control" id="passconf" placeholder="Confirm Password">
+										<div class="input-group">
+											<input type="password" name="passconf" class="form-control" placeholder="Confirm Password">
+											<span class="input-group-btn">
+													<button class="btn btn-flat" type="button" onclick="showConf(this)">
+														<i class="fa fa-eye"></i>
+													</button>
+											</span>
+										</div>
 										<small class="form-control-feedback text-danger" id="err-passconf"></small>
 									</div>
 									
@@ -79,7 +87,7 @@
 		</div>
 	</div>
 		
-	<?=$this->load->view('assets/auth_js')?>
+	<?=$this->load->view('assets/js/auth')?>
 	<script src="<?=base_url()?>assets/js/auth/signup.js"></script>
 </body>
 </html>

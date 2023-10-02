@@ -11,8 +11,16 @@ $(document).ready(function() {
 	});
 });
 
-function edit() {
+var edit = function() {
 	window.location.href = BASE_URL+'users/edit';
+}
+
+var view = function() {
+	window.location.href = BASE_URL+'users/view';
+}
+
+var del = function() {
+	confirmMsg();
 }
 
 $('#pdf').on("click", function() {

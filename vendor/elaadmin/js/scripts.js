@@ -11,7 +11,7 @@ $(function() {
 
     var i = function() {
         (window.innerWidth > 0 ? window.innerWidth : this.screen.width) < 1170 ? ($("body").addClass("mini-sidebar"),
-            $(".navbar-brand span").hide(), $(".scroll-sidebar, .slimScrollDiv").css("overflow-x", "visible").parent().css("overflow", "visible"),
+            $(".navbar-brand span").hide(), $(".scroll-sidebar").css("overflow-x", "visible").parent().css("overflow", "visible"),
             $(".sidebartoggler i").addClass("ti-menu")) : ($("body").removeClass("mini-sidebar"),
             $(".navbar-brand span").show());
         var i = (window.innerHeight > 0 ? window.innerHeight : this.screen.height) - 1;
@@ -20,9 +20,9 @@ $(function() {
 
 
     $(window).ready(i), $(window).on("resize", i), $(".sidebartoggler").on("click", function() {
-            $("body").hasClass("mini-sidebar") ? ($("body").trigger("resize"), $(".scroll-sidebar, .slimScrollDiv").css("overflow", "hidden").parent().css("overflow", "visible"),
+            $("body").hasClass("mini-sidebar") ? ($("body").trigger("resize"), $(".scroll-sidebar").css("overflow", "hidden").parent().css("overflow", "visible"),
                 $("body").removeClass("mini-sidebar"), $(".navbar-brand span").show()) : ($("body").trigger("resize"),
-                $(".scroll-sidebar, .slimScrollDiv").css("overflow-x", "visible").parent().css("overflow", "visible"),
+                $(".scroll-sidebar").css("overflow-x", "visible").parent().css("overflow", "visible"),
                 $("body").addClass("mini-sidebar"), $(".navbar-brand span").hide());
         }),
 
@@ -64,39 +64,39 @@ $(function() {
             color: "none"
         }),
 
-        $(".message-center").slimScroll({
-            position: "right",
-            size: "5px",
-            color: "#dcdcdc"
-        }),
+        // $(".message-center").slimScroll({
+        //     position: "right",
+        //     size: "5px",
+        //     color: "#dcdcdc"
+        // }),
 
-        $(".aboutscroll").slimScroll({
-            position: "right",
-            size: "5px",
-            height: "80",
-            color: "#dcdcdc"
-        }),
+        // $(".aboutscroll").slimScroll({
+        //     position: "right",
+        //     size: "5px",
+        //     height: "80",
+        //     color: "#dcdcdc"
+        // }),
 
-        $(".message-scroll").slimScroll({
-            position: "right",
-            size: "5px",
-            height: "570",
-            color: "#dcdcdc"
-        }),
+        // $(".message-scroll").slimScroll({
+        //     position: "right",
+        //     size: "5px",
+        //     height: "570",
+        //     color: "#dcdcdc"
+        // }),
 
-        $(".chat-box").slimScroll({
-            position: "right",
-            size: "5px",
-            height: "470",
-            color: "#dcdcdc"
-        }),
+        // $(".chat-box").slimScroll({
+        //     position: "right",
+        //     size: "5px",
+        //     height: "470",
+        //     color: "#dcdcdc"
+        // }),
 
-        $(".slimscrollright").slimScroll({
-            height: "100%",
-            position: "right",
-            size: "5px",
-            color: "#dcdcdc"
-        }),
+        // $(".slimscrollright").slimScroll({
+        //     height: "100%",
+        //     position: "right",
+        //     size: "5px",
+        //     color: "#dcdcdc"
+        // }),
 
 
 

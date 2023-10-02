@@ -34,13 +34,13 @@
 								<td>2011/04/25</td>
 								<td>
 									<div class="btn-group">
-										<button type="button" class="btn btn-info">
+										<button type="button" class="btn btn-info" onclick="view()">
 											<i class="fa fa-eye"></i>
 										</button>
 										<button type="button" class="btn btn-warning" onclick="edit()">
 											<i class="fa fa-edit"></i>
 										</button>
-										<button type="button" class="btn btn-danger">
+										<button type="button" class="btn btn-danger" onclick="del()">
 											<i class="fa fa-trash"></i>
 										</button>
 									</div>

@@ -74,11 +74,21 @@ class Migration_users extends CI_migration
 				'constraint' => 50,
 				'null' => true,
 				'default' => 'avatar-default.jpg'),
+			'cover' => array(
+				'type' => 'VARCHAR',
+				'constraint' => 50,
+				'null' => true,
+				'default' => 'cover-default.jpg'),
 			'profesi' => array(
 				'type' => 'VARCHAR',
 				'constraint' => 100,
 				'null' => true,
-				'defult' => NULL)
+				'defult' => NULL),
+			'deskripsi' => array(
+				'type' => 'VARCHAR',
+				'constraint' => 255,
+				'null' => true,
+				'default' => NULL)
 		);
 		return $field;
 	}

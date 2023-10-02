@@ -16,11 +16,10 @@ class Dashboard extends MX_Controller
 
 	private function data_view()
 	{
-		$data['title'] = 'Dashboard';
-		$data['avatar'] = 'assets/img/avatar-default.png';
+		$data['avatar'] = 'assets/img/avatar-default.jpg';
 		$data['name_display'] = 'Admin App';
 		$data['user_display'] = 'administrator';
-		$data['breadcrumb'] = 'Home';
+		$data['breadcrumb'] = 'Main';
 		$data['class_dashboard'] = 'aktif';
 		$data['content'] = 'dashboard';
 		return $data;
