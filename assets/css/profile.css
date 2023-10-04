@@ -83,6 +83,7 @@ ul.profile-timeline p {
 	position: absolute !important;
 	right: 20px !important;
 	color: #99ABB4 !important;
+	margin-top: -5px;
 }
 .tag-skills {
 	display: flex;
@@ -94,57 +95,43 @@ ul.profile-timeline p {
 	padding: 5px 13px;
 	margin: 5px;
 	border-radius: 2px;
+	color: #F1F1F1;
 }
-.media-list ul li {
-	border-bottom: 1px solid #DDD;				
-	padding: 10px 20px 20px 10px;
-	width: 100% !important;
+.card-media .body-media-profile {
+	border-bottom: 1px solid #DDD;
 }
-.media-list ul li:last-child {
-	border-bottom: none !important;
+.card-media .body-media-profile:last-child {
+	border-bottom: 0px !important;
 }
-.media-list ul li:hover {
-	/* background: #F1F1F1; */
-}
-.media-list ul li .media {
-	display: flex;
-	width: 100% !important;
-}
-.media-list ul li .media .media-left {
-	width: 60px;
-	height: 60px;
+.card-media .icon-media-profile {
+	width: 70px !important;
+	height: 70px !important;
 	padding: 10px;
 	display: block;
 	text-align: center;
 	background: #E1E1E1;
 	vertical-align: bottom !important;
 	position: relative;
-	line-height: 45px !important;
-}
-.media-list ul li .media .media-body {
-	max-width: 30% !important;
-	display: block !important;
-}
-.media-list ul li .media .media-left i.fa {
+	line-height: 50px !important;
+} 
+.card-media .icon-media-profile i.fa {
 	font-size: 1.5em;
 	position: relative !important;
 }
-.media-list ul li .media .media-right {
-	text-align: right !important;
+@media (max-width: 992px) {
+	.card-media .body-media-profile .col-1 {
+		margin-right: 15px !important;
+	}
 }
-.info-body .media .media-left {
-	width: 25px;
-	height: 25px;
-	display: block;
-	padding: 1px;
-	display: block;
-	text-align: center;
-	background: #E1E1E1;
-	vertical-align: bottom !important;
-	position: relative;
+@media (max-width: 768px) {
+	.card-media .body-media-profile .col-1 {
+		margin-right: 25px !important;
+	}
 }
-.info-body .media .media-left i.fa {
-	position: relative !important;
+@media (max-width: 576px) {
+	.card-media .body-media-profile .col-1 {
+		margin-right: 35px !important;
+	}
 }
 #modal-skills .tag-skills li {
 	padding-right: 10px;
@@ -169,8 +156,8 @@ ul.profile-timeline p {
 textarea.form-control {
 	height: auto !important;
 }
-.media-list a,
-.media-list a:hover,
+.card-media a,
+.card-media a:hover,
 .card-two a,
 .card-two a:hover {
 	color: #455A64;
@@ -199,14 +186,14 @@ form .cover-pic {
 	background-position-y: center;
 }
 @media screen and (max-width: 768px) {
-	.form-body .input-group-cover {
+	.card-edit .form-body .input-group-cover {
 		position: absolute !important;
 		top: 0px !important;
 	}
-	.form-body .input-group-cover label {
+	.card-edit .form-body .input-group-cover label {
 		display: none;
 	}
-	.form-body .input-group-cover input {
+	.card-edit .form-body .input-group-cover input {
 		background: none !important;
 		border: none !important;
 		color: transparent;
@@ -214,43 +201,62 @@ form .cover-pic {
 		float: right !important;
 		width: 120px !important;
 	}
-	.row-avatar {
+	.card-edit .row-avatar {
 		position: relative;
 		top: -70px;
 	}
-	.row-avatar label {
+	.card-edit .row-avatar label {
 		margin-left: 55px;
 	}
-	.row-avatar label span.small {
+	.card-edit .row-avatar label span.small {
 		display: none !important;
 	}
-	.profile-pic {
+	.card-edit .profile-pic {
 		border: 3px solid #F1F1F1;
 	}
-	.input-text-group,
-	.form-actions {
+	.card-edit .input-text-group,
+	.card-edit .form-actions {
 		position: relative;
 		top: -70px;
 	}
-	.input-text-group,
-	.form-actions,
-	.input-text-group .row {
+	.card-edit .input-text-group,
+	.card-edit .form-actions,
+	.card-edit .input-text-group .row {
 		padding-bottom: 0 !important;
 		padding-top: 0 !important;
 		margin-bottom: 0 !important;
 		margin-top: 0 !important;
 	}
-	.card {
+	.card.card-edit {
 		padding-bottom: 0 !important;
 		height: 93% !important;
 	}
-	.container-fluid {
+	.card-edit .container-fluid {
 		padding-bottom: 0 !important;
 		margin-bottom: 0 !important;
 	}
 }
-.nav-button {
-	margin-top: -5px;
+.nav-button .dropdown.show button.dropdown-toggle {
+	background: #EE4323 !important;
+	color: #F1F1F1 !important;
+	border: 1px solid #EE4323 !important;
+}
+.nav-button .dropdown ul.dropdown-menu {
+	padding: 0px !important;
+}
+.nav-button .dropdown ul.dropdown-menu li {
+	padding: 0px !important;
+	text-align: right !important;
+}
+.nav-button .dropdown ul.dropdown-menu li .btn {
+	text-align: right !important;
+	border-radius: 0px !important;
+	margin-top: 2px;
+	margin-bottom: 2px;
+}
+.nav-button .dropdown ul.dropdown-menu li .btn:hover {
+	background: #F1F1F1;
+	color: #EE4323;
 }
 
 

@@ -3,7 +3,24 @@
 
 let BASE_URL = baseUrl();
 $(document).ready(function() {
+	// SET MAX BIRTH DAY
 	setMaxBirth('input[name=tgl_lahir]');
+
+	// SET SELECT2
+	var optLokasi = [{ id: 0, text: 'jakarta'},
+		{ id: 1, text: 'bogor' },
+    { id: 2, text: 'depok' },
+    { id: 3, text: 'tangerang' },
+    { id: 4, text: 'bekasi' }];
+	var optGender = [{id:'laki-laki', text:'Laki-Laki'},
+		{id:'perempuan', text:'Perempuan'}];
+	var parSelect2 = [
+		{ input:'#tempat-lahir, #domisili', data:optLokasi },
+		{ input:'#jenis-kelamin', data:optGender }
+	];
+	setSelect2(parSelect2);
+
+	// SET AUTOCOMPLETE
 	var dummy = [
 		"ActionScript","AppleScript","Asp","BASIC",
 		"C","C++","Clojure","COBOL","ColdFusion",
@@ -11,49 +28,6 @@ $(document).ready(function() {
 		"Java","JavaScript","Lisp","Perl","PHP",
 		"Python","Ruby","Scala","Scheme"
 	];
-
-	// setAutoComplete({
-	// 	trigger: '#auto-birth',
-	// 	inputName: 'tempat_lahir',
-	// 	inputHolder: 'Enter Place of Birth',
-	// 	data: dummy
-	// });
-
-	var data = [
-    {
-        id: 0,
-        text: 'enhancement'
-    },
-    {
-        id: 1,
-        text: 'bug'
-    },
-    {
-        id: 2,
-        text: 'duplicate'
-    },
-    {
-        id: 3,
-        text: 'invalid'
-    },
-    {
-        id: 4,
-        text: 'wontfix'
-    }
-];
-
-	$('.select2').select2({
-		placeholder: 'Select an option',
-		data: data
-	});
-
-	setAutoComplete({
-		trigger: '#auto-domisili',
-		inputName: 'domisili',
-		inputHolder: 'Enter Domicile',
-		data: dummy
-	});
-
 	setAutoComplete({
 		trigger: '#auto-profesi',
 		inputName: 'profesi',
@@ -79,6 +53,8 @@ $("input#avatar").on('change', function() {
 	});
 });
 
+
+// FORM SUBMITED
 $('form#edit-email').on('submit', function(e) {
 	e.preventDefault();
 	alertMsg('Link recovery has been send');
@@ -99,7 +75,19 @@ $('form#edit-password').on('submit', function(e) {
 	e.preventDefault();
 	alertMsg('Link recovery has been send');
 	setTimeout(function() {
-		$('#modal-reset').modal('hide');
+		$('#modal-password').modal('hide');
+  }, 2000);
+})
+
+$('form#close-account').on('submit', function(e) {
+	e.preventDefault();
+	alertMsg('Close Account Success');
+	setTimeout(function() {
+		$('#modal-close').modal('hide');
+  }, 2000);
+
+	setTimeout(function() {
+		logout();
   }, 2000);
 })
 

@@ -4,10 +4,10 @@
 	<div class="col-12">
 		<div class="card">
 			<div class="card-body">
-				<button type="button" id="pdf" class="btn btn-info m-l-5 pull-right">
+				<button type="button" id="pdf" class="btn hover-info btn-secondary m-l-5 pull-right">
 					<i class="fa fa-file-pdf-o"></i> PDF
 				</button>
-				<a href="<?=base_url()?>users/add" class="btn btn-info pull-right">
+				<a href="<?=base_url()?>users/add" class="btn hover-info btn-secondary pull-right">
 					<i class="fa fa-plus"></i> New Data
 				</a>
 				<h5>List of Users</h5>
@@ -34,13 +34,13 @@
 								<td>2011/04/25</td>
 								<td>
 									<div class="btn-group">
-										<button type="button" class="btn btn-info" onclick="view()">
+										<button type="button" class="btn btn-secondary btn-custom" onclick="view()">
 											<i class="fa fa-eye"></i>
 										</button>
-										<button type="button" class="btn btn-warning" onclick="edit()">
+										<button type="button" class="btn btn-secondary btn-custom" onclick="edit()">
 											<i class="fa fa-edit"></i>
 										</button>
-										<button type="button" class="btn btn-danger" onclick="del()">
+										<button type="button" class="btn btn-secondary btn-custom" onclick="del()">
 											<i class="fa fa-trash"></i>
 										</button>
 									</div>

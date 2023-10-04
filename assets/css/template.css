@@ -84,15 +84,6 @@ footer.footer a:hover {
 	max-height: calc(100vh - 56px) !important;
 	overflow-y: hidden !important;
 }
-@media (max-width: 767px) {
-	.scroller {
-		height: 100vh !important;
-		max-height: 100vh !important;
-	}
-	footer.footer text {
-		margin-left: 30px !important;
-	}
-}
 footer.footer {
 	position: relative !important;
 	background: #FFF !important;
@@ -128,6 +119,11 @@ button.btn-secondary.btn-custom:hover:has(> i.fa-pencil) {
 	background: #FFB22B;
 	color: #F1F1F1;
 }
+a.btn-secondary.btn-custom:hover:has(> i.fa-edit),
+button.btn-secondary.btn-custom:hover:has(> i.fa-edit) {
+	background: #FFB22B;
+	color: #F1F1F1;
+}
 a.btn-secondary.btn-custom:hover:has(> i.fa-plus),
 button.btn-secondary.btn-custom:hover:has(> i.fa-plus) {
 	background: #1976D2;
@@ -140,6 +136,11 @@ button.btn-secondary.btn-custom:hover:has(> i.fa-eye) {
 }
 .input-group .input-group-btn a.btn:hover:has(> i.fa-edit),
 .input-group .input-group-btn button.btn:hover:has(> i.fa-edit) {
+	background: #FFB22B;
+	color: #F1F1F1;
+}
+.input-group .input-group-btn a.btn:hover:has(> i.fa-pencil),
+.input-group .input-group-btn button.btn:hover:has(> i.fa-pencil) {
 	background: #FFB22B;
 	color: #F1F1F1;
 }
@@ -158,6 +159,47 @@ button.btn-secondary.btn-custom:hover:has(> i.fa-eye) {
 	color: #F1F1F1 !important;
 	border: 1px solid #EE4323 !important;
 }
+.hover-info:hover {
+	background: #1976D2 !important;
+	color: #F1F1F1 !important;
+	border: 1px solid #1976D2 !important;
+}
+body.modal-open {
+	padding-right: 0px !important;
+}
+body.modal-open .modal {
+	margin-left: 19px !important;
+}
+.jconfirm .jconfirm-box {
+  border-radius: 3px !important;
+	width: 400px !important;
+  margin-left: auto;
+  margin-right: auto;
+}
+.modal .modal-header {
+	padding-bottom: 7px !important;
+}
+
+
+
+/* RESPONSIVE */
+@media (max-width: 768px) {
+	.scroller {
+		height: 100vh !important;
+		max-height: 100vh !important;
+	}
+	.mini-sidebar footer.footer text,
+	footer.footer text {
+		margin-left: 30px !important;
+	}
+}
+@media (max-width: 576px) {
+	.mini-sidebar footer.footer text,
+	footer.footer text {
+		margin-left: 15px !important;
+	}
+}
+
 
 
 

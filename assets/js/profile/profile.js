@@ -4,14 +4,6 @@ let BASE_URL = baseUrl();
 var lastPick;
 var rand;
 $(document).ready(function() {
-	// CONFIG SLIMSCROLL
-	$('.activity-body').slimScroll({
-		height: '100%',
-		size: '5px',
-		distance: '2px',
-		wheelStep: 13,
-	});
-
 	// SET RANDOM COLOR IN CARD SKILL
 	$('.tag-skills li').each(function() {
 		$(this).addClass(randomColor());
@@ -81,10 +73,51 @@ $(document).ready(function() {
 	max = `${string[0]}-${string[1]}`;
 	$('input#tgl_mulai').attr('max', max);
 	$('input#tgl_berakhir').attr('max', max);
+
+	// SET SELECT2
+	var optLokasi = [{ id: 0, text: 'jakarta'},
+		{ id: 1, text: 'bogor' },
+    { id: 2, text: 'depok' },
+    { id: 3, text: 'tangerang' },
+    { id: 4, text: 'bekasi' }];
+	var optTypeWork = [
+		{ id: 0, text: 'Freelance'},
+		{ id: 1, text: 'Fulltime' }
+	];
+	var parSelect2 = [
+		{ input:'#lokasi-perusahaan, #lokasi-sekolah', data:optLokasi },
+		{ input:'#jenis-pekerjaan, #degree', data:optTypeWork },
+	];
+	setSelect2(parSelect2);
+	setTags();
 });
 
+var setTags = function() {
+	var tags = ['api','html','java','php','css','mysql'];
+	$("#input-tags").select2({
+		multiple: true,
+    tags: true,
+    data: tags,
+		maximumSelectionLength: 20,
+    tokenSeparators: ['/n'],
+		dropdownParent: $('#modal-skills')
+	}).on('select2:open', function(e) {
+		$('.select2-container--open .select2-dropdown--below').css('display','none');
+	}).on('select2:select', function(event) {
+		if(event.currentTarget.length >= 20) {
+			alertMsg('Too many skills');
+		}
+	});
+	$('#input-tags').val(tags).trigger('change');
+}
+
+$('#modal-skills').on('hidden.bs.modal', function() {
+	setTags();
+})
+
+
 var randomColor = function() {
-	var colors = ['btn-primary', 'btn-success','btn-info','btn-warning','btn-danger','btn-dark','btn-secondary','btn-inverse'];
+	var colors = ['bg-primary','bg-success','bg-info','bg-warning','bg-danger','bg-megna','bg-theme','bg-inverse','bg-purple'];
 	var rand = colors[Math.floor(Math.random() * colors.length)];
 	rand==lastPick?randomColor():rand;
 	lastPick = rand;
@@ -110,7 +143,6 @@ $('input#masih_bekerja, input#masih_sekolah').on('change', function() {
 		$('#end-at').show();
 	}
 })
-
 $('input#masih_sekolah').on('change', function() {
 	checked = $(this).is(':checked');
 	if(checked == true) {
@@ -122,6 +154,8 @@ $('input#masih_sekolah').on('change', function() {
 	}
 })
 
+
+// FORM SUBMITED
 $('form#add-experience').on('submit', function(e) {
 	e.preventDefault();
 	alertMsg('Add Experience Success');

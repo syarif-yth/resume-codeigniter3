@@ -10,7 +10,8 @@
 	-moz-box-sizing: border-box;
 	-webkit-box-sizing: border-box;
 	margin-bottom: 0;
-	width: 100%
+	width: 100%;
+	color: red !important;
 }
 .autocomplete__input {
 	background-color: transparent;
@@ -156,9 +157,10 @@
 .autocomplete__input {
 	padding-left: 10px !important;
 	height: 41px !important;
+	color: #222 !important;
 }
 .autocomplete__hint,
-.autocomplete__input,
+/* .autocomplete__input, */
 .autocomplete__option {
 	font-size: inherit !important;
 	font-family: inherit !important;

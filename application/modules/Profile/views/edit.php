@@ -3,12 +3,22 @@
 
 <div class="row">
 	<div class="col-12">
-		<div class="card card-outline-primary">
+		<div class="card card-edit card-outline-primary">
 			<div class="card-body">
 				<div class="btn-group nav-button">
-					<button type="button" class="btn btn-secondary hover-danger" data-target="#modal-reset" data-toggle="modal">
-						Reset Password
-					</button>
+					<div class="dropdown">
+						<button class="btn btn btn-secondary hover-danger dropdown-toggle" type="button" data-toggle="dropdown">Danger Zone
+							<span class="caret"></span>
+						</button>
+						<ul class="dropdown-menu dropdown-menu-right">
+							<li>
+								<a href="javascript:void(0)" class="btn btn-block" data-target="#modal-password" data-toggle="modal">Update Password</a>
+							</li>
+							<li>
+								<a href="javascript:void(0)" class="btn btn-block" data-target="#modal-close" data-toggle="modal">Close Account</a>
+							</li>
+						</ul>
+					</div>
 				</div>
 				<form id="edit-profile">
 					<div class="form-body">
@@ -110,11 +120,7 @@
 										<div class="col-3">
 											<div class="form-group">
 												<label class="control-label">Gender</label>
-												<select class="form-control" name="jenis_kelamin">
-													<option value="">Enter Gender</option>
-													<option value="">Male</option>
-													<option value="">Female</option>
-												</select>
+												<input class="form-control select2" name="jenis_kelamin" id="jenis-kelamin" data-placeholder="Select Gender" data-minimum-results-for-search="-1">
 												<small class="form-control-feedback text-danger" id="err-jenis_kelamin"></small>
 											</div>
 										</div>
@@ -128,14 +134,7 @@
 										<div class="col-5">
 											<div class="form-group">
 												<label class="control-label">Place of Birth</label>
-												<select class="form-control select2" name="tempat_lahir">
-													<option>satu</option>
-													<option>dua</option>
-													<option>tiga</option>
-													<option>empat</option>
-													<option>lima</option>
-												</select>
-												<!-- <div id="auto-birth" class="autocomplete-wrapper"></div> -->
+												<input class="form-control select2" name="tempat_lahir" id="tempat-lahir" data-placeholder="Select Place" data-minimum-results-for-search="2">
 												<small class="form-control-feedback text-danger" id="err-tempat_lahir"></small>
 											</div>
 										</div>
@@ -147,7 +146,7 @@
 										<div class="col-6">
 											<div class="form-group">
 												<label class="control-label">Domicile</label>
-												<div id="auto-domisili" class="autocomplete-wrapper"></div>
+												<input class="form-control select2" name="domisili" id="domisili" data-placeholder="Select Domicile" data-minimum-results-for-search="2">
 												<small class="form-control-feedback text-danger" id="err-domisili"></small>
 											</div>
 										</div>
@@ -178,7 +177,7 @@
 					</div>
 
 					<div class="form-actions text-center m-t-20">
-						<button type="submit" class="btn btn-info">
+						<button type="submit" class="btn btn-secondary hover-info">
 							<i class="fa fa-save"></i> Save
 						</button>
 						<button onclick="history.back(1)" type="button" class="btn btn-secondary">Cancel</button>
@@ -193,7 +192,7 @@
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title">Edit Email Address</h5>
+        <h4 class="modal-title">Edit Email Address</h4>
         <button type="button" class="btn btn-secondary" data-dismiss="modal">
           <i class="fa fa-close"></i>
         </button>
@@ -212,11 +211,11 @@
 						</div>
 					</div>
 					<div class="row">
-						<div class="col-sm-6">
+						<div class="col-6">
 							<div class="form-group">
 								<label class="control-label">Password</label>
 								<div class="input-group">
-									<input type="password" name="password" class="form-control" placeholder="Enter Password">
+									<input type="password" name="password" class="form-control" placeholder="&bull;&bull;&bull;&bull;&bull;">
 									<span class="input-group-btn">
 										<button class="btn" type="button" onclick="showPass(this)">
 											<i class="fa fa-eye"></i>
@@ -227,11 +226,11 @@
 							</div>
 						</div>
 
-						<div class="col-sm-6">
+						<div class="col-6">
 							<div class="form-group">
 								<label class="control-label">Confirm Password</label>
 								<div class="input-group">
-									<input type="password" name="passconf" class="form-control" placeholder="Enter Confirm Password">
+									<input type="password" name="passconf" class="form-control" placeholder="&bull;&bull;&bull;&bull;&bull;">
 									<span class="input-group-btn">
 										<button class="btn" type="button" onclick="showConf(this)">
 											<i class="fa fa-eye"></i>
@@ -244,7 +243,7 @@
 					</div>
 				</div>
 				<div class="modal-footer">
-					<button type="submit" class="btn btn-info">
+					<button type="submit" class="btn btn-secondary hover-info">
 						<i class="fa fa-send"></i> Send
 					</button>
 					<button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
@@ -260,7 +259,7 @@
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title">Edit Username</h5>
+        <h4 class="modal-title">Edit Username</h4>
         <button type="button" class="btn btn-secondary" data-dismiss="modal">
           <i class="fa fa-close"></i>
         </button>
@@ -279,11 +278,11 @@
 						</div>
 					</div>
 					<div class="row">
-						<div class="col-sm-6">
+						<div class="col-6">
 							<div class="form-group">
 								<label class="control-label">Password</label>
 								<div class="input-group">
-									<input type="password" name="password" class="form-control" placeholder="Enter Password">
+									<input type="password" name="password" class="form-control" placeholder="&bull;&bull;&bull;&bull;&bull;">
 									<span class="input-group-btn">
 										<button class="btn" type="button" onclick="showPass(this)">
 											<i class="fa fa-eye"></i>
@@ -294,11 +293,11 @@
 							</div>
 						</div>
 
-						<div class="col-sm-6">
+						<div class="col-6">
 							<div class="form-group">
 								<label class="control-label">Confirm Password</label>
 								<div class="input-group">
-									<input type="password" name="passconf" class="form-control" placeholder="Enter Confirm Password">
+									<input type="password" name="passconf" class="form-control" placeholder="&bull;&bull;&bull;&bull;&bull;">
 									<span class="input-group-btn">
 										<button class="btn" type="button" onclick="showConf(this)">
 											<i class="fa fa-eye"></i>
@@ -311,7 +310,7 @@
 					</div>
 				</div>
 				<div class="modal-footer">
-					<button type="submit" class="btn btn-info">
+					<button type="submit" class="btn btn-secondary hover-info">
 						<i class="fa fa-send"></i> Send
 					</button>
 					<button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
@@ -322,11 +321,11 @@
 </div>
 
 
-<div class="modal fade" id="modal-reset" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal fade" id="modal-password" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title">Reset Password</h5>
+        <h4 class="modal-title">Update Password</h4>
         <button type="button" class="btn btn-secondary" data-dismiss="modal">
           <i class="fa fa-close"></i>
         </button>
@@ -334,13 +333,12 @@
 
 			<form id="edit-password">
 				<div class="modal-body p-b-0">
-					<span>For reset password we need confirm your password. We will send an link for reset password to your email</span>
-					<div class="row m-t-20">
-						<div class="col-sm-6">
+					<div class="row">
+						<div class="col-6">
 							<div class="form-group">
-								<label class="control-label">Password</label>
+								<label class="control-label">Current Password</label>
 								<div class="input-group">
-									<input type="password" name="password" class="form-control" placeholder="Enter Password">
+									<input type="password" name="password" class="form-control" placeholder="&bull;&bull;&bull;&bull;&bull;">
 									<span class="input-group-btn">
 										<button class="btn" type="button" onclick="showPass(this)">
 											<i class="fa fa-eye"></i>
@@ -351,11 +349,11 @@
 							</div>
 						</div>
 
-						<div class="col-sm-6">
+						<div class="col-6">
 							<div class="form-group">
-								<label class="control-label">Confirm Password</label>
+								<label class="control-label">Confirm Current Password</label>
 								<div class="input-group">
-									<input type="password" name="passconf" class="form-control" placeholder="Enter Confirm Password">
+									<input type="password" name="passconf" class="form-control" placeholder="&bull;&bull;&bull;&bull;&bull;">
 									<span class="input-group-btn">
 										<button class="btn" type="button" onclick="showConf(this)">
 											<i class="fa fa-eye"></i>
@@ -366,10 +364,43 @@
 							</div>
 						</div>
 					</div>
+
+
+					<div class="row m-t-20">
+						<div class="col-6">
+							<div class="form-group">
+								<label class="control-label">New Password</label>
+								<div class="input-group">
+									<input type="password" name="new_password" class="form-control" placeholder="&bull;&bull;&bull;&bull;&bull;">
+									<span class="input-group-btn">
+										<button class="btn" type="button" onclick="showPass(this)">
+											<i class="fa fa-eye"></i>
+										</button>
+									</span>
+								</div>
+								<small class="form-control-feedback text-danger" id="err-new_password"></small>
+							</div>
+						</div>
+
+						<div class="col-6">
+							<div class="form-group">
+								<label class="control-label">Confirm New Password</label>
+								<div class="input-group">
+									<input type="password" name="new_passconf" class="form-control" placeholder="&bull;&bull;&bull;&bull;&bull;">
+									<span class="input-group-btn">
+										<button class="btn" type="button" onclick="showConf(this)">
+											<i class="fa fa-eye"></i>
+										</button>
+									</span>
+								</div>
+								<small class="form-control-feedback text-danger" id="err-new_passconf"></small>
+							</div>
+						</div>
+					</div>
 				</div>
 				<div class="modal-footer">
-					<button type="submit" class="btn btn-info">
-						<i class="fa fa-send"></i> Send
+					<button type="submit" class="btn btn-secondary hover-info">
+						<i class="fa fa-save"></i> Update
 					</button>
 					<button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
 				</div>
@@ -377,4 +408,104 @@
     </div>
   </div>
 </div>
+
+
+<div class="modal fade" id="modal-close" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title">Close Account</h4>
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">
+          <i class="fa fa-close"></i>
+        </button>
+      </div>
+
+			<form id="close-account">
+				<div class="modal-body p-b-0">
+					<div class="row">
+						<div class="col-6">
+							<div class="form-group">
+								<label class="control-label">Email Address</label>
+								<input type="email" name="email" class="form-control" placeholder="Enter Email Address">
+								<small class="form-control-feedback text-danger" id="err-email"></small>
+							</div>
+						</div>
+
+						<div class="col-6">
+							<div class="form-group">
+								<label class="control-label">Username</label>
+								<input type="text" name="username" class="form-control" placeholder="&bull;&bull;&bull;&bull;&bull;">
+								<small class="form-control-feedback text-danger" id="err-username"></small>
+							</div>
+						</div>
+					</div>
+
+					<div class="row">
+						<div class="col-6">
+							<div class="form-group">
+								<label class="control-label">Password</label>
+								<div class="input-group">
+									<input type="password" name="password" class="form-control" placeholder="&bull;&bull;&bull;&bull;&bull;">
+									<span class="input-group-btn">
+										<button class="btn" type="button" onclick="showPass(this)">
+											<i class="fa fa-eye"></i>
+										</button>
+									</span>
+								</div>
+								<small class="form-control-feedback text-danger" id="err-password"></small>
+							</div>
+						</div>
+
+						<div class="col-6">
+							<div class="form-group">
+								<label class="control-label">Confirm Password</label>
+								<div class="input-group">
+									<input type="password" name="passconf" class="form-control" placeholder="&bull;&bull;&bull;&bull;&bull;">
+									<span class="input-group-btn">
+										<button class="btn" type="button" onclick="showConf(this)">
+											<i class="fa fa-eye"></i>
+										</button>
+									</span>
+								</div>
+								<small class="form-control-feedback text-danger" id="err-passconf"></small>
+							</div>
+						</div>
+					</div>
+
+					<div class="row m-t-10">
+						<div class="col-6">
+							<div class="form-group">
+								<label class="control-label">Choose Close Account Type</label>
+							</div>
+						</div>
+
+						<div class="col-6">
+							<div class="form-group">
+								<input type="radio" id="radio-temporary" name="tutup_akun" value="temporary" checked>
+								<label for="radio-temporary">Temporary</label><br>
+								<input type="radio" id="radio-permanent" name="tutup_akun" value="permanent">
+								<label for="radio-permanent">Permanent</label>
+							</div>
+						</div>
+					</div>
+					<div class="row m-b-20">
+						<div class="col-12">
+							<span class="small text-danger">Temporary: if you login for latter your account active again without signup<br>
+							Permanent: your all data in system will be delete, but we need 3 days for processed
+							</span>
+						</div>
+					</div>
+				</div>
+
+				<div class="modal-footer">
+					<button type="submit" class="btn btn-danger">
+						<i class="fa fa-close"></i> Close Account
+					</button>
+					<button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+				</div>
+			</form>
+    </div>
+  </div>
+</div>
+
 

@@ -14,6 +14,7 @@ class Users extends MX_Controller
 		$data['content'] = 'users';
 		$view = array_merge($default, $data);
 		$this->load->view('template', $view);
+		$this->load->view('assets/js/users');
 	}
 
 	public function add()
@@ -22,6 +23,7 @@ class Users extends MX_Controller
 		$data['content'] = 'insert';
 		$view = array_merge($default, $data);
 		$this->load->view('template', $view);
+		$this->load->view('assets/js/users_insert');
 	}
 
 	public function edit()
@@ -30,6 +32,7 @@ class Users extends MX_Controller
 		$data['content'] = 'edit';
 		$view = array_merge($default, $data);
 		$this->load->view('template', $view);
+		$this->load->view('assets/js/users_edit');
 	}
 
 	public function view()
@@ -38,6 +41,7 @@ class Users extends MX_Controller
 		$data['content'] = 'detail';
 		$view = array_merge($default, $data);
 		$this->load->view('template', $view);
+		$this->load->view('assets/js/users_view');
 	}
 
 	private function data_view()

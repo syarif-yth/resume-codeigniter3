@@ -3,7 +3,38 @@
 
 let BASE_URL = baseUrl();
 $(document).ready(function() {
-	
+	// SET MAX BIRTH DAY
+	setMaxBirth('input[name=tgl_lahir]');
+
+	// SET SELECT2
+	var optLokasi = [{ id: 0, text: 'jakarta'},
+		{ id: 1, text: 'bogor' },
+    { id: 2, text: 'depok' },
+    { id: 3, text: 'tangerang' },
+    { id: 4, text: 'bekasi' }];
+	var optGender = [{id:'laki-laki', text:'Laki-Laki'},
+		{id:'perempuan', text:'Perempuan'}];
+	var parSelect2 = [
+		{ input:'#tempat-lahir, #domisili', data:optLokasi },
+		{ input:'#jenis-kelamin', data:optGender }
+	];
+	setSelect2(parSelect2);
+
+	// SET AUTOCOMPLETE
+	var dummy = [
+		"ActionScript","AppleScript","Asp","BASIC",
+		"C","C++","Clojure","COBOL","ColdFusion",
+		"Erlang","Fortran","Groovy","Haskell",
+		"Java","JavaScript","Lisp","Perl","PHP",
+		"Python","Ruby","Scala","Scheme"
+	];
+	setAutoComplete({
+		trigger: '#auto-profesi',
+		inputName: 'profesi',
+		inputHolder: 'Enter Profesion',
+		data: dummy
+	});
+
 });
 
 $("input#cover").on('change', function() {
@@ -22,22 +53,8 @@ $("input#avatar").on('change', function() {
 	});
 });
 
-var showPass = function() {
-	pass = document.getElementsByClassName("password");
-	conf = document.getElementsByClassName("passconf");
-	if (pass.type === "password" && conf.type === "password") {
-		pass.type = "text";
-		conf.type = "text";
-		$('#show-pass i').removeClass('fa fa-eye');
-		$('#show-pass i').addClass('fa fa-eye-slash');
-	} else {
-		pass.type = "password";
-		conf.type = "password";
-		$('#show-pass i').removeClass('fa fa-eye-slash');
-		$('#show-pass i').addClass('fa fa-eye');
-	}
-}
 
+// FORM SUBMITED
 $('form#edit-email').on('submit', function(e) {
 	e.preventDefault();
 	alertMsg('Link recovery has been send');
@@ -58,7 +75,19 @@ $('form#edit-password').on('submit', function(e) {
 	e.preventDefault();
 	alertMsg('Link recovery has been send');
 	setTimeout(function() {
-		$('#modal-reset').modal('hide');
+		$('#modal-password').modal('hide');
+  }, 2000);
+})
+
+$('form#close-account').on('submit', function(e) {
+	e.preventDefault();
+	alertMsg('Close Account Success');
+	setTimeout(function() {
+		$('#modal-close').modal('hide');
+  }, 2000);
+
+	setTimeout(function() {
+		logout();
   }, 2000);
 })
 

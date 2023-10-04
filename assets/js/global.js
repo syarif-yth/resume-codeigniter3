@@ -65,6 +65,7 @@ var alertMsg = function(content, type) {
 			color = 'green';
 			break;
 	}
+	if(theme !== 'dark') theme = 'light';
 
 	var obj = $.dialog({
     title: title,
@@ -75,6 +76,7 @@ var alertMsg = function(content, type) {
     typeAnimated: true,
 		offsetBottom: 450,
 		backgroundDismiss: true,
+		theme: theme,
 	});
 
 	setTimeout(function(){
@@ -99,6 +101,7 @@ var confirmMsg = function(param) {
 		if(param.confirmAction) confirmAction = param.confirmAction;
 		if(param.cancelAction) cancelAction = param.cancelAction;
 	}
+	if(theme !== 'dark') theme = 'light';
 
 	$.confirm({
 		title: title,
@@ -109,6 +112,7 @@ var confirmMsg = function(param) {
     backgroundDismissAnimation: 'glow',
 		offsetBottom: 400,
 		autoClose: autoClose,
+		theme: theme,
     buttons: {
 			confirm: {
 				text: confirmText,
@@ -142,6 +146,7 @@ var previewImg = function(param) {
 var showPass = function(dis) {
 	parent = $(dis).parent().parent();
 	pass = $(parent).find('input[name=password]');
+	if(pass.length == 0) pass = $(parent).find('input[name=new_password]');
 	if(pass.prop('type') === 'password') {
 		$(pass).attr('type', 'text');
 		$(dis).children('i').removeClass('fa fa-eye');
@@ -156,6 +161,7 @@ var showPass = function(dis) {
 var showConf = function(dis) {
 	parent = $(dis).parent().parent();
 	pass = $(parent).find('input[name=passconf]');
+	if(pass.length == 0) pass = $(parent).find('input[name=new_passconf]');
 	if(pass.prop('type') === 'password') {
 		$(pass).attr('type', 'text');
 		$(dis).children('i').removeClass('fa fa-eye');
@@ -208,9 +214,61 @@ var setAutoComplete = function(param) {
 	});
 }
 
+
+// SETTING SELECT2 WITH PARAM DATA AND ELM INPUT
+var configSelect2 = function(input, data) {
+	dataElm = $(input).data();
+	config = {};
+	config['data'] = data;
+	for(const key in dataElm) {
+		if(key == 'modal') {
+			config['dropdownParent'] = $(dataElm[key]);
+		} else {
+			config[key] = dataElm[key];
+		}
+	}
+	$(input).select2(config);
+}
+var setSelect2 = function(param) {
+	if(param) {
+		if(Array.isArray(param)) {
+			param.forEach(function(valPar) {
+				if(valPar.input.indexOf(', ') > -1) {
+					input = valPar.input.split(', ');
+					input.forEach(function(valInp) {
+						configSelect2(valInp, valPar.data);
+					})
+				} else {
+					configSelect2(valPar.input, valPar.data);
+				}
+			})
+		} else {
+			if(param.input.indexOf(', ') > -1) {
+				input = param.input.split(', ');
+				input.forEach(function(val) {
+					configSelect2(val, param.data);
+				})
+			} else {
+				configSelect2(param.input, param.data);
+			}
+		}
+	}
+}
+
 // CLEAR
+var navLogout = function() {
+	confirmMsg({
+		title: 'Logout!',
+		content: 'Are you sure want to Logout?',
+		confirmText: '<i class="fa fa-sign-out"></i> Logout',
+		confirmAction: function() {
+			logout();
+		}
+	})
+}
+
 var logout = function() {
-  sessionStorage.clear();
-  localStorage.clear();
-  window.location.href = baseUrl();
+	sessionStorage.clear();
+	localStorage.clear();
+	window.location.href = baseUrl();
 }

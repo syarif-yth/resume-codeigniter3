@@ -115,7 +115,7 @@ $title = ucfirst($uri_first);
 						<li class="nav-label">EXTRA</li>
 
 						<li>
-							<a href="javascript:void(0)" onclick="logout()">
+							<a href="javascript:void(0)" onclick="navLogout()">
 								<i class="fa fa-sign-out"></i>
 								<span class="hide-menu">Logout</span>
 							</a>

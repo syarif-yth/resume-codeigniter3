@@ -3,7 +3,37 @@
 
 let BASE_URL = baseUrl();
 $(document).ready(function() {
-	
+	// SET MAX BIRTH DAY
+	setMaxBirth('input[name=tgl_lahir]');
+
+	// SET SELECT2
+	var optLokasi = [{ id: 0, text: 'jakarta'},
+		{ id: 1, text: 'bogor' },
+    { id: 2, text: 'depok' },
+    { id: 3, text: 'tangerang' },
+    { id: 4, text: 'bekasi' }];
+	var optGender = [{id:'laki-laki', text:'Laki-Laki'},
+		{id:'perempuan', text:'Perempuan'}];
+	var parSelect2 = [
+		{ input:'#tempat-lahir, #domisili', data:optLokasi },
+		{ input:'#jenis-kelamin', data:optGender }
+	];
+	setSelect2(parSelect2);
+
+	// SET AUTOCOMPLETE
+	var dummy = [
+		"ActionScript","AppleScript","Asp","BASIC",
+		"C","C++","Clojure","COBOL","ColdFusion",
+		"Erlang","Fortran","Groovy","Haskell",
+		"Java","JavaScript","Lisp","Perl","PHP",
+		"Python","Ruby","Scala","Scheme"
+	];
+	setAutoComplete({
+		trigger: '#auto-profesi',
+		inputName: 'profesi',
+		inputHolder: 'Enter Profesion',
+		data: dummy
+	});
 });
 
 $("input#cover").on('change', function() {
@@ -22,28 +52,10 @@ $("input#avatar").on('change', function() {
 	});
 });
 
-$('#show-pass').on('click', function() {
-	pass = document.getElementById("password");
-	conf = document.getElementById("passconf");
-	if (pass.type === "password" && conf.type === "password") {
-		pass.type = "text";
-		conf.type = "text";
-		$('#show-pass i').removeClass('fa fa-eye');
-		$('#show-pass i').addClass('fa fa-eye-slash');
-	} else {
-		pass.type = "password";
-		conf.type = "password";
-		$('#show-pass i').removeClass('fa fa-eye-slash');
-		$('#show-pass i').addClass('fa fa-eye');
-	}
-});
-
-$('form').on('submit', function(e) {
+$('form#add-user').on('submit', function(e) {
 	e.preventDefault();
-	alertMsg('New user has been added');
+	alertMsg('Add new user success');
 	setTimeout(function() {
 		window.location.href = BASE_URL+'users';
-  }, 2000);
+  }, 1000);
 })
-
-

@@ -8,7 +8,6 @@ class Resume extends MX_Controller
 		parent::__construct();
 	}
 
-	
 
 	public function index()
 	{
@@ -16,6 +15,7 @@ class Resume extends MX_Controller
 		$data['content'] = 'resume';
 		$view = array_merge($default, $data);
 		$this->load->view('template', $view);
+		$this->load->view('assets/js/resume');
 	}
 
 	public function detail()
@@ -24,6 +24,7 @@ class Resume extends MX_Controller
 		$data['content'] = 'detail';
 		$view = array_merge($default, $data);
 		$this->load->view('template', $view);
+		$this->load->view('assets/js/resume_detail');
 	}
 
 	private function data_view()
