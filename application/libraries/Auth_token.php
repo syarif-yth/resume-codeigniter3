@@ -47,7 +47,8 @@ class Auth_token
 					$res['code'] = 200;
 					$res['data'] = array(
 						'token' => $token,
-						'expired' => date('H:i:s', $exp));
+						// 'expired' => date('H:i:s', $exp));
+						'expired' => $exp);
 				}
 			} catch(Exception $err) {
 				$res['code'] = 500;

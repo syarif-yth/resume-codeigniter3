@@ -33,21 +33,19 @@
 								<form>
 									<div class="form-group">
 										<label>Username</label>
-										<input type="username" name="username" class="form-control" placeholder="Username">
-										<small class="form-control-feedback text-danger" id="err-username"></small>
+										<input type="username" name="username" class="form-control" placeholder="Username" required minlength="5" maxlength="20">
 									</div>
 
 									<div class="form-group">
 										<label>Password</label>
 										<div class="input-group">
-											<input type="password" name="password" class="form-control" placeholder="Password">
+											<input type="password" name="password" class="form-control" placeholder="Password" required minlength="5" maxlength="50">
 											<span class="input-group-btn">
 													<button class="btn btn-flat" type="button" onclick="showPass(this)">
 														<i class="fa fa-eye"></i>
 													</button>
 											</span>
 										</div>
-										<small class="form-control-feedback text-danger" id="err-password"></small>
 									</div>
 
 									<div class="checkbox">

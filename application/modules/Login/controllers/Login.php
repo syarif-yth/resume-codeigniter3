@@ -10,8 +10,8 @@ class Login extends MX_Controller
 
 	public function index()
 	{
-		// var_dump('loginpage');
 		$this->load->view('login');
 	}
+
 }
 ?>

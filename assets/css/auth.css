@@ -34,3 +34,6 @@ a {
 #toast-container.toast-top-center {
 	top: 12px !important;
 }
+small.form-control-feedback {
+	color: #EE4323 !important;
+}

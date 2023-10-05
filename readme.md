@@ -26,3 +26,8 @@ for a given task.
 ```sh
 git clone https://github.com/syarif-yth/resume-codeigniter3.git
 ```
+
+## Donate for coffee
+
+<img alt="Donate" src="assets/img/barcode.jpeg" width="10%">
+

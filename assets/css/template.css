@@ -5,9 +5,21 @@
 	--c-grey-300: #b2b2b2;
 	--c-grey-400: #7b7b7b;
 	--c-grey-500: #3d3d3d;
-
 	--c-blue-500: #688afd;
+
+	/* dark color */
+	--text-dark: #D1D1D1;
+	--text-active: #F1F1F1;
+	--red-theme: #EE4323;
+	--link-hover: #EE4323;
+	--bg-dark: #575757;
+	--bg-main: #252526;
+	--bg-card: #323233;
+	--bg-hover: #1E1E1E;
+	--shadow: 0 0 12px #1E1E1E;
 }
+
+
 .navbar-brand img {
 	position: relative;
 	top: -3px !important;
@@ -179,6 +191,9 @@ body.modal-open .modal {
 .modal .modal-header {
 	padding-bottom: 7px !important;
 }
+small.form-control-feedback {
+	color: #EE4323 !important;
+}
 
 
 
@@ -204,97 +219,112 @@ body.modal-open .modal {
 
 
 
+
+
 /* DARK THEME */
+body.dark,
 body.dark nav.navbar,
 body.dark nav.navbar .navbar-header,
 body.dark .left-sidebar,
 body.dark .left-sidebar .slimScrollDiv .scroll-sidebar nav,
-body.dark footer.footer,
-body.dark,
-body.dark .left-sidebar .slimScrollDiv .scroll-sidebar nav.sidebar-nav ul li.aktif a  {
-	background: #252526 !important;
-	background-color: #252526 !important;
-	color: #F1F1F1 !important;
+body.dark .left-sidebar .slimScrollDiv .scroll-sidebar nav.sidebar-nav ul li.aktif a,
+body.dark footer.footer {
+	background: var(--bg-main) !important;
+	background-color: var(--bg-main) !important;
+	color: var(--text-dark) !important;
 }
-body.dark.mini-sidebar .left-sidebar .slimScrollDiv .scroll-sidebar nav {
-	background: transparent !important;
-}
-body.dark .card {
-	background: #323233 !important;
-	background-color: #323233 !important;
-	color: #F1F1F1 !important;
-} 
-body.dark .card .card-body .card-title,
+
 body.dark .card .card-body h5,
-body.dark .card .card-body .dataTables_wrapper .dataTables_length select,
-body.dark .card .card-body .dataTables_wrapper .dataTables_filter input,
-body.dark .card .card-body .dataTables_wrapper table tr th,
-body.dark .card .card-body .dataTables_wrapper .dataTable_paginate .paginate_button {
-	color: #F1F1F1 !important;
+body.dark .sidebar-nav .nav-label,
+body.dark a.nav-link,
+body.dark .card .card-body .card-title,
+body.dark footer a,
+body.dark .card-title,
+body.dark .card-body h3 *,
+body.dark .card-body h4 *,
+body.dark .card-body .desc *,
+body.dark .card-body ul li .media-heading {
+	color: var(--text-dark) !important;
 }
-body.dark .card .card-body input,
-body.dark .card .card-body select,
-body.dark .card .card-body .input-group .input-group-btn button {
-	background: none !important;
-	color: #F1F1F1 !important;
-	color-scheme: dark !important;
-	border: 1px solid grey !important;
+
+body.dark .container-fluid .card-body .card-two h3 * {
+	/* color: red !important; */
 }
-body.dark .card .card-body input:hover,
-body.dark .card .card-body select:hover,
-body.dark .card .card-body input:focus,
-body.dark .card .card-body select:focus {
-	border: 1px solid #F1F1F1 !important;
+
+body.dark a.navbar-brand,
+body.dark .left-sidebar .slimScrollDiv .scroll-sidebar nav.sidebar-nav ul li.aktif a,
+body.dark .page-wrapper .page-titles h3 {
+	color: var(--text-active) !important;
 }
-body.dark .card .card-body select option {
-	color: black !important;
+
+body.dark .page-titles ol.breadcrumb li a:hover {
+	color: var(--red-theme) !important
 }
-body.dark .card .card-body .dataTables_wrapper .dataTables_length select option {
-	color: black !important;
+
+body.dark a.nav-link:hover,
+body.dark .checkbox-wrapper-14:hover,
+body.dark .left-sidebar nav.sidebar-nav ul li a:hover,
+body.dark .left-sidebar nav.sidebar-nav ul li a:hover i {
+	background: var(--bg-hover) !important;
+	color: var(--text-active) !important;
 }
-body.dark .card .card-body .dataTables_wrapper .paginate_button.current,
-body.dark .card .card-body .dataTables_wrapper .paginate_button:hover {
-	border: 1px solid #ddd !important;
+
+body.dark .page-wrapper,
+body.dark .page-wrapper .page-titles,
+body.dark .page-titles ol.breadcrumb * {
+	background: var(--bg-dark) !important;
+	color: var(--text-dark) !important;
 }
-body.dark .card .card-body .dataTables_wrapper table tr th {
-	background: #252526 !important;
+
+body.dark .container-fluid .card {
+	background: var(--bg-card) !important;
+	color: var(--text-dark) !important;
 }
-body.dark .card .card-body .dataTables_wrapper table tr:hover {
-	background: #252526 !important;
+
+body.dark .btn-custom {
+	background: var(--bg-card);
+	-moz-box-shadow: none !important;
+	-webkit-box-shadow: none !important;
+	box-shadow: none !important;
 }
-body.dark .scroller .page-wrapper,
-body.dark .scroller .page-wrapper .page-titles,
-body.dark .scroller .page-wrapper .page-titles h3 {
-	background: #575757 !important;
-	color: #F1F1F1 !important;
+body.dark .btn-custom:hover {
+	-moz-box-shadow: var(--shadow) !important;
+	-webkit-box-shadow: var(--shadow) !important;
+	box-shadow: var(--shadow) !important;
 }
-body.dark .scroller .page-wrapper .page-titles a:hover {
-	color:#EE4323 !important;
+
+/* CARD STYLE DARK HAS PENDING */
+
+
+body.dark .card-body .avatar {
+	border: 3px solid var(--bg-card) !important;
 }
-body.dark nav.navbar .navbar-header a,
-body.dark nav.navbar .navbar-collapse .navbar-nav .nav-item a,
-body.dark .left-sidebar .slimScrollDiv .scroll-sidebar nav.sidebar-nav ul li a {
-	color:#F1F1F1 !important;
-}
-body.dark nav.navbar .navbar-collapse .navbar-nav .nav-item a:hover,
-body.dark .left-sidebar .slimScrollDiv .scroll-sidebar nav.sidebar-nav ul li a:hover {
-	background: #1E1E1E !important;
+body.dark .card-two h3::after {
+  background: var(--text-active) !important;
 }
 body.dark .sidebar-nav > ul > li.active > a {
-  border-left: 3px solid black !important;
+  border-left: 3px solid transparent !important;
 }
 body.dark footer.footer {
 	border-top: 1px solid black !important;
 }
-body.dark #toast-container > div {
-	-moz-box-shadow:0 0 12px  black !important;
-	-webkit-box-shadow:0 0 12px  black !important;
-	box-shadow:0 0 12px black !important;
-}
-body.dark .card .card-body .input-group .input-group-btn button:hover {
-	border: 1px solid #F1F1F1 !important;
-	color: #EE4323 !important;
-}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -310,6 +340,9 @@ body.dark .card .card-body .input-group .input-group-btn button:hover {
 
 
 /* CHECKBOX */
+.checkbox-wrapper-14:hover {
+	cursor: pointer !important;
+}
 @supports (-webkit-appearance: none) or (-moz-appearance: none) {
 	.checkbox-wrapper-14 input[type=checkbox] {
 		--active: #EE4323;
@@ -432,6 +465,7 @@ body.dark .card .card-body .input-group .input-group-btn button:hover {
 	position: relative;
 	top: -3px !important;
 	margin-right: 2px;
+	cursor: pointer;
 }
 
 

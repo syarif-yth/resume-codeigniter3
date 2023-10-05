@@ -126,6 +126,60 @@ var confirmMsg = function(param) {
 	});
 }
 
+// RESPONSE API ALERT
+var resAlert = function(errors) {
+	toastr.options = {
+		timeOut: 3000,
+		"positionClass": "toast-top-center",
+		"preventDuplicates": false
+	}
+
+	if(errors) {
+		if(errors.status !== undefined && errors.status !== true) {
+			switch(errors.status) {
+				case 400: type = 'warning'; break;
+				case 401: type = 'warning'; break;
+				case 403: type = 'warning'; break;
+				case 404: type = 'error'; break;
+				case 405: type = 'error'; break;
+				case 406: type = 'error'; break;
+				case 500: type = 'error'; break;
+				default: type = 'info'; break;
+			}
+			title = errors.statusText;
+			if(errors.responseJSON['message']) {
+				message = errors.responseJSON['message'];
+			} else {
+				message = errors.responseJSON['error'];
+			}
+		} else {
+			type = 'success';
+			title = 'Success';
+			message = errors.message;
+		}
+
+		toastr[type](message, title);
+	}
+}
+
+
+// SET ERROR VALIDATION SERVER
+var errValidServer = function(form, errors) {
+	if(errors.responseJSON.errors) {
+		res = errors.responseJSON.errors[0];
+		$.each(res, function(key, val) {
+			elm = '<small class="text-danger error">'+val+'</small>';
+			input = $(form).find('input[name='+key+']');
+			$(input).parents('.form-group').find('small.error').remove();
+			$(input).parents('.form-group').append(elm);
+		})
+	}
+
+	setTimeout(function() {
+		$('small.error').remove();
+	}, 20000);
+}
+
 // PREVIEW INPUT IMG
 var previewImg = function(param) {
 	if (param.input.files && param.input.files[0]) {
@@ -251,6 +305,25 @@ var setSelect2 = function(param) {
 			} else {
 				configSelect2(param.input, param.data);
 			}
+		}
+	}
+}
+
+
+// AUTH
+var checkLogin = function() {
+	login = sessionStorage.getItem('login');
+	if(login) {
+		jsonLogin = JSON.parse(login);
+		auth = jsonLogin.data.auth;
+		if(auth.expired > new Date()) {
+			sessionStorage.removeItem('login');
+			alertMsg('Login Expired', 'warning');
+			setTimeout(function() {
+				window.location.href = BASE_URL;
+			}, 2000);
+		} else {
+			window.location.href = BASE_URL+'dashboard';
 		}
 	}
 }
