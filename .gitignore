@@ -9,6 +9,7 @@ application/logs/*
 !application/*/.htaccess
 application/config/secret.php
 readme_design.md
+readme_prototype.md
 application/modules/Api/controllers/ignore.php
 
 composer.lock

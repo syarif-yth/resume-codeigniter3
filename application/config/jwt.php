@@ -14,6 +14,7 @@ $config['jwt_key'] = 'enMB8ms2Nh8RNz7nRKrGTiMRG9aRPp8G5d';
 |--------------------------------------------------------------------------
 */
 $config['jwt_algorithm'] = 'HS256';
+// $config['jwt_algorithm'] = 'ES256';
 
 
 /*
@@ -34,6 +35,7 @@ $config['token_header'] = 'authorization';
 | ( 1 Hour ) : 60 * 60     = 3600
 | ( 1 Minute ) : 60        = 60
 */
-// $config['token_expire_time'] = 60*2;
-$config['token_expire_time'] = 3600/2;
+// $config['token_expire_time'] = 60;
+$config['token_expire_time'] = 60*15;
+// $config['token_expire_time'] = 3600/2;
 // $config['token_expire_time'] = 86400;

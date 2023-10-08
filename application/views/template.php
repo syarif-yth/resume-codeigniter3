@@ -17,6 +17,7 @@ $title = ucfirst($uri_first);
 
 	<link href="<?=base_url()?>vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
 	<link href="<?=base_url()?>vendor/jquery-confirm/jquery-confirm.min.css" rel="stylesheet">
+	<link href="<?=base_url()?>vendor/toastr/toastr.min.css" rel="stylesheet">
   <link href="<?=base_url()?>vendor/elaadmin/css/helper.css" rel="stylesheet">
   <link href="<?=base_url()?>vendor/elaadmin/css/style.css" rel="stylesheet">
   <link href="<?=base_url()?>assets/css/template.css" rel="stylesheet">
@@ -167,6 +168,7 @@ $title = ucfirst($uri_first);
 	<script src="<?=base_url()?>vendor/elaadmin/js/sidebarmenu.js"></script>
 	<script src="<?=base_url()?>vendor/sticky-kit-master/dist/sticky-kit.min.js"></script>
 	<script src="<?=base_url()?>vendor/jquery-confirm/jquery-confirm.min.js"></script>
+	<script src="<?=base_url()?>vendor/toastr/toastr.min.js"></script>
 	<script src="<?=base_url()?>vendor/elaadmin/js/scripts.js"></script>
 	<script src="<?=base_url()?>assets/js/global.js"></script>
 	

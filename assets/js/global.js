@@ -2,12 +2,13 @@
 
 
 $(document).ready(function() {
+	header();
 	// CONFIG SLIMSCROLL TEMPLATE
 	$('.scroller').slimScroll({
 		height: '100%',
 		size: '7px',
 		distance: '2px',
-		wheelStep: 13,
+		wheelStep: 20,
 	});
 	
 	// SET DARKTHEME TEMPLATE BY LOCALSTORAGE
@@ -310,24 +311,6 @@ var setSelect2 = function(param) {
 }
 
 
-// AUTH
-var checkLogin = function() {
-	login = sessionStorage.getItem('login');
-	if(login) {
-		jsonLogin = JSON.parse(login);
-		auth = jsonLogin.data.auth;
-		if(auth.expired > new Date()) {
-			sessionStorage.removeItem('login');
-			alertMsg('Login Expired', 'warning');
-			setTimeout(function() {
-				window.location.href = BASE_URL;
-			}, 2000);
-		} else {
-			window.location.href = BASE_URL+'dashboard';
-		}
-	}
-}
-
 // CLEAR
 var navLogout = function() {
 	confirmMsg({
@@ -341,7 +324,38 @@ var navLogout = function() {
 }
 
 var logout = function() {
-	sessionStorage.clear();
-	localStorage.clear();
-	window.location.href = baseUrl();
+	$.ajax({
+		url: baseUrl()+'api/logout',
+		type: 'get',
+		dataType: 'json',
+		success: function(res) {
+			resAlert(res);
+			setTimeout(function() {
+				sessionStorage.clear();
+				localStorage.clear();
+				window.location.href = baseUrl();
+			}, 2000);
+		},
+		error: function(err) {
+			resAlert(err);
+			errValidServer($('form'), err);
+		},
+	})
+}
+
+
+var header = function() {
+	$.ajax({
+		url: baseUrl()+'api/users',
+		type: 'post',
+		dataType: 'json',
+		success: function(res) {
+			$('#for-header').html(JSON.stringify(res));
+			console.log(res);
+		},
+		error: function(err) {
+			resAlert(err);
+			errValidServer($('form'), err);
+		},
+	})
 }

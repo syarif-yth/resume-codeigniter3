@@ -13,7 +13,7 @@ class Users extends RestController
 		parent::__construct();
 		$this->load->model('table_users');
 		// $this->dt_user = $data->user;
-		// $auth = $this->auth_token->valid_token();
+		// $auth = $this->auth_token->check_token();
 		// if($auth['status'] === true) {
 		// 	$data = $auth['body']['data'];
 		// 	$this->dt_user = $data->user;
@@ -46,5 +46,11 @@ class Users extends RestController
 			$res = array_merge($res, $get);
 			$this->response($res);
 		}
+	}
+
+	public function index_post()
+	{
+		$head = $this->auth_token->getheader();
+		$this->response($head);
 	}
 }

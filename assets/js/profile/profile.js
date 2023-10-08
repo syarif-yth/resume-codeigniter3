@@ -3,7 +3,17 @@
 let BASE_URL = baseUrl();
 var lastPick;
 var rand;
+var checkLogin = function() {
+	var value = ('; '+document.cookie).split(`; nip=`).pop().split(';')[0];
+	// var decode = decodeURIComponent(value);
+	if(!value) {
+		// var dataLogin = JSON.parse(decode);
+		window.location.href = BASE_URL;
+	}
+}
 $(document).ready(function() {
+	checkLogin()
+	cekReq();
 	// SET RANDOM COLOR IN CARD SKILL
 	$('.tag-skills li').each(function() {
 		$(this).addClass(randomColor());
@@ -187,6 +197,21 @@ $('form#modify-skill').on('submit', function(e) {
 
 var del = function() {
 	confirmMsg();
+}
+
+var cekReq = function() {
+	$.ajax({
+		url: BASE_URL+'api/users',
+		type: 'get',
+		dataType: 'json',
+		success: function(res) {
+			console.log(res);
+		},
+		error: function(err) {
+			resAlert(err);
+			errValidServer($('form'), err);
+		},
+	})
 }
 
 

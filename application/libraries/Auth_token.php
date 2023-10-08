@@ -31,6 +31,7 @@ class Auth_token
 
 	public function create_token($data = null)
 	{
+		$this->ci->load->helper('datetime');
 		if($data AND is_array($data)) {
 			$exp = time()+$this->expire;
 			$payload = array('exp' => $exp,
@@ -44,6 +45,7 @@ class Auth_token
 						'status' => false,
 						'messasge' => $set_db['message']);
 				} else {
+					$this->cookie_token($token);
 					$res['code'] = 200;
 					$res['data'] = array(
 						'token' => $token,
@@ -59,6 +61,68 @@ class Auth_token
 		} else {
 			$res['code'] = 500;
 			$res['message'] = "Undefined token";
+		}
+		return $res;
+	}
+
+	public function check_token()
+	{
+		$this->ci->load->helper('cookie');
+		$token = get_cookie('token');
+		if($token) {
+			return $this->decoded_token_cookie($token);
+		} else {
+			return $this->valid_token();
+		}
+	}
+
+	public function decoded_token_cookie($token)
+	{
+		$res = array();
+		try {
+			$decode = $this->decoded($token);
+			if(($decode['status'] === true) &&
+				(!empty($decode)) && 
+				(is_array($decode))) {
+
+				$exp = $decode['data']->exp;
+				if(empty($exp) || !is_numeric($exp)) {
+					$res['status'] = false;
+					$res['code'] = 401;
+					$res['body'] = array(
+						'status' => false,
+						'message' => 'Token Time undefined!');
+				} else {
+					$now = strtotime('now');
+					$sisa = $exp-$now;
+					if($sisa <= 0) {
+						$this->deldb_token($token);
+						$res['status'] = false;
+						$res['code'] = 401;
+						$res['body'] = array(
+							'status' => true,
+							'message' => 'Expired token');
+						
+					} else {
+						$dt_user = $decode['data']->user;
+						$this->setdb_token($dt_user->nip, $token);
+						$res['status'] = true;
+						$res['code'] = 200;
+						$res['body'] = array(
+							'status' => true,
+							'data' => $decode['data']);
+					}
+				}
+			} else {
+				$this->deldb_token($token);
+				$res = $decode;
+			}
+		} catch(Exception $err) {
+			$res['status'] = false;
+			$res['code'] = 401;
+			$res['body'] = array(
+				'status' => false,
+				'message' => $err->getMessage());
 		}
 		return $res;
 	}
@@ -181,6 +245,43 @@ class Auth_token
 		$this->ci->load->model('model_auth');
 		$where = array('token' => $token);
 		$this->ci->model_auth->del_token($where);
+	}
+
+	public function cookie_login($nip, $remember = null)
+	{
+		$this->ci->load->helper('cookie');
+		$hari = 86400;
+		$expire = ($remember) ? 10*$hari : 1*$hari;
+		$cookie = array(
+			'name' => 'nip',
+			'value'=> $nip,
+			'expire' => $expire,
+			'secure' => TRUE);
+		$this->ci->input->set_cookie($cookie);
+	}
+
+	public function cookie_token($token)
+	{
+		$this->ci->load->helper('cookie');
+		$cookie = array(
+			'name' => 'token',
+			'value'=> $token,
+			'expire' => $this->expire,
+			'secure' => TRUE);
+		$this->ci->input->set_cookie($cookie);
+	}
+
+	public function check_cookie()
+	{
+		$this->ci->load->helper('cookie');
+		return get_cookie('token');
+	}
+
+	public function clear_cookie()
+	{
+		$this->ci->load->helper('cookie');
+		delete_cookie('nip');
+		delete_cookie('token');
 	}
 }
 ?>

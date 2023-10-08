@@ -11,7 +11,7 @@ class Logout extends RestController
 	function __construct()
 	{
 		parent::__construct();
-		$auth = $this->auth_token->valid_token();
+		$auth = $this->auth_token->check_token();
 		if($auth['status'] === true) {
 			$data = $auth['body']['data'];
 			$this->dt_user = $data->user;
@@ -23,9 +23,15 @@ class Logout extends RestController
 
 	public function index_get()
 	{
+		$this->auth_token->clear_cookie();
 		$res['status'] = true;
-		$res['data'] = $this->dt_user;
+		$res['message'] = 'Logout success';
 		$this->response($res);
+	}
+
+	public function index_post()
+	{
+		$this->auth_token->clear_cookie();
 	}
 }
 ?>

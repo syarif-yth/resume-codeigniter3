@@ -10,7 +10,7 @@ class Login extends RestController
 	function __construct()
 	{
 		parent::__construct();
-		$this->load->library('session');
+		$this->load->library('session');		
 		$penalty = $this->check_penalty();
 		if($penalty['code'] == 200) {
 			$this->load->model('model_auth');
@@ -50,6 +50,7 @@ class Login extends RestController
 			} else {
 				$nip = $check['data'];
 				$password = $this->post('password', true);
+				$remember = $this->post('remember', true);
 				$pass = encrypt_pass($nip, $password);
 
 				$login = $this->model_auth->login($username, $pass);
@@ -74,6 +75,7 @@ class Login extends RestController
 							$res['message'] = $create['message'];
 							$this->response($res, $create['code']);
 						} else {
+							$this->auth_token->cookie_login($data_log['nip'], $remember);
 							unset($data_log['kode_aktifasi']);
 							$res['status'] = true;
 							$res['data'] = array(
@@ -98,7 +100,7 @@ class Login extends RestController
 			$attempt = $this->session->userdata('attempt_login');
 			$attempt++;
 			$this->session->set_userdata('attempt_login', $attempt);
-			if($attempt >= 5) {
+			if($attempt >= 10) {
 				$attempt = 0;
 				$this->session->set_userdata('attempt_login', $attempt);
 				$one_day = 86400;

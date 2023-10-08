@@ -3,15 +3,20 @@
 
 let BASE_URL = baseUrl();
 $(document).ready(function() {
-	checkLogin();
+	checkLogin('profile');
 })
 
-$.validator.addMethod('cek', function(val, elm) {
-	if(value != 'qwerty') {
-		return false;
-	} else {
-		return true;
+var checkLogin = function(redirect) {
+	var value = ('; '+document.cookie).split(`; nip=`).pop().split(';')[0];
+	// var decode = decodeURIComponent(value);
+	if(value) {
+		// var dataLogin = JSON.parse(decode);
+		window.location.href = BASE_URL+redirect;
 	}
+}
+
+$.validator.addMethod('cek', function(val, elm) {
+	return validate = (value != 'querty') ? false : true; 
 }, "Amount must be greater than zero");
 
 $('form').validate({
@@ -35,7 +40,6 @@ $('form').on('submit', function(e) {
 			dataType: 'json',
 			data: $(this).serializeArray(),
 			success: function(res) {
-				sessionStorage.setItem('login', JSON.stringify(res));
 				alertMsg('Login success, wait for goes to dashboard');
 				setTimeout(function() {
 					window.location.href = BASE_URL+'dashboard';

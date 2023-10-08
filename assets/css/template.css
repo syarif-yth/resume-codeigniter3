@@ -95,6 +95,7 @@ footer.footer a:hover {
 	height: calc(100vh - 56px) !important;
 	max-height: calc(100vh - 56px) !important;
 	overflow-y: hidden !important;
+	scroll-behavior: smooth !important;
 }
 footer.footer {
 	position: relative !important;
