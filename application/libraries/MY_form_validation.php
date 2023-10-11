@@ -3,19 +3,12 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 /**
  * ----------------------------------------------------------------------------
- * Editor   : PhpStorm 2017.1.1
- * Date     : 2/5/2017
- * Time     : 6:29 AM
- * Authors  : Raymond L King Sr.
- * ----------------------------------------------------------------------------
  *
  * Class        MY_Form_validation
  *
- * @project     csdmodule
- * @author      Raymond L King Sr.
- * @link        http://www.procoversfx.com
- * @copyright   Copyright (c) 2009 - 2017 Pro Covers FX, LLC.
- * @license     http://www.procoversfx.com/license
+ * @project     StarterKIT
+ * @author      Syarif YTH
+ * @link        http://syarif-yth.github.io
  * ----------------------------------------------------------------------------
  */
 
@@ -59,6 +52,8 @@ class MY_form_validation extends CI_Form_validation
     (is_object($module)) AND $this->CI = &$module;
     return parent::run($group);
   }
+
+	
 
 	/*
 	custom validation, name function "{controller}_{field}"

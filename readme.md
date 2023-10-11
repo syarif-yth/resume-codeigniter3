@@ -27,7 +27,7 @@ for a given task.
 git clone https://github.com/syarif-yth/resume-codeigniter3.git
 ```
 
-## Donate for coffee
+<!-- ## Donate for coffee -->
 
-<img alt="Donate" src="assets/img/barcode.jpeg" width="400px">
+<!-- <img alt="Donate" src="assets/img/barcode.jpeg" width="250px"> -->
 

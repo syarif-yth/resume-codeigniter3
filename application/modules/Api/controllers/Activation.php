@@ -113,10 +113,8 @@ class Activation extends RestController
 							$res['message'] = $set_active['message'];
 							$this->response($res, $set_active['code']);
 						} else {
-							$param = array('nip' => $data['nip'], 
-								'email' => $email, 
-								'username' => $data['username']);
-							$create = $this->auth_token->create_token($param);
+							$param = array('nip' => $data['nip']);
+							$create = $this->auth->create_token($param);
 							if($create['code'] != 200) {
 								$res['status'] = false;
 								$res['message'] = $create['message'];
@@ -146,11 +144,11 @@ class Activation extends RestController
 			$attempt = $this->session->userdata('attempt_activation');
 			$attempt++;
 			$this->session->set_userdata('attempt_activation', $attempt);
-			if($attempt >= 5) {
+			if($attempt >= 10) {
 				$attempt = 0;
 				$this->session->set_userdata('attempt_activation', $attempt);
 				$one_day = 86400;
-				$time_penalty = ($one_day/4); // 6JAM
+				$time_penalty = ($one_day/48)/30; // 6JAM
 				$this->session->set_tempdata('penalty_activation', true, $time_penalty);
 				$res['code'] = $response['code'];
 				$res['message'] = 'Activation errors occur too often, please try again after 6 hours';

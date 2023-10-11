@@ -34,8 +34,8 @@
 								<form>
 									<div class="form-group">
 										<label>Code Activation</label>
-										<input type="number" name="kode_aktifasi" id="kode_aktifasi" class="form-control" placeholder="Code Activation">
-										<small class="form-control-feedback text-danger" id="err-kode_aktifasi"></small>
+										<input type="hidden" name="email">
+										<input type="number" name="kode_aktifasi" id="kode_aktifasi" class="form-control" placeholder="Code Activation" required maxlength="6" minlength="6">
 									</div>
 									
 									<button type="submit" class="btn btn-primary btn-flat m-b-10 m-t-5">Activate</button>

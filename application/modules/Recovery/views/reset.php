@@ -34,27 +34,25 @@
 									<div class="form-group">
 										<label>New Password</label>
 										<div class="input-group">
-											<input type="password" name="password" class="form-control" placeholder="New Password">
+											<input type="password" name="password" class="form-control" placeholder="&bull;&bull;&bull;&bull;&bull;" required minlength="5">
 											<span class="input-group-btn">
 												<button class="btn btn-flat" type="button" onclick="showPass(this)">
 													<i class="fa fa-eye"></i>
 												</button>
 											</span>
 										</div>
-										<small class="form-control-feedback text-danger" id="err-password"></small>
 									</div>
 
 									<div class="form-group">
 										<label>Confirm New Password</label>
 										<div class="input-group">
-											<input type="password" class="form-control" name="passconf" placeholder="Confirm New Password">
+											<input type="password" class="form-control" name="passconf" placeholder="&bull;&bull;&bull;&bull;&bull;" required minlength="5">
 											<span class="input-group-btn">
 												<button class="btn btn-flat" type="button" onclick="showConf(this)">
 													<i class="fa fa-eye"></i>
 												</button>
 											</span>
 										</div>
-										<small class="form-control-feedback text-danger" id="err-passconf"></small>
 									</div>
 									
 									<button type="submit" class="btn btn-primary btn-flat m-b-30 m-t-10">Reset Password</button>

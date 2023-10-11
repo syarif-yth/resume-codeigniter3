@@ -15,6 +15,8 @@ $(document).ready(function() {
 	countDown(5);
 	disableBack();
 	disableReload();
+	var email = localStorage.getItem("email");
+	$('input[name=email]').val(email);
 });
 
 
@@ -58,10 +60,39 @@ function resendCode()
 	countDown(5);
 }
 
+$('form').validate({
+	errorClass: 'form-control-feedback',
+	errorElement: 'small',
+	errorPlacement: function(err, th) {
+		$(th).parents('.form-group').append(err);
+	}
+})
+
 $('form').on('submit', function(e) {
 	e.preventDefault();
-	alertMsg('Activation success, now your account is active');
-	setTimeout(function() {
-		window.location.href = BASE_URL+'dashboard';
-  }, 2000);
+	if($(this).valid() == true) {
+		$.ajax({
+			url: BASE_URL+'api/activation',
+			type: 'post',
+			dataType: 'json',
+			data: $(this).serializeArray(),
+			success: function(res) {
+				alertMsg(res.message);
+				localStorage.removeItem("email");
+				setTimeout(function() {
+					window.location.href = BASE_URL+'profile';
+				}, 2000);
+			},
+			error: function(err) {
+				resAlert(err);
+				errValidServer($('form'), err);
+			},
+		})
+	}
+
+
+	// alertMsg('Activation success, now your account is active');
+	// setTimeout(function() {
+	// 	window.location.href = BASE_URL+'dashboard';
+  // }, 2000);
 })

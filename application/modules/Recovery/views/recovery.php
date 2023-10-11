@@ -34,8 +34,7 @@
 								<form>
 									<div class="form-group">
 										<label>Email Address</label>
-										<input type="email" name="email" class="form-control" placeholder="Email Address">
-										<small class="form-control-feedback text-danger" id="err-email"></small>
+										<input type="email" name="email" class="form-control" placeholder="Email Address" required minlength="5">
 									</div>
 									
 									<button type="submit" class="btn btn-primary btn-flat m-b-10 m-t-5">Send</button>

@@ -452,7 +452,7 @@ class Model_auth extends CI_Model
 		} else {
 			if($kueri->num_rows() == 0) {
 				$res['code'] = 400;
-				$res['message'] = 'Unknown method';
+				$res['message'] = 'Link expired!';
 			} else {
 				$res['code'] = 200;
 				$res['data'] = $kueri->result_array()[0];

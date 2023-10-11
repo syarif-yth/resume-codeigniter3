@@ -10,7 +10,10 @@ class Recovery extends RestController
 	function __construct()
 	{
 		parent::__construct();
+		$this->with_cooldown = true; // cooldown for loop send mail recorevery
+		$this->cooldown_resend =  (86400/24); // 1Hours
 		$this->load->library('session');
+
 		$access = $this->check_access();
 		if($access['code'] == 200) {
 			$this->load->model('model_auth');
@@ -23,23 +26,30 @@ class Recovery extends RestController
 
 	private function check_access()
 	{
-		$expired = $this->session->userdata('send_url');
-		if(!$expired) {
-			$res['code'] = 200;
-			$res['message'] = 'Recovery is ready';
-			return $res; 
+		if($this->with_cooldown) {
+			$expired = $this->session->userdata('send_url');
+			if(!$expired) {
+				$res['code'] = 200;
+				$res['message'] = 'Recovery is ready';
+				return $res; 
+			} else {
+				$minute = floor(($expired-time())/60);
+				$res['code'] = 401;
+				$res['body'] = array(
+					'status' => false,
+					'message' => 'Send code is cooldown, please try again after '.$minute.' minutes');
+				return $res;
+			}
 		} else {
-			$res['code'] = 401;
-			$res['body'] = array(
-				'status' => false,
-				'message' => 'Send code is cooldown, please try again after 2 hours');
-			return $res;
+			$res['code'] = 200;
+			$res['message'] = 'Without cooldown';
+			return $res; 
 		}
 	}
 
 	public function index_post()
 	{
-		$is_valid = $this->validpost();
+		$is_valid = $this->validate();
 		if($is_valid === true) {
 			$email = $this->post('email', true);
 			$check = $this->model_auth->check_recovery($email);
@@ -62,14 +72,13 @@ class Recovery extends RestController
 					$url = base_url('recovery/'.$kode);
 					$this->load->library('email');
 					$send_url = $this->email->send_link($email, $url);
-					$one_day = 86400;
-					$time_expired = ($one_day/12);
-					$this->session->set_tempdata('send_url', true, $time_expired);
 					if($send_url['code'] != 200) {
 						$res['status'] = false;
 						$res['message'] = $send_url['message'];
 						$this->response($res, $send_url['code']);
 					} else {
+						$send_again = time()+$this->cooldown_resend;
+						$this->session->set_tempdata('send_url', $send_again, $this->cooldown_resend);
 						$res['status'] = true;
 						$res['message'] = 'Recovery url sent to your email, please check your email and follow the link';
 						$this->response($res);
@@ -84,82 +93,13 @@ class Recovery extends RestController
 		}
 	}
 
-	public function index_put($key)
-	{
-		$is_sha1 = preg_sha1($key);
-		if($is_sha1) {
-			$check_key = $this->model_auth->check_kode_recovery($key);
-			if($check_key['code'] != 200) {
-				$res['status'] = false;
-				$res['message'] = $check_key['message'];
-				$this->response($res);
-			} else {
-				$nip = $check_key['data']['nip'];
-				$exp = $check_key['data']['exp_recovery'];
-				$now = strtotime('now');
-				$sisa = round(abs($now-$exp)/60);
-				if($sisa > 0) {
-					$is_valid = $this->validput();
-					if($is_valid === true) {
-						$password = $this->put('password', true);
-						$passconf = $this->put('passconf', true);
-						$new_pass = encrypt_pass($nip, $password);
-						$reset = $this->model_auth->reset_password($key, $new_pass);
-						if($reset['code'] != 200) {
-							$res['status'] = false;
-							$res['message'] = $reset['message'];
-							$this->response($res, $reset['code']);
-						} else {
-							$this->model_auth->reset_recovery_kode($nip);
-							$res['status'] = true;
-							$res['message'] = 'Recovery your account is success';
-							$this->response($res);
-						}
-					} else {
-						$res['status'] = false;
-						$res['message'] = 'Your request not valid';
-						$res['errors'] = [$is_valid];
-						$this->response($res, 400);
-					}
-				} else {
-					$res['status'] = false;
-					$res['message'] = 'Unknown method';
-					$this->response($res);
-				}
-			}
-		} else {
-			$res['status'] = false;
-			$res['message'] = 'Unknown method';
-			$this->response($res);
-		}
-	}
-
-	private function validpost()
+	private function validate()
 	{
 		$this->form_validation->set_data($this->post());
     $data = array(
 			array('field' => 'email',
 				'label' => 'Email',
 				'rules' => 'trim|required|min_length[5]|valid_email|db_email_is_exist')
-    );
-    $this->form_validation->set_rules($data);
-		if($this->form_validation->run($this) == false) {
-			return $this->form_validation->error_array();
-		} else {
-			return true;
-		}
-	}
-
-	private function validput()
-	{
-		$this->form_validation->set_data($this->put());
-    $data = array(
-			array('field' => 'password',
-				'label' => 'Password',
-				'rules' => 'trim|required|min_length[5]|valid_password'),
-      array('field' => 'passconf',
-				'label' => 'Confirm Password',
-        'rules' => 'trim|required|min_length[5]|valid_password|matches[password]')
     );
     $this->form_validation->set_rules($data);
 		if($this->form_validation->run($this) == false) {

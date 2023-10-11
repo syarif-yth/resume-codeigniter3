@@ -11,17 +11,17 @@ class Users extends RestController
 	function __construct()
 	{
 		parent::__construct();
-		$this->load->model('table_users');
+		// $this->load->model('table_users');
 		// $this->dt_user = $data->user;
-		// $auth = $this->auth_token->check_token();
-		// if($auth['status'] === true) {
-		// 	$data = $auth['body']['data'];
-		// 	$this->dt_user = $data->user;
-		// 	$this->load->model('table_users');
-		// } else {
-		// 	$this->response($auth['body'], $auth['code']);
-		// 	die();
-		// }
+		$auth = $this->auth->is_valid();
+		if($auth['status'] === true) {
+			$data = $auth['body']['data'];
+			$this->dt_user = $data->user;
+			$this->load->model('table_users');
+		} else {
+			$this->response($auth['body'], $auth['code']);
+			die();
+		}
 	}
 
 	public function index_get($nip = null)

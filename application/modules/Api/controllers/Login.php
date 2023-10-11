@@ -66,16 +66,13 @@ class Login extends RestController
 						$res['message'] = 'Your account not verify';
 						$this->response($res, 400);
 					} else {
-						$param = array('nip' => $data_log['nip'], 
-							'email' => $data_log['email'], 
-							'username' => $data_log['username']);
-						$create = $this->auth_token->create_token($param);
+						$param = array('nip' => $data_log['nip']);
+						$create = $this->auth->create_token($param);
 						if($create['code'] != 200) {
 							$res['status'] = false;
 							$res['message'] = $create['message'];
 							$this->response($res, $create['code']);
 						} else {
-							$this->auth_token->cookie_login($data_log['nip'], $remember);
 							unset($data_log['kode_aktifasi']);
 							$res['status'] = true;
 							$res['data'] = array(
@@ -104,7 +101,7 @@ class Login extends RestController
 				$attempt = 0;
 				$this->session->set_userdata('attempt_login', $attempt);
 				$one_day = 86400;
-				$time_penalty = ($one_day/4); // 6JAM
+				$time_penalty = ($one_day/48)/30; // 6JAM
 				$this->session->set_tempdata('penalty_login', true, $time_penalty);
 				$res['code'] = $response['code'];
 				$res['message'] = 'Login errors occur too often, please try again after 6 hours';

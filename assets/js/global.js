@@ -2,14 +2,14 @@
 
 
 $(document).ready(function() {
-	header();
+	// header();
 	// CONFIG SLIMSCROLL TEMPLATE
-	$('.scroller').slimScroll({
-		height: '100%',
-		size: '7px',
-		distance: '2px',
-		wheelStep: 20,
-	});
+	// $('.scroller').slimScroll({
+	// 	height: '100%',
+	// 	size: '7px',
+	// 	distance: '2px',
+	// 	wheelStep: 20,
+	// });
 	
 	// SET DARKTHEME TEMPLATE BY LOCALSTORAGE
 	theme = localStorage.getItem('theme');
@@ -344,18 +344,18 @@ var logout = function() {
 }
 
 
-var header = function() {
-	$.ajax({
-		url: baseUrl()+'api/users',
-		type: 'post',
-		dataType: 'json',
-		success: function(res) {
-			$('#for-header').html(JSON.stringify(res));
-			console.log(res);
-		},
-		error: function(err) {
-			resAlert(err);
-			errValidServer($('form'), err);
-		},
-	})
-}
+// var header = function() {
+// 	$.ajax({
+// 		url: baseUrl()+'api/users',
+// 		type: 'post',
+// 		dataType: 'json',
+// 		success: function(res) {
+// 			$('#for-header').html(JSON.stringify(res));
+// 			console.log(res);
+// 		},
+// 		error: function(err) {
+// 			resAlert(err);
+// 			errValidServer($('form'), err);
+// 		},
+// 	})
+// }

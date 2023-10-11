@@ -8,9 +8,7 @@ $(document).ready(function() {
 
 var checkLogin = function(redirect) {
 	var value = ('; '+document.cookie).split(`; nip=`).pop().split(';')[0];
-	// var decode = decodeURIComponent(value);
 	if(value) {
-		// var dataLogin = JSON.parse(decode);
 		window.location.href = BASE_URL+redirect;
 	}
 }

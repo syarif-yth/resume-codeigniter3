@@ -32,40 +32,36 @@
 								<form>
 									<div class="form-group">
 										<label>Email address</label>
-										<input type="email" name="email" class="form-control" placeholder="Email">
-										<small class="form-control-feedback text-danger" id="err-email"></small>
+										<input type="email" name="email" class="form-control" placeholder="Email" required minlength="5">
 									</div>
 
 									<div class="form-group">
 										<label>Username</label>
-										<input type="text" name="username" class="form-control" placeholder="Username">
-										<small class="form-control-feedback text-danger" id="err-username"></small>
+										<input type="text" name="username" class="form-control" placeholder="Username" required minlength="5" maxlength="20">
 									</div>
 									
 									<div class="form-group">
 										<label>Password</label>
 										<div class="input-group">
-											<input type="password" name="password" class="form-control" placeholder="Password">
+											<input type="password" name="password" class="form-control" placeholder="&bull;&bull;&bull;&bull;&bull;" required minlength="5">
 											<span class="input-group-btn">
 													<button class="btn btn-flat" type="button" onclick="showPass(this)">
 														<i class="fa fa-eye"></i>
 													</button>
 											</span>
 										</div>
-										<small class="form-control-feedback text-danger" id="err-password"></small>
 									</div>
 
 									<div class="form-group">
 										<label>Confirm Password</label>
 										<div class="input-group">
-											<input type="password" name="passconf" class="form-control" placeholder="Confirm Password">
+											<input type="password" name="passconf" class="form-control" placeholder="&bull;&bull;&bull;&bull;&bull;" required minlength="5">
 											<span class="input-group-btn">
 													<button class="btn btn-flat" type="button" onclick="showConf(this)">
 														<i class="fa fa-eye"></i>
 													</button>
 											</span>
 										</div>
-										<small class="form-control-feedback text-danger" id="err-passconf"></small>
 									</div>
 									
 									<div class="checkbox">

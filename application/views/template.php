@@ -133,7 +133,7 @@ $title = ucfirst($uri_first);
 			</div>
 		</div>
 		
-		<div class="scroller">
+		<!-- <div class="scroller"> -->
 			<div class="page-wrapper p-b-10">
 				<div class="row page-titles">
 					<div class="col-md-5 align-self-center">
@@ -158,7 +158,7 @@ $title = ucfirst($uri_first);
 			<footer class="footer">
 				<text>© 2023 All rights reserved. Developer by <a href="https://syarif-yth.github.io">Syarif YTH</a></text>
 			</footer>
-		</div>
+		<!-- </div> -->
 	</div>
 
 	<script src="<?=base_url()?>vendor/jquery/jquery.min.js"></script>

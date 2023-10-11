@@ -4,8 +4,12 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 if(!function_exists('create_nip')) {
 	function create_nip()
 	{
-		$time = new DateTime();
-		return $time->format('YmdHis');
+		$characters = '0123456789';
+    $random = '';
+    for($i=0; $i<10; $i++) {
+			$random .= $characters[rand(0, strlen($characters) - 1)];
+    }
+		return $random;
 	}
 }
 

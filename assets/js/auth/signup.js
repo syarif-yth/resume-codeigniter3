@@ -16,10 +16,38 @@ $('input#agree').on('change', function() {
 	}
 })
 
+$('form').validate({
+	errorClass: 'form-control-feedback',
+	errorElement: 'small',
+	errorPlacement: function(err, th) {
+		$(th).parents('.form-group').append(err);
+	}
+})
+
 $('form').on('submit', function(e) {
 	e.preventDefault();
-	alertMsg('Signup success');
-	setTimeout(function() {
-    window.location.href = BASE_URL+'activation';
-  }, 2000);
+	if($(this).valid() == true) {
+		$.ajax({
+			url: BASE_URL+'api/regist',
+			type: 'post',
+			dataType: 'json',
+			data: $(this).serializeArray(),
+			success: function(res) {
+				alertMsg(res.message);
+				localStorage.setItem('email', res.data.email);
+				setTimeout(function() {
+					window.location.href = BASE_URL+'activation';
+				}, 2000);
+			},
+			error: function(err) {
+				resAlert(err);
+				errValidServer($('form'), err);
+			},
+		})
+	}
+
+	// alertMsg('Signup success');
+	// setTimeout(function() {
+  //   window.location.href = BASE_URL+'activation';
+  // }, 2000);
 })

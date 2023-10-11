@@ -31,27 +31,18 @@ class Auth_token
 
 	public function create_token($data = null)
 	{
-		$this->ci->load->helper('datetime');
 		if($data AND is_array($data)) {
 			$exp = time()+$this->expire;
 			$payload = array('exp' => $exp,
 				'user' => $data);
 			try {
 				$token = JWT::encode($payload, $this->key, $this->algorithm);
-				$set_db = $this->setdb_token($data['nip'], $token);
-				if($set_db['code'] != 200) {
-					$res['code'] = 500;
-					$res['body'] = array(
-						'status' => false,
-						'messasge' => $set_db['message']);
-				} else {
-					$this->cookie_token($token);
-					$res['code'] = 200;
-					$res['data'] = array(
-						'token' => $token,
-						// 'expired' => date('H:i:s', $exp));
-						'expired' => $exp);
-				}
+				$this->cookie_token($token);
+				$res['code'] = 200;
+				$res['data'] = array(
+					'token' => $token,
+					// 'expired' => date('H:i:s', $exp));
+					'expired' => $exp);
 			} catch(Exception $err) {
 				$res['code'] = 500;
 				$res['body'] = array(
@@ -219,7 +210,6 @@ class Auth_token
 	{
 		try {
 			$key = new Key($this->key, $this->algorithm);
-			// $jwt = explode(" ", $token)[1];
 			$decoded = JWT::decode($token, $key);
 
 			$res['status'] = true;
@@ -269,12 +259,6 @@ class Auth_token
 			'expire' => $this->expire,
 			'secure' => TRUE);
 		$this->ci->input->set_cookie($cookie);
-	}
-
-	public function check_cookie()
-	{
-		$this->ci->load->helper('cookie');
-		return get_cookie('token');
 	}
 
 	public function clear_cookie()
