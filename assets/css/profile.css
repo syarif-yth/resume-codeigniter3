@@ -1,6 +1,8 @@
 
 
-.card-two { text-align: center; }
+.card-two { 
+	text-align: center; 
+}
 .card-two small {
   font-size: 0.7em !important;
 }
@@ -49,6 +51,7 @@ ul.profile-timeline p {
 	height: 338px !important;
 	max-height: 338px !important;
 }
+
 .cover {
 	background-repeat: no-repeat;
   background-size: cover;

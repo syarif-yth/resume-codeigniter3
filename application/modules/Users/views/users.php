@@ -17,37 +17,13 @@
 						<thead>
 							<tr>
 								<th>Name</th>
-								<th>Position</th>
-								<th>Office</th>
-								<th>Age</th>
-								<th>Start date</th>
+								<th>Username</th>
+								<th>Email</th>
+								<th>Profesion</th>
 								<th class="no-sort">Action</th>
 							</tr>
 						</thead>
-						<tbody>
-							<?php for($i=0; $i<=10; $i++) { ?>
-							<tr>
-								<td>Tiger Nixon</td>
-								<td>System Architect</td>
-								<td>Edinburgh</td>
-								<td>61</td>
-								<td>2011/04/25</td>
-								<td>
-									<div class="btn-group">
-										<button type="button" class="btn btn-secondary btn-custom" onclick="view()">
-											<i class="fa fa-eye"></i>
-										</button>
-										<button type="button" class="btn btn-secondary btn-custom" onclick="edit()">
-											<i class="fa fa-edit"></i>
-										</button>
-										<button type="button" class="btn btn-secondary btn-custom" onclick="del()">
-											<i class="fa fa-trash"></i>
-										</button>
-									</div>
-								</td>
-							</tr>
-							<?php } ?>
-						</tbody>
+						<tbody></tbody>
 					</table>
 				</div>
 			</div>

@@ -3,7 +3,8 @@
 
 <div class="row">
 	<div class="col-lg-7">
-		<div class="card">
+		<div class="card" style="height: 412px; 
+			min-height: 412px; max-height: 412px">
 			<div class="card-body">
 				<div class="card-two">
 					<header class="cover" style="background-image: url('<?=base_url().$cover?>')">

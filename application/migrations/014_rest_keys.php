@@ -4,6 +4,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 class Migration_rest_keys extends CI_migration
 {
 	private $tb_name;
+	private $tb_key;
 	private $tb_engine;
 	private $tb_field;
 

@@ -59,8 +59,10 @@
   min-height: 34px;
 	padding: 10px !important;
 }
-.select2.select2-container .select2-selection.select2-selection--multiple {
-	border: 1px solid  #34495e !important;
+.select2.select2-container--open .select2-selection,
+.select2.select2-container--focus .select2-selection,
+.select2.select2-container--focus .select2-selection.select2-selection--multiple  {
+	border: 1px solid #34495e !important;
 }
 
 .select2.select2-container .select2-selection--multiple .select2-search--inline .select2-search__field {

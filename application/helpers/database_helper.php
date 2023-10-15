@@ -125,5 +125,37 @@ if(!function_exists('db_error')) {
 	}
 }
 
+if(!function_exists('db_response')) {
+	function db_response($data, $code = null)
+	{
+		$res['code'] = (empty($code)) ? 200 : $code;
+		if(is_array($data)) {
+			$res['data'] = $data;
+		} else {
+			$res['message'] = $data;
+		}
+		return $res;
+	}
+}
+
+if(!function_exists('result_filter')) {
+	/**
+	 * removing data sensitive, param $remove can array or string
+	 * $remove='password'; or $remove=['password','email'];
+	 */
+	function result_filter($result, $remove = null)
+	{
+		if(is_array($result)) {
+			$filter = array();
+			foreach($result as $key => $val) {
+				$filter[] = array_diff_key($val, array_flip((array) $remove));
+			}
+			return $filter;
+		} else {
+			return $result;
+		}
+	}
+}
+
 ?>
 

@@ -11,14 +11,14 @@ class Login extends RestController
 	{
 		parent::__construct();
 		$this->load->library('session');		
-		$penalty = $this->check_penalty();
-		if($penalty['code'] == 200) {
+		// $penalty = $this->check_penalty();
+		// if($penalty['code'] == 200) {
 			$this->load->model('model_auth');
 			$this->load->helper('input');
-		} else {
-			$this->response($penalty['body'], $penalty['code']);
-			die();
-		}
+		// } else {
+			// $this->response($penalty['body'], $penalty['code']);
+			// die();
+		// }
 	}
 
 	private function check_penalty()
@@ -41,43 +41,45 @@ class Login extends RestController
 		$is_valid = $this->valid_input();
 		if($is_valid === true) {
 			$username = $this->post('username', true);
-			$check = $this->model_auth->check_username_login($username);
+			$check = $this->model_auth->login($username);
 			if($check['code'] != 200) {
 				$mistake = $this->count_mistake($check);
 				$res['status'] = false;
 				$res['message'] = $mistake['message'];
 				$this->response($res, $mistake['code']);
 			} else {
-				$nip = $check['data'];
-				$password = $this->post('password', true);
+				$nip = $check['data']['nip'];
+				$pass = $this->post('password', true);
 				$remember = $this->post('remember', true);
-				$pass = encrypt_pass($nip, $password);
-
-				$login = $this->model_auth->login($username, $pass);
-				if($login['code'] != 200) {
-					$mistake = $this->count_mistake($login);
+				$verify = password_verify($nip.$pass, $check['data']['password']);
+				if($verify == false) {
+					$par['code'] = 400;
+					$mistake = $this->count_mistake($par);
 					$res['status'] = false;
-					$res['message'] = $mistake['message'];
-					$this->response($res, $mistake['code']);
+					$res['message'] = 'Username or Password incorrect';
+					$this->response($res, 401);
 				} else {
-					$data_log = $login['data'];
+					$data_log = $check['data'];
 					if($data_log['kode_aktifasi'] != NULL) {
 						$res['status'] = false;
 						$res['message'] = 'Your account not verify';
 						$this->response($res, 400);
 					} else {
-						$param = array('nip' => $data_log['nip']);
-						$create = $this->auth->create_token($param);
+						$nip = $data_log['nip'];
+						$create = $this->auth_token->create_token($nip);
 						if($create['code'] != 200) {
 							$res['status'] = false;
 							$res['message'] = $create['message'];
 							$this->response($res, $create['code']);
 						} else {
 							unset($data_log['kode_aktifasi']);
+							unset($data_log['password']);
+							$dt_auth = $create['body'];
+							unset($dt_auth['status']);
 							$res['status'] = true;
 							$res['data'] = array(
 								'user' => $data_log, 
-								'auth' => $create['data']);
+								'auth' => $dt_auth);
 							$this->response($res);
 						}
 					}

@@ -7,7 +7,7 @@ $(document).ready(function() {
 })
 
 var checkLogin = function(redirect) {
-	var value = ('; '+document.cookie).split(`; nip=`).pop().split(';')[0];
+	var value = ('; '+document.cookie).split(`; resume_user=`).pop().split(';')[0];
 	if(value) {
 		window.location.href = BASE_URL+redirect;
 	}

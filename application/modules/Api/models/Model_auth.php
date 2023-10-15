@@ -14,7 +14,7 @@ class Model_auth extends CI_Model
 
 	public function check_username_login($username)
 	{
-		$column = array('nip');
+		$column = array('nip', 'password');
 		$this->db->select($column);
 		$this->db->where('username', $username);
 		$kueri = $this->db->get_where($this->tb_users);
@@ -27,21 +27,20 @@ class Model_auth extends CI_Model
 				$res['message'] = 'The username or password is incorrect.';
 			} else {
 				$res['code'] = 200;
-				$res['data'] = $kueri->result_array()[0]['nip'];
+				$res['data'] = $kueri->result_array()[0];
 			}
 			return $res;
 		}
 	}
 
-	public function login($user, $pass)
+	public function login($user)
 	{
 		$column = array('users.nip', 'username', 'users.email', 
-			'nama', 'avatar', 'profesi', 'kode_aktifasi');
+			'nama', 'avatar', 'profesi', 'kode_aktifasi', 'password');
 		$this->db->select($column);
 		$this->db->from($this->tb_users);
 		$this->db->join($this->tb_attr, 'attr_users.nip = users.nip');
 		$this->db->where('username', $user);
-		$this->db->where('password', $pass);
 		$kueri = $this->db->get_where();
 		if(!$kueri) {
 			$err = $this->db->error();

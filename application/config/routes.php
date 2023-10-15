@@ -55,4 +55,14 @@ $route['404_override'] = '';
 $route['translate_uri_dashes'] = FALSE;
 $route['migrate/:num'] = 'migrate';
 
+$auth = 'api/auth';
+$route['api/login'] = $auth.'/login';
+$route['api/logout'] = $auth.'/logout';
+$route['api/activation'] = $auth.'/activation';
+$route['api/regist'] = $auth.'/regist';
+$route['api/reset'] = $auth.'/reset';
+$route['api/recovery'] = $auth.'/recovery';
+$route['api/reactivation'] = $auth.'/reactivation';
+
+
 // $route['api/users/:num']['DELETE'] = 'api/users/$1';

@@ -35,7 +35,7 @@ $config['token_header'] = 'authorization';
 | ( 1 Hour ) : 60 * 60     = 3600
 | ( 1 Minute ) : 60        = 60
 */
-// $config['token_expire_time'] = 60;
-$config['token_expire_time'] = 60*15;
+$config['token_expire_time'] = 10;
+// $config['token_expire_time'] = 60*15;
 // $config['token_expire_time'] = 3600/2;
 // $config['token_expire_time'] = 86400;

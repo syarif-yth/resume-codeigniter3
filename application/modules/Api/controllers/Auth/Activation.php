@@ -90,7 +90,6 @@ class Activation extends RestController
 				$data = $get['data'];
 				$exp_aktifasi = $data['exp_aktifasi'];
 				$check_time = $this->check_time($exp_aktifasi);
-
 				if(!$check_time) {
 					$res['status'] = false;
 					$res['message'] = 'Code activation has been expired!';
@@ -113,17 +112,19 @@ class Activation extends RestController
 							$res['message'] = $set_active['message'];
 							$this->response($res, $set_active['code']);
 						} else {
-							$param = array('nip' => $data['nip']);
-							$create = $this->auth->create_token($param);
+							$nip = $data['nip'];
+							$create = $this->auth_token->create_token($nip);
 							if($create['code'] != 200) {
 								$res['status'] = false;
 								$res['message'] = $create['message'];
 								$this->response($res, $create['code']);
 							} else {
+								$dt_auth = $create['body'];
+								unset($dt_auth['status']);
 								$res['status'] = true;
 								$res['message'] = 'Your account has been activated!';
 								$res['data'] = array('user' => $activate['data'],
-									'auth' => $create['data']);
+									'auth' => $create['body']);
 								$this->response($res);
 							}
 						}

@@ -4,7 +4,7 @@ let BASE_URL = baseUrl();
 var lastPick;
 var rand;
 var checkLogin = function() {
-	var value = ('; '+document.cookie).split(`; nip=`).pop().split(';')[0];
+	var value = ('; '+document.cookie).split(`; resume_user=`).pop().split(';')[0];
 	// var decode = decodeURIComponent(value);
 	if(!value) {
 		// var dataLogin = JSON.parse(decode);
@@ -201,15 +201,16 @@ var del = function() {
 
 var cekReq = function() {
 	$.ajax({
-		url: BASE_URL+'api/users',
+		url: BASE_URL+'api/profile',
 		type: 'get',
 		dataType: 'json',
 		success: function(res) {
 			console.log(res);
 		},
 		error: function(err) {
-			resAlert(err);
-			errValidServer($('form'), err);
+			console.log(err);
+			// resAlert(err);
+			// errValidServer($('form'), err);
 		},
 	})
 }

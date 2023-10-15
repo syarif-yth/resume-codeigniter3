@@ -16,8 +16,9 @@ if(!function_exists('create_nip')) {
 if(!function_exists('encrypt_pass')) {
 	function encrypt_pass($nip, $pass)
 	{
-		$mix = md5($nip).md5($pass);
-		return sha1($mix);
+		$options = ['cost' => 12];
+		$hashed = password_hash($nip.$pass, PASSWORD_BCRYPT, $options);
+		return $hashed;
 	}
 }
 

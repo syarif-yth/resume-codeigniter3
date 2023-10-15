@@ -81,37 +81,49 @@ $title = ucfirst($uri_first);
 		<div class="left-sidebar">
 			<div class="scroll-sidebar">
 				<nav class="sidebar-nav">
-					<ul id="sidebarnav" class="m-b-50">
+					<ul id="sidebarnav" class="m-b-10 navgroup">
 						<li class="nav-devider"></li>
-						<li class="nav-label">MAIN</li>
-						<li class="<?=$class_dashboard?>">
+						
+						<!-- <li class="nav-label">MAIN</li> -->
+
+						<!-- <li class="navmenu <?=$class_dashboard?>" id="dashboard">
 							<a href="<?=base_url()?>dashboard">
 								<i class="fa fa-tachometer"></i>
 								<span class="hide-menu">Dashboard</span>
 							</a>
 						</li>
 
-						<li class="<?=$class_profile?>">
+						<li class="navmenu <?=$class_profile?>" id="profile">
 							<a href="<?=base_url()?>profile">
 								<i class="fa fa-user"></i>
 								<span class="hide-menu">Profile</span>
 							</a>
 						</li>
 						
-						<li class="<?=$class_resume?>">
+						<li class="navmenu <?=$class_resume?>" id="resume">
 							<a href="<?=base_url()?>resume">
 								<i class="fa fa-file"></i>
 								<span class="hide-menu">Resume</span>
 							</a>
 						</li>
 
-						<li class="<?=$class_users?>">
+						<li class="navmenu <?=$class_users?>" id="users">
 							<a href="<?=base_url()?>users">
 								<i class="fa fa-users"></i>
 								<span class="hide-menu">Users</span>
 							</a>
 						</li>
 
+						<li class="navmenu <?=$class_permision?>" id="permision">
+							<a href="<?=base_url()?>permision">
+								<i class="fa fa-shield"></i>
+								<span class="hide-menu">Permision</span>
+							</a>
+						</li> -->
+						
+					</ul>
+
+					<ul id="sidebarnav" class="m-b-50">
 						<li class="nav-devider"></li>
 						<li class="nav-label">EXTRA</li>
 
@@ -141,8 +153,8 @@ $title = ucfirst($uri_first);
 					</div>
 					<div class="col-md-7 align-self-center">
 						<ol class="breadcrumb">
-							<li class="breadcrumb-item">
-								<a href="javascript:void(0)"><?=$breadcrumb?></a>
+							<li class="breadcrumb-item" id="breadcrumb-nav">
+								<!-- <a href="javascript:void(0)"><?=$breadcrumb?></a> -->
 							</li>
 							<li class="breadcrumb-item active"><?=$title?></li>
 						</ol>
@@ -160,6 +172,10 @@ $title = ucfirst($uri_first);
 			</footer>
 		<!-- </div> -->
 	</div>
+
+	<script>
+	var navAktif = '<?=$uri_first?>';
+	</script>
 
 	<script src="<?=base_url()?>vendor/jquery/jquery.min.js"></script>
 	<script src="<?=base_url()?>vendor/bootstrap/js/popper.min.js"></script>

@@ -23,7 +23,8 @@ class Table_users extends CI_Model
 				$res['message'] = 'Data not found!';
 			} else {
 				$res['code'] = 200;
-				$res['data'] = $kueri->result_array();
+				$result = result_filter($kueri->result_array(), 'password');
+				$res['data'] = $result;
 			}
 			return $res;
 		}
@@ -40,7 +41,8 @@ class Table_users extends CI_Model
 		} else {
 			if($kueri->num_rows() == 1) {
 				$res['code'] = 200;
-				$res['data'] = $kueri->result_array();
+				$result = result_filter($kueri->result_array(), 'password');
+				$res['data'] = $result;
 			} else {
 				$res['code'] = 400;
 				$res['message'] = 'Data duplicated';
@@ -63,7 +65,8 @@ class Table_users extends CI_Model
 				$res['message'] = 'Data not found!';
 			} else {
 				$res['code'] = 200;
-				$res['data'] = $kueri->result_array();
+				$result = result_filter($kueri->result_array(), 'password');
+				$res['data'] = $result;
 			}
 			return $res;
 		}
@@ -83,7 +86,8 @@ class Table_users extends CI_Model
 				$res['message'] = 'Data not found!';
 			} else {
 				$res['code'] = 200;
-				$res['data'] = $kueri->result_array();
+				$result = result_filter($kueri->result_array(), 'password');
+				$res['data'] = $result;
 			}
 			return $res;
 		}

@@ -79,6 +79,7 @@ $db['default'] = array(
 	'username' => 'root',
 	'password' => '',
 	'database' => 'project_resume',
+	// 'database' => 'trial_migrate',
 	'dbdriver' => 'mysqli',
 	'dbprefix' => '',
 	'pconnect' => FALSE,
