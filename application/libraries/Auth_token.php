@@ -27,7 +27,7 @@ class Auth_token
 		$this->token_key = 'JwtSecret';
 		$this->token_hash = 'HS256';
 		$this->token_header = 'Authorization';
-		$this->token_expire = 360*15;
+		$this->token_expire = 60*15;
 		// EXTRA
 		$this->token_cookie = 'resume_token';
 		$this->key_cookie = 'resume_user';
@@ -50,9 +50,11 @@ class Auth_token
 		if($encode['code'] === 200) {
 			$token = $encode['body']['token'];
 			$this->set_cookie($token, $user_id);
-			$body = array('token' => $token,
+			$user_auth = $this->get_user_auth($user_id);
+			$body['user'] = $user_auth['body']['user'];
+			$body['auth'] = array('token' => $token,
 				'expired' => $exp);
-			return $this->res($body, 200);
+			return $this->res($body);
 		} else { return $encode; }
 	}
 
@@ -222,6 +224,29 @@ class Auth_token
 		}
 	}
 
+	private function refresh($user_id, $extra = null)
+	{
+		$device = $this->get_device();
+		$exp = time()+$this->token_expire;
+		$payload = array(
+			'sub' => $device,
+			'aud' => $user_id,
+			'exp' => $exp);
+		if($extra) {
+			$payload = array_merge($payload, array('ext' => $extra));
+		}
+
+		$encode = $this->encode($payload);
+		if($encode['code'] === 200) {
+			$token = $encode['body']['token'];
+			$this->set_cookie($token, $user_id);
+			$body['data'] = $this->get_user_auth($aud);
+			$body['refresh'] = array('token' => $token,
+				'expired' => $exp);
+			return $this->res($body, 200);
+		} else { return $encode; }
+	}
+
 	private function re_create($token)
   {
     $key = $this->key_cookie();
@@ -308,7 +333,7 @@ class Auth_token
 			return $this->db_error($err);
 		} else {
 			if($kueri->num_rows() == 1) {
-				$body['data'] = $kueri->result_array()[0];
+				$body['user'] = $kueri->result_array()[0];
 				return $this->res($body);
 			} else { return $this->res('Data duplicated', 400); }
 		}

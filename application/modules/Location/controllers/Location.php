@@ -1,7 +1,7 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-class Permision extends MX_Controller 
+class Location extends MX_Controller 
 {
 	function __construct()
 	{
@@ -10,9 +10,9 @@ class Permision extends MX_Controller
 
 	public function index()
 	{
-		$view['content'] = 'permision';
+		$view['content'] = 'location';
 		$this->load->view('template', $view);
-		$this->load->view('assets/js/permision');
+		$this->load->view('assets/js/location');
 	}
 }
 ?>

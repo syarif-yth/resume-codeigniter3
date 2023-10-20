@@ -4,11 +4,14 @@
 let BASE_URL = baseUrl();
 $(document).ready(function() {
 	data = getData();
-	setNavigasi(data.navigasi);
 
 	dataAksi = data.users.aksi;
 	var table = $('#users_table').DataTable({
 		columns: [
+			{ data: 'no', render: function (data, type, row, meta) {
+					return meta.row+1;
+				}
+			},
 			{ data: 'nama' },
 			{ data: 'username' },
 			{ data: 'email' },

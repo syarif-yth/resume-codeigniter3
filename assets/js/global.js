@@ -2,32 +2,6 @@
 
 
 $(document).ready(function() {
-	dtNav = dataNavigasi();
-	elmNav = '';
-	$.each(dtNav, function(key, val) {
-		// if(val.child.length > 0) {
-			elmNav += '<li class="nav-devider"></li>';
-			elmNav += '<li class="nav-label">'+val.label.toUpperCase()+'</li>';
-		// }
-
-		$.each(val.child, function(q, ch) {
-			aktif = (ch.nama == navAktif) ? 'aktif' : '';
-			elmNav += '<li class="navmenu '+aktif+'" id="'+ch.nama+'">'+
-				'<a href="'+baseUrl()+ch.url+'">'+
-					'<i class="'+ch.icon+'"></i>'+
-					'<span class="hide-menu">'+ch.label+'</span>'+
-				'</a>'+
-			'</li>';	
-
-			if(ch.nama == navAktif) {
-				bread = '<a href="javascript:void(0)">'+val.label+'</a>';
-				$('#breadcrumb-nav').html(bread);
-			}
-		});
-	});
-	$('ul.navgroup').append(elmNav);
-	
-
 	// CONFIG SLIMSCROLL TEMPLATE
 	// $('.scroller').slimScroll({
 	// 	height: '100%',
@@ -44,17 +18,6 @@ $(document).ready(function() {
 	$('body').toggleClass(theme);
 
 });
-
-var setNavigasi = function(data) {
-	navMenu = $('ul#sidebarnav').find('li.navmenu');
-	dataNav = Array();
-	$.each(navMenu, function(key, val) {
-		id = $(val).attr('id');
-		dataNav.push(id);
-	});
-	var diff = dataNav.filter(e => data.indexOf(e) === -1);
-	$('ul#sidebarnav li#'+diff[0]).remove();
-}
 
 // TOGGLE CHECKBOX DARKTHEME
 $('input#dark-theme').on('change', function() {
@@ -374,42 +337,6 @@ var logout = function() {
 		},
 		error: function(err) {
 			resAlert(err);
-			errValidServer($('form'), err);
 		},
 	})
 }
-
-var dataNavigasi = function() {
-	data = Array();
-	$.ajax({
-		url: baseUrl()+'api/navigasi',
-		type: 'get',
-		dataType: 'json',
-		async: false,
-		success: function(res) {
-			data = res.data;
-		},
-		error: function(err) {
-			resAlert(err);
-			errValidServer($('form'), err);
-		},
-	})
-	return data;
-}
-
-
-// var header = function() {
-// 	$.ajax({
-// 		url: baseUrl()+'api/users',
-// 		type: 'post',
-// 		dataType: 'json',
-// 		success: function(res) {
-// 			$('#for-header').html(JSON.stringify(res));
-// 			console.log(res);
-// 		},
-// 		error: function(err) {
-// 			resAlert(err);
-// 			errValidServer($('form'), err);
-// 		},
-// 	})
-// }

@@ -1,10 +1,6 @@
 
 
 
-
-
-
-
 <script src="<?=base_url()?>vendor/datatables/datatables.min.js"></script>
 	<script src="<?=base_url()?>vendor/datatables/cdn.datatables.net/buttons/1.2.2/js/dataTables.buttons.min.js"></script>
 	<script src="<?=base_url()?>vendor/datatables/cdn.datatables.net/buttons/1.2.2/js/buttons.flash.min.js"></script>
@@ -13,8 +9,4 @@
 	<script src="<?=base_url()?>vendor/datatables/cdn.rawgit.com/bpampuch/pdfmake/0.1.18/build/vfs_fonts.js"></script>
 	<script src="<?=base_url()?>vendor/datatables/cdn.datatables.net/buttons/1.2.2/js/buttons.html5.min.js"></script>
 	<script src="<?=base_url()?>vendor/datatables/cdn.datatables.net/buttons/1.2.2/js/buttons.print.min.js"></script>
-
-<script src="<?=base_url()?>vendor/jsoneditor/jsoneditor.min.js"></script>
-<script src="<?=base_url()?>vendor/select2/select2.full.min.js"></script>
-<script src="<?=base_url()?>assets/js/permision/permision.js"></script>
-
+	<script src="<?=base_url()?>assets/js/nav/navigasi.js"></script>

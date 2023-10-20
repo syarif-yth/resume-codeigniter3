@@ -22,7 +22,10 @@ $title = ucfirst($uri_first);
   <link href="<?=base_url()?>vendor/elaadmin/css/style.css" rel="stylesheet">
   <link href="<?=base_url()?>assets/css/template.css" rel="stylesheet">
 
-	<?=$this->load->view('assets/css/'.$uri_first);?>
+	<?php $path = APPPATH.'views/assets/css/'.$uri_first.'.php';
+	if(file_exists($path)) {
+		$this->load->view('assets/css/'.$uri_first);
+	} ?>
 </head> 
 
 <body class="fix-header fix-sidebar">
@@ -66,11 +69,11 @@ $title = ucfirst($uri_first);
 
 						<li class="nav-item">
 							<a class="nav-link text-muted" href="<?=base_url()?>profile">
-								<div class="display-user">
-									<span><?=$name_display?></span><br>
-									<small><?=$user_display?></small>
+								<div class="display-user" id="display-user">
+									<span></span><br>
+									<small></small>
 								</div>
-								<img src="<?=base_url().$avatar?>" alt="user" class="profile-pic">
+								<img src="" alt="avatar" class="profile-pic" id="avatar-pic">
 							</a>
 						</li>
 					</ul>
@@ -81,46 +84,20 @@ $title = ucfirst($uri_first);
 		<div class="left-sidebar">
 			<div class="scroll-sidebar">
 				<nav class="sidebar-nav">
-					<ul id="sidebarnav" class="m-b-10 navgroup">
-						<li class="nav-devider"></li>
-						
+					<ul id="sidebarnav" class="m-b-10 navgroup">						
 						<!-- <li class="nav-label">MAIN</li> -->
-
 						<!-- <li class="navmenu <?=$class_dashboard?>" id="dashboard">
 							<a href="<?=base_url()?>dashboard">
 								<i class="fa fa-tachometer"></i>
 								<span class="hide-menu">Dashboard</span>
 							</a>
 						</li>
-
-						<li class="navmenu <?=$class_profile?>" id="profile">
-							<a href="<?=base_url()?>profile">
-								<i class="fa fa-user"></i>
-								<span class="hide-menu">Profile</span>
-							</a>
-						</li>
-						
-						<li class="navmenu <?=$class_resume?>" id="resume">
-							<a href="<?=base_url()?>resume">
-								<i class="fa fa-file"></i>
-								<span class="hide-menu">Resume</span>
-							</a>
-						</li>
-
-						<li class="navmenu <?=$class_users?>" id="users">
-							<a href="<?=base_url()?>users">
-								<i class="fa fa-users"></i>
-								<span class="hide-menu">Users</span>
-							</a>
-						</li>
-
 						<li class="navmenu <?=$class_permision?>" id="permision">
 							<a href="<?=base_url()?>permision">
 								<i class="fa fa-shield"></i>
 								<span class="hide-menu">Permision</span>
 							</a>
 						</li> -->
-						
 					</ul>
 
 					<ul id="sidebarnav" class="m-b-50">
@@ -153,9 +130,7 @@ $title = ucfirst($uri_first);
 					</div>
 					<div class="col-md-7 align-self-center">
 						<ol class="breadcrumb">
-							<li class="breadcrumb-item" id="breadcrumb-nav">
-								<!-- <a href="javascript:void(0)"><?=$breadcrumb?></a> -->
-							</li>
+							<li class="breadcrumb-item" id="breadcrumb-nav"></li>
 							<li class="breadcrumb-item active"><?=$title?></li>
 						</ol>
 					</div>
@@ -187,6 +162,7 @@ $title = ucfirst($uri_first);
 	<script src="<?=base_url()?>vendor/toastr/toastr.min.js"></script>
 	<script src="<?=base_url()?>vendor/elaadmin/js/scripts.js"></script>
 	<script src="<?=base_url()?>assets/js/global.js"></script>
+	<script src="<?=base_url()?>assets/js/app.js"></script>
 	
 </body>
 </html>

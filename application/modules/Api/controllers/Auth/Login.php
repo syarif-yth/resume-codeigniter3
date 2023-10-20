@@ -72,15 +72,15 @@ class Login extends RestController
 							$res['message'] = $create['message'];
 							$this->response($res, $create['code']);
 						} else {
-							unset($data_log['kode_aktifasi']);
-							unset($data_log['password']);
-							$dt_auth = $create['body'];
-							unset($dt_auth['status']);
-							$res['status'] = true;
-							$res['data'] = array(
-								'user' => $data_log, 
-								'auth' => $dt_auth);
-							$this->response($res);
+							// unset($data_log['kode_aktifasi']);
+							// unset($data_log['password']);
+							// $dt_auth = $create['body'];
+							// unset($dt_auth['status']);
+							// $res['status'] = true;
+							// $res['data'] = array(
+							// 	'user' => $data_log, 
+							// 	'auth' => $dt_auth);
+							$this->response($create['body'], $create['code']);
 						}
 					}
 				}

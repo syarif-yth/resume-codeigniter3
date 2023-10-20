@@ -13,14 +13,15 @@
 				<h5>List of Users</h5>
 				
 				<div class="table-responsive">
-					<table id="users_table" class="display nowrap table table-hover table-striped table-bordered" cellspacing="0" width="100%">
+					<table id="users_table" class="table_action nowrap table table-hover table-striped table-bordered" cellspacing="0" width="100%">
 						<thead>
 							<tr>
+								<th>No</th>
 								<th>Name</th>
 								<th>Username</th>
 								<th>Email</th>
 								<th>Profesion</th>
-								<th class="no-sort">Action</th>
+								<th>Action</th>
 							</tr>
 						</thead>
 						<tbody></tbody>

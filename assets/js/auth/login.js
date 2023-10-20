@@ -40,7 +40,7 @@ $('form').on('submit', function(e) {
 			success: function(res) {
 				alertMsg('Login success, wait for goes to dashboard');
 				setTimeout(function() {
-					window.location.href = BASE_URL+'dashboard';
+					window.location.href = BASE_URL+'profile';
 				}, 2000);
 			},
 			error: function(err) {
