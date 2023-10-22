@@ -13,11 +13,14 @@ $(document).ready(function() {
 					'<i class="'+ch.icon+'"></i>'+
 					'<span class="hide-menu">'+ch.label+'</span>'+
 				'</a>'+
-			'</li>';	
+			'</li>';
 
 			if(ch.nama == navAktif) {
 				bread = '<a href="javascript:void(0)">'+key+'</a>';
 				$('#breadcrumb-nav').html(bread);
+				$('title').html(ch.label+' - Resume');
+				$('#title-breadcrumb').html(ch.label);
+				$('#breadcrumb-active').html(ch.label);
 			}
 		});
 	});
@@ -28,6 +31,35 @@ $(document).ready(function() {
 	$('#display-user small').html(userLog.username);
 	$('#avatar-pic').attr('src',baseUrl()+'assets/img/'+userLog.avatar);
 });
+
+var reloadNavi = function() {
+	$('ul.navgroup li').remove();
+	dtNav = dataNavigasi();
+	elmNav = '';
+	$.each(dtNav, function(key, val) {
+		elmNav += '<li class="nav-devider"></li>';
+		elmNav += '<li class="nav-label">'+key.toUpperCase()+'</li>';
+
+		$.each(val, function(q, ch) {
+			aktif = (ch.nama == navAktif) ? 'aktif' : '';
+			elmNav += '<li class="navmenu '+aktif+'" id="'+ch.nama+'">'+
+				'<a href="'+baseUrl()+ch.url+'">'+
+					'<i class="'+ch.icon+'"></i>'+
+					'<span class="hide-menu">'+ch.label+'</span>'+
+				'</a>'+
+			'</li>';	
+
+			if(ch.nama == navAktif) {
+				bread = '<a href="javascript:void(0)">'+key+'</a>';
+				$('#breadcrumb-nav').html(bread);
+				$('title').html(ch.label+' - Resume');
+				$('#title-breadcrumb').html(ch.label);
+				$('#breadcrumb-active').html(ch.label);
+			}
+		});
+	});
+	$('ul.navgroup').append(elmNav);
+}
 
 var dataNavigasi = function() {
 	data = Array();
@@ -44,17 +76,8 @@ var dataNavigasi = function() {
 }
 
 var loginAs = function() {
-	data = Array();
-	$.ajax({
-		url: baseUrl()+'api/app/loginas',
-		type: 'get',
-		dataType: 'json',
-		async: false,
-		success: function(res) {
-			data = res.data;
-		}
-	})
-	return data;
+	getLoginas = localStorage.getItem('loginas');
+	return JSON.parse(getLoginas);
 }
 
 var parNav = function() {
@@ -71,10 +94,10 @@ var parNav = function() {
 	return data;
 }
 
-var parFunc = function() {
+var parClass = function() {
 	data = Array();
 	$.ajax({
-		url: baseUrl()+'api/app/select2/func',
+		url: baseUrl()+'api/app/select2/class',
 		type: 'get',
 		dataType: 'json',
 		async: false,

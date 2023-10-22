@@ -3,19 +3,15 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Validation extends CI_Model
 {
-	private $tb_users;
 	function __construct()
 	{
 		parent::__construct();
-		$this->tb_users = $this->db->protect_identifiers('users', TRUE);
 	}
 
-	public function is_unique($where)
+	public function is_unique($table, $where)
 	{
-		$column = array('nip');
-		$this->db->select($column);
 		$this->db->where($where);
-		$kueri = $this->db->get($this->tb_users);
+		$kueri = $this->db->get($table);
 		if(!$kueri) {
 			$err = $this->db->error();
 			return db_error($err);
@@ -29,12 +25,10 @@ class Validation extends CI_Model
 		}
 	}
 
-	public function is_exist($where)
+	public function is_exist($table, $where)
 	{
-		$column = array('nip');
-		$this->db->select($column);
 		$this->db->where($where);
-		$kueri = $this->db->get($this->tb_users);
+		$kueri = $this->db->get($table);
 		if(!$kueri) {
 			$err = $this->db->error();
 			return db_error($err);

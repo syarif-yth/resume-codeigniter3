@@ -1,0 +1,80 @@
+
+
+
+.tag-child {
+	display: flex;
+	flex-direction: row;
+	flex-wrap: nowrap !important;
+	width: 100%;
+}
+.tag-child li {
+	display: inline-block;
+	padding: 0px 14px;
+	line-height: 34px;
+	margin: 0px 4px;
+	border-radius: 3px;
+	color: #F1F1F1;
+	font-weight: normal;
+	text-transform: capitalize !important;
+}
+.tag-child li button {
+	line-height: 21px;
+}
+.tag-child li:last-child {
+	background: none !important;
+	padding: 0px 5px;
+}
+.dataTables_wrapper tbody tr td[colspan="7"] {
+	padding: 0px;
+	margin: 0px;
+}
+.dataTables_wrapper tbody tr td[colspan="7"] table.details {
+	width: 100%;
+}
+.dataTables_wrapper tbody tr td[colspan="7"] table.details tr {
+	background: white;
+}
+.dataTables_wrapper tbody tr td[colspan="7"] table.details tr td:first-child {
+	overflow-x: auto;
+	width: 92%;
+}
+.dataTables_wrapper tbody tr td[colspan="7"] table.details tr td:first-child::-webkit-scrollbar {
+	height: 7px;
+}
+.dataTables_wrapper tbody tr td[colspan="7"] table.details tr td:first-child::-webkit-scrollbar-track {
+  background: transparent;
+}
+.dataTables_wrapper tbody tr td[colspan="7"] table.details tr td:first-child::-webkit-scrollbar-thumb {
+  background: #C1C1C1;
+}
+.dataTables_wrapper tbody tr td[colspan="7"] table.details tr td:first-child::-webkit-scrollbar-thumb:hover {
+  background: #B1B1B1;
+}
+#modal-class #modify-method table {
+	width: 97.5%;
+	table-layout: fixed !important;
+	margin-bottom: 20px !important;
+}
+#modal-class #modify-method table tr th {
+	background: #EEE;
+}
+#modal-class #modify-method table tr th,
+#modal-class #modify-method table tr td {
+	border-collapse: collapse;
+	border: 1px solid #DDD;
+	padding: 10px;
+}
+#modal-class #modify-method table tr td {
+	vertical-align: top !important;
+}
+#modal-class #modify-method table tr th:nth-of-type(1) {
+	width: 25% !important;
+	max-width: 25% !important;
+	min-width: 25% !important;
+}
+#modal-class #modify-method table tr th:nth-of-type(3) {
+	width: 8% !important;
+	max-width: 8% !important;
+	min-width: 8% !important;
+}
+

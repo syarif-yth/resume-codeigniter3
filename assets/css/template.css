@@ -206,6 +206,32 @@ ol.breadcrumb li#breadcrumb-nav::first-letter {
 	text-transform: capitalize !important;
 }
 
+.dropdown.show button.dropdown-toggle {
+	background: #EE4323 !important;
+	color: #F1F1F1 !important;
+	border: 1px solid #EE4323 !important;
+}
+.dropdown ul.dropdown-menu {
+	padding: 0px !important;
+}
+.dropdown ul.dropdown-menu li {
+	padding: 0px !important;
+	text-align: right !important;
+}
+.dropdown ul.dropdown-menu li .btn {
+	text-align: right !important;
+	border-radius: 0px !important;
+	margin-top: 2px;
+	margin-bottom: 2px;
+}
+.dropdown ul.dropdown-menu li .btn:hover {
+	background: #F1F1F1;
+	color: #EE4323;
+}
+.page-wrapper {
+	min-height: 87vh !important;
+}
+
 
 
 /* RESPONSIVE */

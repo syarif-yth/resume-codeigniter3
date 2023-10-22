@@ -120,11 +120,10 @@ class Activation extends RestController
 								$this->response($res, $create['code']);
 							} else {
 								$dt_auth = $create['body'];
-								unset($dt_auth['status']);
 								$res['status'] = true;
 								$res['message'] = 'Your account has been activated!';
-								$res['data'] = array('user' => $activate['data'],
-									'auth' => $create['body']);
+								$res['user'] = $dt_auth['user'];
+								$res['auth'] = $dt_auth['auth'];
 								$this->response($res);
 							}
 						}

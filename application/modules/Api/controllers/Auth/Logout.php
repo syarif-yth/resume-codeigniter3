@@ -7,15 +7,11 @@ use chriskacerguis\RestServer\RestController;
 
 class Logout extends RestController 
 {
-	private $dt_user;
 	function __construct()
 	{
 		parent::__construct();
 		$auth = $this->auth_token->is_valid();
-		if($auth['code'] === 200) {
-			$data = $auth['body']['data'];
-			$this->dt_user = $data->user;
-		} else {
+		if($auth['code'] !== 200) {
 			$this->response($auth['body'], $auth['code']);
 			die();
 		}

@@ -79,6 +79,7 @@ $('form').on('submit', function(e) {
 			success: function(res) {
 				alertMsg(res.message);
 				localStorage.removeItem("email");
+				localStorage.setItem('loginas', JSON.stringify(res.user));
 				setTimeout(function() {
 					window.location.href = BASE_URL+'profile';
 				}, 2000);

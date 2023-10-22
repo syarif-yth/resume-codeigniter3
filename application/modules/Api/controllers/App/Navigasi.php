@@ -18,7 +18,7 @@ class Navigasi extends RestController
 			die();
 		}
 		$this->rule = $auth['body']['user']['rule'];
-		$this->load->library('permision');
+		$this->load->library('access');
 	}
 
 	public function index_get()
@@ -40,7 +40,7 @@ class Navigasi extends RestController
 
 	private function get_data()
 	{
-		$per = $this->permision->navigasi($this->rule);
+		$per = $this->access->navigasi($this->rule);
 		$dt_child = [];
 		$grouping = [];
 		foreach($per as $val) {

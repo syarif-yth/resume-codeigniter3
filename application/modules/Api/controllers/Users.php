@@ -20,17 +20,17 @@ class Users extends RestController
 			die();
 		}
 		
-		$this->dt_user = $auth['body']['data'];
+		$this->dt_user = $auth['body']['user'];
 		$this->nip = $this->dt_user['nip'];
 		$this->rule = $this->dt_user['rule'];
 		$this->load->model('table_users');
 		$this->load->library('permision');
 
-		// $permision = $this->permision->method($this->rule);
-		// if($permision['code'] !== 200) {
-			// $this->response($permision['body'], $permision['code']);
-			// die();
-		// }
+		$permision = $this->permision->class($this->rule);
+		if($permision['code'] !== 200) {
+			$this->response($permision['body'], $permision['code']);
+			die();
+		}
 	}
 
 	private function set_data($extra = null)
@@ -42,6 +42,13 @@ class Users extends RestController
 			'users' => $users
 		);
 		return $data;
+	}
+
+	public function index_delete()
+	{
+		$res['status'] = true;
+		$res['data'] = 'ini delete';
+		$this->response($res);
 	}
 
 	public function index_get($nip = null)
@@ -62,6 +69,7 @@ class Users extends RestController
 			
 			$res['status'] = true;
 			$res['data'] = $this->set_data($extra);
+			// $res['data'] = $this->dt_user;
 			$this->response($res);
 		}
 	}
@@ -90,12 +98,6 @@ class Users extends RestController
 	public function index_put()
 	{
 		$post = $this->put();
-		$this->response($post);
-	}
-
-	public function index_delete()
-	{
-		$post = 'deleted';
 		$this->response($post);
 	}
 

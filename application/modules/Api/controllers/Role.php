@@ -31,21 +31,25 @@ class Role extends RestController
 		$this->class = $this->router->fetch_class();
 
 		$this->load->library('permision');
-		$this->permision->validate();
+		$permision = $this->permision->class('admin');
+		// if($permision['code'] !== 200) {
+			// $this->response($permision['body'], $permision['code']);
+			// die();
+		// }
 	}
 
 	public function index_get()
 	{
 		$res['status'] = true;
 		$res['message'] = 'index get';
-		// $res['method'] = $this->method;
-		// $res['class'] = $this->class;
-		// $res['func'] = $this->func;
+		$res['method'] = $this->method;
+		$res['class'] = $this->class;
+		$res['func'] = $this->func;
 
 		// $res['satu'] = $this->permision->dummy();
 		// $res['dua'] = $this->permision->dummy2();
 
-		$res['valid'] = $this->permision->crud();
+		$res['valid'] = $this->permision->class('admin');
 		$this->response($res);
 	}
 	public function index_post()
@@ -84,7 +88,19 @@ class Role extends RestController
 		$res['class'] = $this->class;
 		$res['func'] = $this->func;
 
-		$res['valid'] = $this->permision->validate();
+		$res['valid'] = $this->permision->class('admin');
+		$this->response($res);
+	}
+
+	public function custom_post()
+	{
+		$res['status'] = true;
+		$res['message'] = 'custom';
+		$res['method'] = $this->method;
+		$res['class'] = $this->class;
+		$res['func'] = $this->func;
+
+		$res['valid'] = $this->permision->class('admin');
 		$this->response($res);
 	}
 }

@@ -270,18 +270,26 @@ var setAutoComplete = function(param) {
 
 
 // SETTING SELECT2 WITH PARAM DATA AND ELM INPUT
-var configSelect2 = function(input, data) {
+var configSelect2 = function(input, data, value) {
 	dataElm = $(input).data();
 	config = {};
 	config['data'] = data;
 	for(const key in dataElm) {
 		if(key == 'modal') {
 			config['dropdownParent'] = $(dataElm[key]);
+		} else if(key == 'value') {
+			value = dataElm[key].split(",");
 		} else {
 			config[key] = dataElm[key];
 		}
 	}
+	// config['containerCssClass'] = 'col-8';
 	$(input).select2(config);
+	if(value) {
+		$(input).val(value);
+		$(input).trigger('change');
+	}
+	// console.log(value);
 }
 var setSelect2 = function(param) {
 	if(param) {
@@ -290,27 +298,40 @@ var setSelect2 = function(param) {
 				if(valPar.input.indexOf(', ') > -1) {
 					input = valPar.input.split(', ');
 					input.forEach(function(valInp) {
-						configSelect2(valInp, valPar.data);
+						configSelect2(valInp, valPar.data, valPar.value);
 					})
 				} else {
-					configSelect2(valPar.input, valPar.data);
+					configSelect2(valPar.input, valPar.data, valPar.value);
 				}
 			})
+			// console.log(param);
 		} else {
 			if(param.input.indexOf(', ') > -1) {
 				input = param.input.split(', ');
 				input.forEach(function(val) {
-					configSelect2(val, param.data);
+					configSelect2(val, param.data, param.value);
 				})
 			} else {
-				configSelect2(param.input, param.data);
+				configSelect2(param.input, param.data, param.value);
 			}
 		}
 	}
 }
 
+/**
+ * MODAL
+ */
+var modalReset = function(modal) {
+	$(modal).on('hidden.bs.modal', function () {
+    $(this).find('form').trigger('reset');
+	});
+	$(modal).modal('hide');
+}
 
-// CLEAR
+
+/**
+ * CLEAR
+ */
 var navLogout = function() {
 	confirmMsg({
 		title: 'Logout!',

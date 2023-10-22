@@ -27,5 +27,44 @@ class Navigasi extends RestController
 		$res['data'] = $this->rule;
 		$this->response($res);
 	}
+
+	public function datatable_post()
+	{
+		$param = array(
+			'table' => 'navigasi',
+			'post_start' => $_POST['start'],
+			'post_length' => $_POST['length'],
+			'default_order' => array('id' => 'ASC'),
+			'col_order' => array(null, 'nama','label'),
+			'post_order' => $_POST['order'],
+			'col_search' => array('nama','label'),
+			'post_search' => $_POST['search']['value'],
+		);
+
+		$this->load->model('model_dtable');
+		$list = $this->model_dtable->get_data($param);
+		$data = array();
+		$no = $_POST['start'];
+		foreach($list as $field) {
+			$no++;
+			$row = array();
+			$row[] = $no;
+			$row[] = $field->nama;
+			$row[] = $field->label;
+			$row[] = $field->label;
+			$row[] = $field->label;
+			$row[] = '';
+			$row[] = $field->id;
+			$data[] = $row;
+		}
+
+		$output = array(
+			'draw' => $_POST['draw'],
+			'recordsTotal' => $this->model_dtable->count_all($param),
+			'recordsFiltered' => $this->model_dtable->count_filtered($param),
+			'data' => $data,
+		);
+		$this->response($output);
+	}
 }
 ?>

@@ -97,7 +97,7 @@ class MY_form_validation extends CI_Form_validation
 	{
 		$ci = $this->loader();
 		$where = array('email' => $str);
-		$is_unique = $ci->validation->is_unique($where);
+		$is_unique = $ci->validation->is_unique('users', $where);
 		if($is_unique['code'] != 200) {
 			if($is_unique['code'] == 400) {
 				$ci->form_validation->set_message('db_email_is_unique', 'The {field} field must contain a unique value.');
@@ -114,7 +114,7 @@ class MY_form_validation extends CI_Form_validation
 	{
 		$ci = $this->loader();
 		$where = array('username' => $str);
-		$is_unique = $ci->validation->is_unique($where);
+		$is_unique = $ci->validation->is_unique('users', $where);
 		if($is_unique['code'] != 200) {
 			if($is_unique['code'] == 400) {
 				$ci->form_validation->set_message('db_username_is_unique', 'The {field} field must contain a unique value.');
@@ -131,7 +131,7 @@ class MY_form_validation extends CI_Form_validation
 	{
 		$ci = $this->loader();
 		$where = array('email' => $str);
-		$is_exist = $ci->validation->is_exist($where);
+		$is_exist = $ci->validation->is_exist('users', $where);
 		if($is_exist['code'] != 200) {
 			if($is_exist['code'] == 400) {
 				$ci->form_validation->set_message('db_email_is_exist', 'Email not registed.');
@@ -148,7 +148,7 @@ class MY_form_validation extends CI_Form_validation
 	{
 		$ci = $this->loader();
 		$where = array('username' => $str);
-		$is_exist = $ci->validation->is_exist($where);
+		$is_exist = $ci->validation->is_exist('users', $where);
 		if($is_exist['code'] != 200) {
 			if($is_exist['code'] == 400) {
 				$ci->form_validation->set_message('db_username_is_exist', 'Username not registed.');
@@ -165,7 +165,7 @@ class MY_form_validation extends CI_Form_validation
 	{
 		$ci = $this->loader();
 		$where = array('email' => $str);
-		$is_exist = $ci->validation->is_exist($where);
+		$is_exist = $ci->validation->is_exist('users', $where);
 		if($is_exist['code'] != 200) {
 			if($is_exist['code'] == 400) {
 				$ci->form_validation->set_message('recovery_email', 'The Email or username not registed.');
@@ -182,12 +182,29 @@ class MY_form_validation extends CI_Form_validation
 	{
 		$ci = $this->loader();
 		$where = array('username' => $str);
-		$is_exist = $ci->validation->is_exist($where);
+		$is_exist = $ci->validation->is_exist('users', $where);
 		if($is_exist['code'] != 200) {
 			if($is_exist['code'] == 400) {
 				$ci->form_validation->set_message('recovery_username', 'The Email or username not registed.');
 			} else {
 				$ci->form_validation->set_message('recovery_username', $is_unique['message']);
+			}
+			return false;
+		} else {
+			return true;
+		}
+	}
+
+	public function db_rulename_is_unique($str)
+	{
+		$ci = $this->loader();
+		$where = array('nama' => $str);
+		$is_unique = $ci->validation->is_unique('rules', $where);
+		if($is_unique['code'] != 200) {
+			if($is_unique['code'] == 400) {
+				$ci->form_validation->set_message('db_rulename_is_unique', 'The {field} field must contain a unique value.');
+			} else {
+				$ci->form_validation->set_message('db_rulename_is_unique', $is_unique['message']);
 			}
 			return false;
 		} else {

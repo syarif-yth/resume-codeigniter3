@@ -85,10 +85,32 @@
 	content: none !important;
 }
 .dataTables_wrapper .dataTables_processing {
-	text-align: center !important;
-	top: 70px !important;
+	top: 48% !important;
 	font-weight: bold;
-	position: relative !important;
+	left: 0; 
+  right: 0; 
+  margin-left: auto; 
+  margin-right: auto; 
+  width: 100px;
+	position: absolute !important;
+}
+.dataTables_wrapper .table th.center,
+.dataTables_wrapper .table td.center {
+	text-align: center !important;
+}
+.dataTables_wrapper .table th.action,
+.dataTables_wrapper .table td.action {
+	text-align: center !important;
+	max-width: 125px !important;
+	cursor: default !important;
+	vertical-align: middle !important;
+}
+.dataTables_wrapper .table th.action-sm,
+.dataTables_wrapper .table td.action-sm {
+	text-align: center !important;
+	max-width: 90px !important;
+	cursor: default !important;
+	vertical-align: middle !important;
 }
 
 /* dataTables with colspan and rowspan */
@@ -97,13 +119,6 @@
 	text-align: center;
 	line-height: 10px;
 	cursor: default;
-}
-.dataTables_wrapper .table_rules thead tr th:last-child:after {
-	content: none;
-}
-.dataTables_wrapper .table_rules thead tr th:last-child,
-.dataTables_wrapper .table_rules tbody tr td:last-child {
-	text-align: center;
 }
 .dataTables_wrapper .table_rules tbody tr td:last-child {
 	margin-right: -40px !important;
@@ -120,7 +135,9 @@
 }
 
 
-/* dataTables with details */
+
+/* DataTables with details */
+
 .dataTables_wrapper td.dt-control {
   text-align: center;
   cursor: pointer;
@@ -134,10 +151,13 @@
 	margin-right: -20px !important;
 }
 .dataTables_wrapper tr.details-nav td.control-nav:before,
-.dataTables_wrapper tr.details-func td.control-func:before {
+.dataTables_wrapper tr.details-class td.control-class:before {
   content: "▼";
 }
 .dataTables_wrapper tbody tr td[colspan="6"] {
 	text-align: right !important;
 	align-content: right !important;
+}
+.dataTables_wrapper tbody tr.details {
+	background: #F1F1F1;
 }

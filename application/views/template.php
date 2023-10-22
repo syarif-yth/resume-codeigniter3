@@ -13,7 +13,7 @@ $title = ucfirst($uri_first);
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="author" content="syarif-yth.github.io">
   <link rel="icon" href="<?=base_url()?>assets/img/codeigniter.png">
-  <title><?=$title?> - Resume</title>
+  <title></title>
 
 	<link href="<?=base_url()?>vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
 	<link href="<?=base_url()?>vendor/jquery-confirm/jquery-confirm.min.css" rel="stylesheet">
@@ -111,7 +111,7 @@ $title = ucfirst($uri_first);
 							</a>
 						</li>
 
-						<li class="<?=$class_donate?>">
+						<li class="">
 							<a href="#">
 								<i class="fa fa-paypal"></i>
 								<span class="hide-menu">Donate</span>
@@ -126,12 +126,12 @@ $title = ucfirst($uri_first);
 			<div class="page-wrapper p-b-10">
 				<div class="row page-titles">
 					<div class="col-md-5 align-self-center">
-						<h3 class="text-primary"><?=$title?></h3> 
+						<h3 class="text-primary" id="title-breadcrumb"></h3> 
 					</div>
 					<div class="col-md-7 align-self-center">
 						<ol class="breadcrumb">
 							<li class="breadcrumb-item" id="breadcrumb-nav"></li>
-							<li class="breadcrumb-item active"><?=$title?></li>
+							<li class="breadcrumb-item active" id="breadcrumb-active"></li>
 						</ol>
 					</div>
 				</div>

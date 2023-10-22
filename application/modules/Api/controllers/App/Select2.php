@@ -17,7 +17,7 @@ class Select2 extends RestController
 			die();
 		}
 		$this->rule = $auth['body']['user']['rule'];
-		$this->load->library('permision');
+		// $this->load->library('access');
 		$this->load->model('model_app');
 	}
 
@@ -35,9 +35,9 @@ class Select2 extends RestController
 		}
 	}
 
-	public function func_get()
+	public function class_get()
 	{
-		$get = $this->model_app->select2_parent_func();
+		$get = $this->model_app->select2_parent_class();
 		if($get['code'] !== 200) {
 			$res['status'] = false;
 			$res['message'] = $get['message'];

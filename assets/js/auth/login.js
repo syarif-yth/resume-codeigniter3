@@ -39,6 +39,7 @@ $('form').on('submit', function(e) {
 			data: $(this).serializeArray(),
 			success: function(res) {
 				alertMsg('Login success, wait for goes to dashboard');
+				localStorage.setItem('loginas', JSON.stringify(res.user));
 				setTimeout(function() {
 					window.location.href = BASE_URL+'profile';
 				}, 2000);

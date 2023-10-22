@@ -21,11 +21,11 @@ class Model_app extends CI_Model
 		}
 	}
 
-	public function select2_parent_func()
+	public function select2_parent_class()
 	{
 		$this->db->select('nama AS id, label AS text');
-		$this->db->where('is_child', '0');
-		$kueri = $this->db->get('par_func');
+		$this->db->where('is_function', '0');
+		$kueri = $this->db->get('par_class');
 		if(!$kueri) {
 			$err = $this->db->error();
 			return db_error($err);
@@ -61,9 +61,9 @@ class Model_app extends CI_Model
 	public function select2_child_func($parent)
 	{
 		$this->db->select('nama AS id, label AS text');
-		$this->db->where('is_child', '1');
+		$this->db->where('is_function', '1');
 		$this->db->like('parent', $parent);
-		$kueri = $this->db->get('par_func');
+		$kueri = $this->db->get('par_class');
 		if(!$kueri) {
 			$err = $this->db->error();
 			return db_error($err);
