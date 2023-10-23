@@ -239,6 +239,9 @@ ol.breadcrumb li#breadcrumb-nav::first-letter {
 .modal .modal-title {
 	text-transform: capitalize;
 }
+#container .error-page {
+	margin-top: 50px;
+}
 
 
 

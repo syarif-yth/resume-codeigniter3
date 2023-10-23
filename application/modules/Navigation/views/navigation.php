@@ -8,7 +8,7 @@
 				<a href="javascript:void(0)" class="btn hover-info btn-secondary pull-right action-add" data-target="#new-data" data-toggle="modal">
 					<i class="fa fa-plus"></i> New Data
 				</a>
-				<h5>List of Navigation</h5>
+				<h5>List of Navigations</h5>
 				
 				<div class="table-responsive">
 					<table id="navigasi_table" class="table_action nowrap table table-hover table-striped table-bordered" cellspacing="0" width="100%">
@@ -46,7 +46,7 @@
 				<div class="modal-body p-b-0">
 					<div class="form-group row m-b-7 p-r-20">
 						<label class="control-label col-4 m-t-6">
-							Group  <i class="text-danger">*</i>
+							Group <i class="text-danger">*</i>
 						</label>
 						<input type="text" class="form-control col-8" name="group" placeholder="Enter Navigation Group" required minlength="3" maxlength="20">
 					</div>

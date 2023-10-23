@@ -105,7 +105,7 @@ var setAction = function(uri) {
 var parNav = function() {
 	data = Array();
 	$.ajax({
-		url: baseUrl()+'api/app/select2/nav',
+		url: baseUrl()+'api/app/select2/param_nav',
 		type: 'get',
 		dataType: 'json',
 		async: false,
@@ -119,7 +119,7 @@ var parNav = function() {
 var parClass = function() {
 	data = Array();
 	$.ajax({
-		url: baseUrl()+'api/app/select2/class',
+		url: baseUrl()+'api/app/select2/param_class',
 		type: 'get',
 		dataType: 'json',
 		async: false,
@@ -133,7 +133,7 @@ var parClass = function() {
 var parMethod = function() {
 	data = Array();
 	$.ajax({
-		url: baseUrl()+'api/app/select2/method',
+		url: baseUrl()+'api/app/select2/param_method',
 		type: 'get',
 		dataType: 'json',
 		async: false,
@@ -147,7 +147,7 @@ var parMethod = function() {
 var parAksi = function() {
 	data = Array();
 	$.ajax({
-		url: baseUrl()+'api/app/select2/aksi',
+		url: baseUrl()+'api/app/select2/param_aksi',
 		type: 'get',
 		dataType: 'json',
 		async: false,
@@ -161,7 +161,7 @@ var parAksi = function() {
 var parChild = function(parent) {
 	data = Array();
 	$.ajax({
-		url: baseUrl()+'api/app/select2/is_child/'+parent,
+		url: baseUrl()+'api/app/select2/param_is_child/'+parent,
 		type: 'get',
 		dataType: 'json',
 		async: false,
@@ -170,4 +170,30 @@ var parChild = function(parent) {
 		}
 	})
 	return data;
+}
+
+var parClassWithout = function(iam) {
+	data = Array();
+	$.ajax({
+		url: baseUrl()+'api/app/select2/param_class_without',
+		type: 'get',
+		dataType: 'json',
+		data: {nama:iam},
+		async: false,
+		success: function(res) {
+			data = res.data;
+		}
+	})
+	return data;
+}
+
+
+var errorPage = function(xhr) {
+	element = '<div class="error-page text-center">'+
+		'<h1>'+xhr.status+'</h1>'+
+		'<h3 class="text-uppercase">'+xhr.responseJSON.message+'</h3>'+
+		'<p class="text-muted m-t-30 m-b-30"></p>'+
+		'<a class="btn btn-danger btn-rounded waves-effect waves-light m-b-40" href="javascript:void(0)" onclick="history.back(1)">Back</a>'+
+	'</div>';
+	$('div#container').html(element);
 }

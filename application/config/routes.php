@@ -65,4 +65,5 @@ $route['api/recovery'] = $auth.'/recovery';
 $route['api/reactivation'] = $auth.'/reactivation';
 
 
+
 // $route['api/users/:num']['DELETE'] = 'api/users/$1';

@@ -48,12 +48,16 @@
 			<form id="new-rules">
 				<div class="modal-body p-b-0">
 					<div class="form-group row m-b-7 p-r-20">
-						<label class="control-label col-4 m-t-6">Rule Name</label>
+						<label class="control-label col-4 m-t-6">
+							Rule Name <i class="text-danger">*</i>
+						</label>
 						<input type="text" class="form-control col-8" name="nama" placeholder="Enter Rule Name" required minlength="3" maxlength="15">
 					</div>
 
 					<div class="form-group row m-b-7 p-r-20">
-						<label class="control-label col-4 m-t-6">Rule Label</label>
+						<label class="control-label col-4 m-t-6">
+							Rule Label <i class="text-danger">*</i>
+						</label>
 						<input type="text" class="form-control col-8" name="label" placeholder="Enter Rule Label" required minlength="5" maxlength="50">
 					</div>
 

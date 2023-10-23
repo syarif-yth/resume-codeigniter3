@@ -10,6 +10,7 @@ $(document).ready(function() {
 		ajax: {
 			url: BASE_URL+'api/settings/navigation/datatable',
 			type: 'post',
+			error: function(error) { errorPage(error); }
 		},
     processing: true,
     serverSide: true,
@@ -22,7 +23,7 @@ $(document).ready(function() {
 			{ data: 'url' },
 			{ data: 'icon', orderable: false, class: 'center', 
 				render: function(data) {
-					return '<i class="'+data+'"></i>';
+					return '<i class="'+data+' '+randomCol()+'"></i>';
 				}
 			},
 			{ data: 'sorting', class: 'center' },
@@ -53,7 +54,7 @@ $('#edit-data').on('show.bs.modal', function(event) {
 	var row = button.data('row');
 	var data = dtTable.row(row).data();
 
-	$(this).find('input[name=id]').val(data.action);
+	$(this).find('input[name=id]').val(data.action['id']);
 	$(this).find('input[name=group]').val(data.group);
 	$(this).find('input[name=nama]').val(data.nama);
 	$(this).find('input[name=nama_old]').val(data.nama);
@@ -117,7 +118,7 @@ $('form#new-nav').on('submit', function(e) {
 			},
 			error: function(err) {
 				resAlert(err);
-				errValidServer($('form'), err);
+				errValidServer($('form#new-nav'), err);
 			},
 		})
 	}
@@ -138,7 +139,7 @@ $('form#edit-nav').on('submit', function(e) {
 			},
 			error: function(err) {
 				resAlert(err);
-				errValidServer($('form'), err);
+				errValidServer($('form#edit-nav'), err);
 			},
 		})
 	}

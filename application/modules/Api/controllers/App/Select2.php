@@ -17,11 +17,10 @@ class Select2 extends RestController
 			die();
 		}
 		$this->rule = $auth['body']['user']['rule'];
-		// $this->load->library('access');
 		$this->load->model('model_app');
 	}
 
-	public function nav_get()
+	public function param_nav_get()
 	{
 		$get = $this->model_app->select2_nav();
 		if($get['code'] !== 200) {
@@ -35,7 +34,7 @@ class Select2 extends RestController
 		}
 	}
 
-	public function class_get()
+	public function param_class_get()
 	{
 		$get = $this->model_app->select2_parent_class();
 		if($get['code'] !== 200) {
@@ -49,7 +48,7 @@ class Select2 extends RestController
 		}
 	}
 
-	public function method_get()
+	public function param_method_get()
 	{
 		$get = $this->model_app->select2_method();
 		if($get['code'] !== 200) {
@@ -63,7 +62,7 @@ class Select2 extends RestController
 		}
 	}
 
-	public function aksi_get()
+	public function param_aksi_get()
 	{
 		$get = $this->model_app->select2_aksi();
 		if($get['code'] !== 200) {
@@ -77,7 +76,7 @@ class Select2 extends RestController
 		}
 	}
 
-	public function is_child_get($parent = null)
+	public function param_is_child_get($parent = null)
 	{
 		if($parent) {
 			$get = $this->model_app->select2_child_func($parent);
@@ -94,6 +93,21 @@ class Select2 extends RestController
 			$res['status'] = false;
 			$res['message'] = 'Parent unknown!';
 			$this->response($res, 404);
+		}
+	}
+
+	public function param_class_without_get()
+	{
+		$nama = $this->get('nama', true);
+		$get = $this->model_app->select2_parent_class_without($nama);
+		if($get['code'] !== 200) {
+			$res['status'] = false;
+			$res['message'] = $get['message'];
+			$this->response($res, $get['code']);
+		} else {
+			$res['status'] = true;
+			$res['data'] = $get['data'];
+			$this->response($res);
 		}
 	}
 }

@@ -46,8 +46,8 @@ class Access
 			}
 
 			if($class) {
-				$body = 'Unknown method!';
-				$code = 404;
+				$body = 'Access forbidden!';
+				$code = 403;
 				foreach($class as $key => $val) {
 					if($val == $this->method) {
 						$body = 'Access accepted';
@@ -56,7 +56,7 @@ class Access
 				}
 				return $this->res($body, $code);
 			} else {
-				return $this->res('Unknown method!', 404);
+				return $this->res('Access forbidden!', 403);
 			}
 		} else { return $get; }
 	}
@@ -68,14 +68,14 @@ class Access
 			$decode = json_decode($get['data'][0]);
 			$array = (array) $decode;
 			$aksi = $array[$this->class]->aksi;
-
 			$act = $this->par_action($aksi);
-			$data = $act['data'];
-			$disabled = array();
-			foreach($data as $key => $val) {
-				$disabled[] = $val['nama'];
-			}
-			return $disabled;
+			if($act['code'] == 200) {
+				$disabled = array();
+				foreach($act['data'] as $key => $val) {
+					$disabled[] = $val['nama'];
+				}
+				return $disabled;
+			} else { return $act; }
 		} else { return $get; }
 	}
 
@@ -132,11 +132,13 @@ class Access
 		}
 	}
 
-	private function par_action($key) 
+	private function par_action($key=null) 
 	{
 		$this->ci->load->database();
 		$this->ci->db->select('nama');
-		$this->ci->db->where_not_in('nama', $key);
+		if($key) {
+			$this->ci->db->where_not_in('nama', $key);
+		}
 		$kueri = $this->ci->db->get('par_aksi');
 		if(!$kueri) {
 			$err = $this->ci->db->error();

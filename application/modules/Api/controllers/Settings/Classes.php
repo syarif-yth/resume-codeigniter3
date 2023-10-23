@@ -5,7 +5,7 @@ require APPPATH."libraries/RestController.php";
 
 use chriskacerguis\RestServer\RestController;
 
-class Navigation extends RestController 
+class Classes extends RestController 
 {
 	private $rule;
 	private $dt_auth;
@@ -26,7 +26,7 @@ class Navigation extends RestController
 			die();
 		}
 
-		$this->load->model('table_nav');
+		$this->load->model('table_par_class');
 	}
 
 	public function index_get()
@@ -41,11 +41,26 @@ class Navigation extends RestController
 	{
 		$is_valid = $this->valid_post();
 		if($is_valid === true) {
-			$set = array_filter($this->post());
-			$insert = $this->table_nav->insert($set);
-			$res['status'] = ($insert['code'] != 200) ? false : true;
-			$res['message'] = $insert['message'];
-			$this->response($res, $insert['code']);
+			$is_child = $this->post('is_child', true);
+			if($is_child) {
+				$data = array(
+					'nama' => $this->post('nama', true),
+					'label' => $this->post('label', true),
+					'is_child' => '1',
+					'parent' => implode(",", $this->post('parent', true)));
+				$insert = $this->table_par_class->insert($data);
+				$res['status'] = ($insert['code'] != 200) ? false : true;
+				$res['message'] = $insert['message'];
+				$this->response($res, $insert['code']);
+			} else {
+				$data = array(
+					'nama' => $this->post('nama', true),
+					'label' => $this->post('label', true));
+				$insert = $this->table_par_class->insert($data);
+				$res['status'] = ($insert['code'] != 200) ? false : true;
+				$res['message'] = $insert['message'];
+				$this->response($res, $insert['code']);
+			}
 		} else {
 			$res['status'] = false;
 			$res['message'] = 'Your request not valid';
@@ -60,14 +75,28 @@ class Navigation extends RestController
 		if($is_valid === true) {
 			$id = $this->put('id', true);
 			if($id) {
-				$filter = array_filter($this->put());
-				unset($filter['id']);
-				unset($filter['nama_old']);
-				unset($filter['urutan_old']);
-				$update = $this->table_nav->update($filter, $id);
-				$res['status'] = ($update['code'] != 200) ? false : true;
-				$res['message'] = $update['message'];
-				$this->response($res, $update['code']);
+				$is_child = $this->put('is_child', true);
+				if(!empty($is_child)) {
+					$data = array(
+						'nama' => $this->put('nama', true),
+						'label' => $this->put('label', true),
+						'is_child' => '1',
+						'parent' => implode(",", $this->put('parent', true)));
+					$update = $this->table_par_class->update($data, $id);
+					$res['status'] = ($update['code'] != 200) ? false : true;
+					$res['message'] = $update['message'];
+					$this->response($res, $update['code']);
+				} else {
+					$data = array(
+						'nama' => $this->put('nama', true),
+						'label' => $this->put('label', true),
+						'is_child' => '0',
+						'parent' => NULL);
+					$update = $this->table_par_class->update($data, $id);
+					$res['status'] = ($update['code'] != 200) ? false : true;
+					$res['message'] = $update['message'];
+					$this->response($res, $update['code']);
+				}
 			} else {
 				$res['status'] = false;
 				$res['message'] = 'Form key not valid';
@@ -89,7 +118,7 @@ class Navigation extends RestController
 			$res['message'] = 'Key not found!';
 			$this->response($res, 404);
 		} else {
-			$del = $this->table_nav->delete($key);
+			$del = $this->table_par_class->delete($key);
 			$res['status'] = ($del['code'] != 200) ? false : true;
 			$res['message'] = $del['message'];
 			$this->response($res, $del['code']);
@@ -99,14 +128,13 @@ class Navigation extends RestController
 	public function datatable_post()
 	{
 		$param = array(
-			'table' => 'navigasi',
+			'table' => 'par_class',
 			'post_start' => $this->post('start'),
 			'post_length' => $this->post('length'),
 			'default_order' => array('urutan' => 'ASC'),
-			'col_order' => array(null, 'group', 
-				'nama', 'label', 'url', null, 'urutan'),
+			'col_order' => array(null, 'nama', 'label'),
 			'post_order' => $this->post('order'),
-			'col_search' => array('group', 'nama','label'),
+			'col_search' => array('nama','label'),
 			'post_search' => $this->post('search')['value'],
 		);
 
@@ -119,12 +147,22 @@ class Navigation extends RestController
 			$no++;
 			$row = array();
 			$row['no'] = $no;
-			$row['group'] = $field['group'];
 			$row['nama'] = $field['nama'];
 			$row['label'] = $field['label'];
-			$row['url'] = $field['url'];
-			$row['icon'] = $field['icon'];
-			$row['sorting'] = $field['urutan'];
+			$row['is_child'] = $field['is_child'];
+			$row['parent'] = $field['parent'];
+
+			$label = NULL;
+			if($field['parent'] != null) {
+				$parent = $field['parent'];
+				$exp = explode(',', $parent);
+				foreach($exp as $key => $val) {
+					$get = $this->model_dtable->label_class($val);
+					$last = count($exp)-1;
+					$label .= ($key==$last) ? $get : $get.',';
+				}
+			}
+			$row['label_parent'] = $label;
 
 			$act = $this->access->action_table($this->rule);
 			$row['action'] = array_merge(array('id' => $field['id']), $act);
@@ -144,26 +182,21 @@ class Navigation extends RestController
 	private function valid_post()
   {
 		$this->form_validation->set_data($this->post());
-    $data = array(
-      array('field' => 'group',
-				'label' => 'Group',
-        'rules' => 'trim|required|min_length[3]|max_length[20]'),
-      array('field' => 'nama',
+		$data = array(
+			array('field' => 'nama',
 				'label' => 'Name',
-        'rules' => 'trim|required|min_length[3]|max_length[20]|db_navname_is_unique|no_space'),
+				'rules' => 'trim|required|min_length[3]|max_length[20]|db_classnama_is_unique|no_space'),
 			array('field' => 'label',
 				'label' => 'Label',
-        'rules' => 'trim|required|min_length[3]|max_length[20]'),
-			array('field' => 'url',
-				'label' => 'URL',
-        'rules' => 'trim|required|min_length[3]|max_length[50]|no_space'),
-			array('field' => 'icon',
-				'label' => 'Icon',
-        'rules' => 'trim|min_length[3]|max_length[20]'),
-			array('field' => 'urutan',
-				'label' => 'Sorting',
-        'rules' => 'trim|required|min_length[1]|max_length[2]|db_urutan_is_unique'),
-    );
+				'rules' => 'trim|required|min_length[3]|max_length[50]')
+		);
+
+		if($this->post('is_child')) {
+			$parent = array(array('field' => 'parent[]',
+			'label' => 'Parent',
+			'rules' => 'trim|required'));
+			$data = array_merge($data, $parent);
+		}
     $this->form_validation->set_rules($data);
 		if($this->form_validation->run($this) == false) {
 			return $this->form_validation->error_array();
@@ -175,29 +208,21 @@ class Navigation extends RestController
 	private function valid_put()
   {
 		$this->form_validation->set_data($this->put());
-    $data = array(
-      array('field' => 'group',
-				'label' => 'Group',
-        'rules' => 'trim|required|min_length[3]|max_length[20]'),
-      array('field' => 'nama',
+		$data = array(
+			array('field' => 'nama',
 				'label' => 'Name',
-        'rules' => 'trim|required|min_length[3]|max_length[20]|valid_navnama[nama_old]|no_space'),
+				'rules' => 'trim|required|min_length[3]|max_length[20]|valid_classnama[nama_old]|no_space'),
 			array('field' => 'label',
 				'label' => 'Label',
-        'rules' => 'trim|required|min_length[3]|max_length[20]'),
-			array('field' => 'url',
-				'label' => 'URL',
-        'rules' => 'trim|required|min_length[3]|max_length[50]|no_space'),
-			array('field' => 'url',
-				'label' => 'URL',
-        'rules' => 'trim|required|min_length[3]|max_length[50]'),
-			array('field' => 'icon',
-				'label' => 'Icon',
-        'rules' => 'trim|min_length[3]|max_length[20]'),
-			array('field' => 'urutan',
-				'label' => 'Sorting',
-        'rules' => 'trim|required|min_length[1]|max_length[2]|valid_urutan[urutan_old]'),
-    );
+				'rules' => 'trim|required|min_length[3]|max_length[50]')
+		);
+
+		if($this->put('is_child')) {
+			$parent = array(array('field' => 'parent[]',
+			'label' => 'Parent',
+			'rules' => 'trim|required'));
+			$data = array_merge($data, $parent);
+		}
     $this->form_validation->set_rules($data);
 		if($this->form_validation->run($this) == false) {
 			return $this->form_validation->error_array();
@@ -205,5 +230,6 @@ class Navigation extends RestController
 			return true;
 		}
   }
+
 }
 ?>

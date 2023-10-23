@@ -2,8 +2,6 @@
 
 
 let BASE_URL = baseUrl();
-var lastPick;
-var rand;
 var dtTable;
 $(document).ready(function() {
 	setAction('api/settings/permision');
@@ -46,6 +44,7 @@ $(document).ready(function() {
 		ajax: {
 			url: BASE_URL+'api/settings/permision/datatable',
 			type: 'post',
+			error: function(error) { errorPage(error); }
 		},
     processing: true,
     serverSide: true,
@@ -131,7 +130,7 @@ $(document).ready(function() {
 		}
 
 		$('.tag-child li').each(function() {
-			$(this).addClass(randomColor());
+			$(this).addClass(randomBg());
 		});
 	});
 
@@ -230,14 +229,6 @@ $('#modal-class').on('show.bs.modal', function(event) {
 /**
  * CUSTOMIZE THEME
  */
-var randomColor = function() {
-	var colors = ['bg-primary','bg-success','bg-info','bg-warning','bg-danger','bg-megna','bg-theme','bg-inverse','bg-purple'];
-	var rand = colors[Math.floor(Math.random() * colors.length)];
-	rand==lastPick?randomColor():rand;
-	lastPick = rand;
-	return rand;
-}
-
 var addChild = function(th) {
 	tr = $('#child-class tbody').find('tr');
 	key = tr.length;
@@ -329,7 +320,7 @@ $('form#new-rules').on('submit', function(e) {
 			},
 			error: function(err) {
 				resAlert(err);
-				errValidServer($('form'), err);
+				errValidServer($('form#new-rules'), err);
 			},
 		})
 	}
@@ -371,7 +362,7 @@ $('form#edit-rules').on('submit', function(e) {
 			},
 			error: function(err) {
 				resAlert(err);
-				errValidServer($('form'), err);
+				errValidServer($('form#edit-rules'), err);
 			},
 		})
 	}

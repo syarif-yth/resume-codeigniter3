@@ -342,7 +342,7 @@ class Permision extends RestController
     $data = array(
       array('field' => 'nama',
 				'label' => 'Rule Name',
-        'rules' => 'trim|required|min_length[3]|max_length[15]|db_rulename_is_unique'),
+        'rules' => 'trim|required|min_length[3]|max_length[15]|db_rulename_is_unique|no_space'),
       array('field' => 'label',
 				'label' => 'Rule Label',
         'rules' => 'trim|required|min_length[5]|max_length[50]')
@@ -398,7 +398,7 @@ class Permision extends RestController
     $data = array(
       array('field' => 'nama',
 				'label' => 'Rule Name',
-        'rules' => 'trim|required|min_length[3]|max_length[15]'),
+        'rules' => 'trim|required|min_length[3]|max_length[15]|no_space'),
       array('field' => 'label',
 				'label' => 'Rule Label',
         'rules' => 'trim|required|min_length[5]|max_length[50]')

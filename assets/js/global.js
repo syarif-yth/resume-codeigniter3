@@ -1,6 +1,8 @@
 
 
 
+var lastPick;
+var rand;
 $(document).ready(function() {
 	// CONFIG SLIMSCROLL TEMPLATE
 	// $('.scroller').slimScroll({
@@ -34,6 +36,22 @@ $('input#dark-theme').on('change', function() {
 var baseUrl = function() {
 	pathArray = window.location.pathname.split( '/' );
 	return window.location.origin+'/'+pathArray[1]+'/'+pathArray[2]+'/';
+}
+
+var randomBg = function() {
+	var colors = ['bg-primary','bg-success','bg-info','bg-warning','bg-danger','bg-megna','bg-theme','bg-inverse','bg-purple'];
+	var rand = colors[Math.floor(Math.random() * colors.length)];
+	rand==lastPick?randomBg():rand;
+	lastPick = rand;
+	return rand;
+}
+
+var randomCol = function() {
+	var colors = ['text-primary','text-success','text-info','text-warning','text-danger','text-megna','text-theme','text-inverse','text-purple'];
+	var rand = colors[Math.floor(Math.random() * colors.length)];
+	rand==lastPick?randomCol():rand;
+	lastPick = rand;
+	return rand;
 }
 
 // CONFIG ALERT WITH JQUERY CONFIRM
@@ -169,7 +187,7 @@ var errValidServer = function(form, errors) {
 		res = errors.responseJSON.errors[0];
 		$.each(res, function(key, val) {
 			elm = '<small class="text-danger error">'+val+'</small>';
-			input = $(form).find('input[name='+key+']');
+			input = $(form).find('[name="'+key+'"]');
 			$(input).parents('.form-group').find('small.error').remove();
 			$(input).parents('.form-group').append(elm);
 		})
@@ -284,6 +302,7 @@ var configSelect2 = function(input, data, value) {
 		}
 	}
 	// config['containerCssClass'] = 'col-8';
+	$(input).empty();
 	$(input).select2(config);
 	if(value) {
 		$(input).val(value);

@@ -84,20 +84,8 @@ $title = ucfirst($uri_first);
 		<div class="left-sidebar">
 			<div class="scroll-sidebar">
 				<nav class="sidebar-nav">
-					<ul id="sidebarnav" class="m-b-10 navgroup">						
-						<!-- <li class="nav-label">MAIN</li> -->
-						<!-- <li class="navmenu <?=$class_dashboard?>" id="dashboard">
-							<a href="<?=base_url()?>dashboard">
-								<i class="fa fa-tachometer"></i>
-								<span class="hide-menu">Dashboard</span>
-							</a>
-						</li>
-						<li class="navmenu <?=$class_permision?>" id="permision">
-							<a href="<?=base_url()?>permision">
-								<i class="fa fa-shield"></i>
-								<span class="hide-menu">Permision</span>
-							</a>
-						</li> -->
+					<ul id="sidebarnav" class="m-b-10 navgroup">
+						
 					</ul>
 
 					<ul id="sidebarnav" class="m-b-50">

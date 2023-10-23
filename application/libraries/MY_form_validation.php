@@ -264,7 +264,49 @@ class MY_form_validation extends CI_Form_validation
 		} else { return true; }
 	}
 
-	
+	public function db_classnama_is_unique($str)
+	{
+		$ci = $this->loader();
+		$where = array('nama' => $str);
+		$is_unique = $ci->validation->is_unique('par_class', $where);
+		if($is_unique['code'] != 200) {
+			if($is_unique['code'] == 400) {
+				$ci->form_validation->set_message('db_classnama_is_unique', $ci->mess_unique);
+			} else {
+				$ci->form_validation->set_message('db_classnama_is_unique', $is_unique['message']);
+			}
+			return false;
+		} else { return true; }
+	}
+
+	public function valid_classnama($str, $match)
+	{
+		$ci = $this->loader();
+		$data = $ci->form_validation->validation_data;
+		if($str !== $data[$match]) {
+			$where = array('nama' => $str);
+			$is_unique = $ci->validation->is_unique('par_class', $where);
+			if($is_unique['code'] != 200) {
+				if($is_unique['code'] == 400) {
+					$ci->form_validation->set_message('valid_classnama', $ci->mess_unique);
+				} else {
+					$ci->form_validation->set_message('valid_classnama', $is_unique['message']);
+				}
+				return false;
+			} else { return true; }
+		} else { return true; }
+	}
+
+	public function no_space($str)
+	{
+		$ci = $this->loader();
+		if(strpos($str, " ") !== true) {
+			$ci->form_validation->set_message('no_space', 'The {field} field cannot contain spaces');
+			return false;
+		} else {
+			return true;
+		}
+	}
 
 
 

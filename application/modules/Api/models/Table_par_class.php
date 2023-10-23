@@ -1,13 +1,13 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-class Table_nav extends CI_Model
+class Table_par_class extends CI_Model
 {
 	private $db_table;
 	function __construct()
 	{
 		parent::__construct();
-		$this->db_table = $this->db->protect_identifiers('navigasi', TRUE);
+		$this->db_table = $this->db->protect_identifiers('par_class', TRUE);
 	}
 
 	public function insert($data)
