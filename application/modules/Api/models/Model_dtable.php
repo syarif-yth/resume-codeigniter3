@@ -47,7 +47,7 @@ class Model_dtable extends CI_Model
 		}
 	}
 
-	public function get_data($param)
+	public function get($param)
 	{
 		$this->query($param);
 		if($param['post_length'] != -1) {
@@ -57,18 +57,18 @@ class Model_dtable extends CI_Model
 				$err = $this->db->error();
 				return db_error($err);
 			} else {
-				return $kueri->result();
+				return $kueri->result_array();
 			}
 		}
 	}
 
-	public function count_all($param)
+	public function count($param)
 	{
 		$this->db->from($param['table']);
 		return $this->db->count_all_results();
 	}
 
-	public function count_filtered($param)
+	public function filtered($param)
 	{
 		$this->query($param);
 		$kueri = $this->db->get();
@@ -83,6 +83,18 @@ class Model_dtable extends CI_Model
 		$this->db->where('rule', $rule);
 		$this->db->from('attr_users');
 		return $this->db->count_all_results();
+	}
+
+	public function label_class($class)
+	{
+		$this->db->select('label');
+		$this->db->where('nama', $class);
+		$kueri = $this->db->get('par_class');
+		if($kueri->num_rows() == 1) {
+			return $kueri->row_array()['label'];
+		} else {
+			return $kueri->row_array();
+		}
 	}
 }
 ?>

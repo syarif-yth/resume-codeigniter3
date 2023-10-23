@@ -6,6 +6,7 @@ class Access
 	protected $class;
 	protected $func;
 	protected $method;
+	protected $uri;
 
 	public function __construct() 
 	{
@@ -13,6 +14,7 @@ class Access
 		$this->method = $this->ci->input->method();
 		$this->func = $this->ci->router->fetch_method();
 		$this->class = $this->ci->router->fetch_class();
+
 	}
 
 	public function navigasi($rule)
@@ -56,21 +58,40 @@ class Access
 			} else {
 				return $this->res('Unknown method!', 404);
 			}
-		} else {
-			return $get;
-		}
+		} else { return $get; }
 	}
 
-	public function action($rule)
+	public function action_disabled($rule)
 	{
 		$get = $this->data_class($rule);
 		if($get['code'] == 200) {
 			$decode = json_decode($get['data'][0]);
 			$array = (array) $decode;
-			return $array[$this->class]->aksi;
-		} else {
-			return $get;
-		}
+			$aksi = $array[$this->class]->aksi;
+
+			$act = $this->par_action($aksi);
+			$data = $act['data'];
+			$disabled = array();
+			foreach($data as $key => $val) {
+				$disabled[] = $val['nama'];
+			}
+			return $disabled;
+		} else { return $get; }
+	}
+
+	public function action_table($rule)
+	{
+		$get = $this->data_class($rule);
+		if($get['code'] == 200) {
+			$decode = json_decode($get['data'][0]);
+			$array = (array) $decode;
+			$data = $array[$this->class]->aksi;
+			$act = array();
+			foreach($data as $key => $val) {
+				$act[$val] = true;
+			}
+			return $act;
+		} else { return $get; }
 	}
 
 	private function data_navigasi($rule)
@@ -107,6 +128,25 @@ class Access
 				return db_response($res);
 			} else {
 				return db_response('Data duplicated', 500);
+			}
+		}
+	}
+
+	private function par_action($key) 
+	{
+		$this->ci->load->database();
+		$this->ci->db->select('nama');
+		$this->ci->db->where_not_in('nama', $key);
+		$kueri = $this->ci->db->get('par_aksi');
+		if(!$kueri) {
+			$err = $this->ci->db->error();
+			return db_error($err);
+		} else {
+			if($kueri->num_rows() > 0) {
+				$res = $kueri->result_array();
+				return db_response($res);
+			} else {
+				return db_response('Internal server error', 500);
 			}
 		}
 	}

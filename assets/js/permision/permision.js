@@ -4,35 +4,45 @@
 let BASE_URL = baseUrl();
 var lastPick;
 var rand;
-var table;
+var dtTable;
 $(document).ready(function() {
+	setAction('api/settings/permision');
 	function childDetail(data, col) {
 		var elmLi = '';
+		var act = data.action; 
 		var value = Array();
 		if(col === 'details-class') {
-			$.each(data[4], function(key, val) {
-				elmLi += '<li type="button" class="btn hover-secondary" data-target="#modal-class" data-toggle="modal" data-parent="'+data[1]+'">'+val+'<span class="caret"></span></li>';
+			value = data['class'];
+			$.each(value, function(key, val) {
+				if(act['edit-class']==undefined) {
+					elmLi += '<li class="">'+data['label_class'][key]+'</li>';
+				} else {
+					elmLi += '<li type="button" class="btn hover-secondary" data-target="#modal-class" data-toggle="modal" data-value="'+val+'" data-parent="'+data['nama']+'">'+data['label_class'][key]+'<span class="caret"></span></li>';
+				}
 			});
-			
-			value = data[4];
+			btnEdit = '<button type="button" data-target="#modal-'+col+'" data-toggle="modal" data-parent="'+data['nama']+'" data-value="'+value+'" class="btn btn-secondary m-r-5"><i class="fa fa-pencil"></i> Edit</button>';
+			if(act['detail-class']==undefined) btnEdit='';
+
 		} else if(col === 'details-nav') {
-			$.each(data[3], function(key, val) {
+			value = data['navigasi'];
+			$.each(value, function(key, val) {
 				elmLi += '<li class="">'+val+'</li>';
 			});
-			value = data[3];
+			btnEdit = '<button type="button" data-target="#modal-'+col+'" data-toggle="modal" data-parent="'+data['nama']+'" data-value="'+value+'" class="btn btn-secondary m-r-5"><i class="fa fa-pencil"></i> Edit</button>';
+			if(act['detail-nav']==undefined) btnEdit='';
 		}
 
 		return (
 			'<table class="details">'+
 				'<tr>'+
 					'<td><ul class="tag-child">'+elmLi+'<li></li></ul></td>'+
-					'<td><button type="button" data-target="#modal-'+col+'" data-toggle="modal" data-parent="'+data[1]+'" data-value="'+value+'" class="btn btn-secondary m-r-5"><i class="fa fa-pencil"></i> Edit</button></td>'+
+					'<td>'+btnEdit+'</td>'+
 				'</tr>'+
 			'</table>'
 		);
 	}
 
-	table = $('#rules_table').DataTable({
+	dtTable = $('#rules_table').DataTable({
 		ajax: {
 			url: BASE_URL+'api/settings/permision/datatable',
 			type: 'post',
@@ -40,35 +50,38 @@ $(document).ready(function() {
     processing: true,
     serverSide: true,
 		retrieve: true,
-		columnDefs: [{
-      "targets"  : [0],
-      "orderable": false,
-    }],
-		columns: [{ data: [0] },
-			{ data: [1] },
-			{ data: [2] },
-			{ data: [3], orderable: false,
+		columns: [
+			{ data: 'no', orderable: false },
+			{ data: 'nama' },
+			{ data: 'label' },
+			{ data: 'navigasi', orderable: false,
 				class: 'dt-control control-nav',
 				render: function(data, type, row, meta) {
 					return data.length;
 				}
 			},
-			{ data: [4], orderable: false,
+			{ data: 'class', orderable: false,
 				class: 'dt-control control-class',
 				render: function(data, type, row, meta) {
 					return data.length;
 				}
 			},
-			{ data: [5], orderable: false, class: 'center' },
-			{ data: [6], orderable: false, class: 'action-sm',
+			{ data: 'users', orderable: false, class: 'center' },
+			{ data: 'action', orderable: false, class: 'action-sm',
 				render: function(data, type, row, meta) {
+					btnEdit = '<button type="button" class="btn btn-secondary btn-custom"  data-target="#edit-data" data-toggle="modal" data-row="'+meta.row+'">'+
+						'<i class="fa fa-edit"></i>'+
+					'</button>';
+					btnDel = '<button type="button" class="btn btn-secondary btn-custom" onclick="del(this)" data-rule="'+row['nama']+'">'+
+						'<i class="fa fa-trash"></i>'+
+					'</button>';
+
+					if(data.edit==undefined) btnEdit='';
+					if(data.delete==undefined) btnDel='';
+
 					return '<div class="btn-group">'+
-						'<button type="button" class="btn btn-secondary btn-custom"  data-target="#edit-data" data-toggle="modal" data-row="'+row+'"  data-nav="'+row[3]+'">'+
-							'<i class="fa fa-edit"></i>'+
-						'</button>'+
-						'<button type="button" class="btn btn-secondary btn-custom" onclick="del(this)" data-rule="'+row[1]+'">'+
-							'<i class="fa fa-trash"></i>'+
-						'</button>'+
+						btnEdit+
+						btnDel+
 					'</div>';
 				}
 			}
@@ -87,9 +100,9 @@ $(document).ready(function() {
 	});
 
 	var detailRows = [];
-	table.on('click', 'tbody td.dt-control', function (event) {
+	dtTable.on('click', 'tbody td.dt-control', function (event) {
 		let tr = event.target.closest('tr');
-    let row = table.row(tr);
+    let row = dtTable.row(tr);
     let idx = detailRows.indexOf(tr);
 		let col = $(this).data('col');
 		let isOpen = tr.classList;
@@ -122,7 +135,7 @@ $(document).ready(function() {
 		});
 	});
 
-
+	
 });
 
 $('#new-data').on('show.bs.modal', function(event) {
@@ -133,22 +146,21 @@ $('#new-data').on('show.bs.modal', function(event) {
 
 $('#edit-data').on('show.bs.modal', function(event) {
 	var button = $(event.relatedTarget);
-	var getNav = button.data('nav');
-	var row = button.data('row').split(",");
-	var id = row[row.length-1];
+	var row = button.data('row');
+	var data = dtTable.row(row).data();
 
-	$(this).find('input[name=id]').val(id);
-	$(this).find('input[name=nama_old]').val(row[1]);
-	$(this).find('input[name=nama]').val(row[1]);
-	$(this).find('input[name=label]').val(row[2]);
-	if(row[row.length-2] !== '0') {
+	$(this).find('input[name=id]').val(data.action);
+	$(this).find('input[name=nama]').val(data.nama);
+	$(this).find('input[name=nama_old]').val(data.nama);
+	$(this).find('input[name=label]').val(data.label);
+	if(data.users !== '0') {
 		$(this).find('input[name=nama]').attr('readonly',true);
 	} else {
 		$(this).find('input[name=nama]').attr('readonly',false);
 	}
 
 	var parSelect2 = [
-		{ input: '#navigasi-edit', data: parNav(), value: getNav.split(",") },
+		{ input: '#navigasi-edit', data: parNav(), value: data.navigasi },
 	];
 	setSelect2(parSelect2);
 })
@@ -165,6 +177,9 @@ var del = function(th) {
 	});
 }
 
+/**
+ * EVENT MODAL SHOW
+ */
 $('#modal-details-nav').on('show.bs.modal', function(event) {
 	var button = $(event.relatedTarget);
 	var getRule = button.data('parent');
@@ -196,22 +211,21 @@ $('#modal-details-class').on('show.bs.modal', function(event) {
 $('#modal-class').on('show.bs.modal', function(event) {
 	var button = $(event.relatedTarget);
 	var getRule = button.data('parent');
-	var getClass = button.text();
+	var getVal = button.data('value');
+	var getText = button.text();
 	$(this).find('input[name=rule]').val(getRule);
-	$(this).find('input[name=class]').val(getClass);
+	$(this).find('input[name=class]').val(getVal);
+	$(this).find('h4.modal-title').html('Detail Class '+getText);
 
-	get = getDetailClass(getRule, getClass);
+	get = getDetailClass(getRule, getVal);
 	setElmChild(get.child);
 	var parSelect2 = [
 		{ input: '#input-method', data: parMethod(), value: get.method },
 		{ input: '#input-aksi', data: parAksi(), value: get.aksi },
-		{ input: '.input-child', data: parChild(getClass) }
+		{ input: '.input-child', data: parChild(getVal) }
 	];
 	setSelect2(parSelect2);
 })
-$('#modal-class').on('hide.bs.modal', function() {
-	$(this).find('form').trigger('reset');
-});
 
 /**
  * CUSTOMIZE THEME
@@ -270,7 +284,7 @@ var setElmChild = function(data) {
 /**
  * VALIDATION FORM
  */
-$('form').validate({
+$('form#new-rules').validate({
 	errorClass: 'form-control-feedback',
 	errorElement: 'small',
 	errorPlacement: function(err, th) {
@@ -281,6 +295,7 @@ $('form').validate({
 /**
  * SUBMIT EVENT AND AJAX
  */
+
 var getDetailClass = function(rule, kelas) {
 	data = Array;
 	$.ajax({
@@ -310,7 +325,7 @@ $('form#new-rules').on('submit', function(e) {
 			success: function(res) {
 				alertMsg(res.message);
 				modalReset('#new-data');
-				table.draw();
+				dtTable.draw();
 			},
 			error: function(err) {
 				resAlert(err);
@@ -328,7 +343,7 @@ var deleteRules = function(key) {
 		data: { key:key },
 		success: function(res) {
 			alertMsg(res.message);
-			table.draw();
+			dtTable.draw();
 		},
 		error: function(err) {
 			resAlert(err);
@@ -348,7 +363,7 @@ $('form#edit-rules').on('submit', function(e) {
 			success: function(res) {
 				alertMsg(res.message);
 				modalReset('#edit-data');
-				table.draw();
+				dtTable.draw();
 				userLog = loginAs();
 				if(userLog.rule === rule) {
 					reloadNavi();
@@ -373,7 +388,7 @@ $('form#modify-nav').on('submit', function(e) {
 		success: function(res) {
 			alertMsg(res.message);
 			$('#modal-details-nav').modal('hide');
-			table.draw();
+			dtTable.draw();
 			userLog = loginAs();
 			if(userLog.rule === rule) {
 				reloadNavi();
@@ -396,7 +411,7 @@ $('form#modify-class').on('submit', function(e) {
 		success: function(res) {
 			alertMsg(res.message);
 			$('#modal-details-class').modal('hide');
-			table.draw();
+			dtTable.draw();
 		},
 		error: function(err) {
 			resAlert(err);
@@ -414,7 +429,7 @@ $('form#modify-method').on('submit', function(e) {
 		success: function(res) {
 			alertMsg(res.message);
 			$('#modal-class').modal('hide');
-			table.draw();
+			dtTable.draw();
 		},
 		error: function(err) {
 			resAlert(err);

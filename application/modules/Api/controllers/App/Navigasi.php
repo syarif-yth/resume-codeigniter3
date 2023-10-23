@@ -8,7 +8,6 @@ use chriskacerguis\RestServer\RestController;
 class Navigasi extends RestController 
 {
 	private $rule;
-	private $dt_auth;
 	function __construct()
 	{
 		parent::__construct();
@@ -49,8 +48,6 @@ class Navigasi extends RestController
 			$grouping[] = $get['group'];
 		}
 
-		// tidak urut sesuai urutan
-		// db group_nav tidak digunakan
 		$uni = array_unique($grouping);
 		foreach($uni as $gr) {
 			foreach($dt_child as $key => $val) {

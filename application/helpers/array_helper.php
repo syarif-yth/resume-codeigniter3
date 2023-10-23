@@ -12,3 +12,12 @@ if(!function_exists('array_remove')) {
 		}
 	}
 }
+
+if(!function_exists('set_null')) {
+	// set null value if zero with array_map
+	// used 'array_map("set_null", $val);'
+	function set_null($val)
+	{
+		return ($val=='') ? NULL : $val;
+	}
+}

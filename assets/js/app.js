@@ -30,6 +30,11 @@ $(document).ready(function() {
 	$('#display-user span').html(userLog.nama);
 	$('#display-user small').html(userLog.username);
 	$('#avatar-pic').attr('src',baseUrl()+'assets/img/'+userLog.avatar);
+
+	$('.modal').on('hide.bs.modal', function() {
+		$(this).find('form').trigger('reset');
+	});
+
 });
 
 var reloadNavi = function() {
@@ -78,6 +83,23 @@ var dataNavigasi = function() {
 var loginAs = function() {
 	getLoginas = localStorage.getItem('loginas');
 	return JSON.parse(getLoginas);
+}
+
+var setAction = function(uri) {
+	$.ajax({
+		url: BASE_URL+uri,
+		type: 'get',
+		dataType: 'json',
+		success: function(res) {
+			$.each(res.data, function(key, val) {
+				$('a.action-'+val).remove();
+				$('button.action-'+val).remove();
+			})
+		},
+		error: function(err) {
+			resAlert(err);
+		},
+	})
 }
 
 var parNav = function() {

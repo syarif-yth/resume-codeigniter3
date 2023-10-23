@@ -231,6 +231,14 @@ ol.breadcrumb li#breadcrumb-nav::first-letter {
 .page-wrapper {
 	min-height: 87vh !important;
 }
+.modal .form-group small.form-control-feedback,
+.modal .form-group small.error {
+	width: 100%;
+	text-align: right !important;
+}
+.modal .modal-title {
+	text-transform: capitalize;
+}
 
 
 

@@ -18,8 +18,6 @@ class Permision extends RestController
 		}
 
 		$this->rule = $auth['body']['user']['rule'];
-		$this->load->library('access');
-
 		$access = $this->access->class($this->rule);
 		if($access['code'] !== 200) {
 			$this->response($access['body'], $access['code']);
@@ -27,6 +25,14 @@ class Permision extends RestController
 		}
 
 		$this->load->model('table_rules');
+	}
+
+	public function index_get()
+	{
+		$disabled = $this->access->action_disabled($this->rule);
+		$res['status'] = true;
+		$res['data'] = $disabled;
+		$this->response($res);
 	}
 
 	public function index_post()
@@ -131,7 +137,7 @@ class Permision extends RestController
 				}
 			} else {
 				$res['status'] = false;
-				$res['message'] = 'Your form key not valid';
+				$res['message'] = 'Form key not valid';
 				$this->response($res, 400);
 			}
 		} else {
@@ -155,7 +161,7 @@ class Permision extends RestController
 			$this->response($res, $update['code']);
 		} else {
 			$res['status'] = false;
-			$res['message'] = 'Your form key not valid';
+			$res['message'] = 'Form key not valid';
 			$this->response($res, 400);
 		}
 	}
@@ -192,12 +198,12 @@ class Permision extends RestController
 				$this->response($res, $update['code']);
 			} else {
 				$res['status'] = false;
-				$res['message'] = 'Your form key not valid';
+				$res['message'] = 'Form key not valid';
 				$this->response($res, 400);
 			}
 		} else {
 			$res['status'] = false;
-			$res['message'] = 'Your form key not valid';
+			$res['message'] = 'Form key not valid';
 			$this->response($res, 400);
 		}
 	}
@@ -274,47 +280,59 @@ class Permision extends RestController
 	{
 		$param = array(
 			'table' => 'rules',
-			'post_start' => $_POST['start'],
-			'post_length' => $_POST['length'],
+			'post_start' => $this->post('start'),
+			'post_length' => $this->post('length'),
 			'default_order' => array('id' => 'ASC'),
 			'col_order' => array(null, 'nama','label'),
-			'post_order' => $_POST['order'],
+			'post_order' => $this->post('order'),
 			'col_search' => array('nama','label'),
-			'post_search' => $_POST['search']['value'],
+			'post_search' => $this->post('search')['value'],
 		);
 
 		$this->load->model('model_dtable');
-		$list = $this->model_dtable->get_data($param);
+		$list = $this->model_dtable->get($param);
+
 		$data = array();
-		$no = $_POST['start'];
-		foreach($list as $field) {
+		$no = $this->post('start');
+		foreach($list as $key => $field) {
 			$no++;
 			$row = array();
-			$row[] = $no;
-			$row[] = $field->nama;
-			$row[] = $field->label;
-			$nav = ($field->navigasi!=NULL) ? json_decode($field->navigasi) : [];
-			$row[] = $nav;
+			$row['no'] = $no;
+			$row['nama'] = $field['nama'];
+			$row['label'] = $field['label'];
+			$nav = ($field['navigasi']!=NULL) ? json_decode($field['navigasi']) : [];
+			$row['navigasi'] = $nav;
 
 			$class = array();
-			if($field->class != NULL) {
-				$dt_class = json_decode($field->class);
-				foreach($dt_class as $key => $val) {
-					$class[] = $key;
+			$label = array();
+			if($field['class'] != NULL) {
+				$dt_class = json_decode($field['class']);
+				foreach($dt_class as $name => $val) {
+					$class[] = $name;
+					$label[] = $this->model_dtable->label_class($name);
 				}
 			}
-			$row[] = $class;
-			$row[] = $this->model_dtable->count_users($field->nama);
-			$row[] = $field->id;
+			$row['class'] = $class;
+			$row['users'] = $this->model_dtable->count_users($field['nama']);
+
+			$act = $this->access->action_table($this->rule);
+			$row['action'] = array_merge(
+				array('id' => $field['id'],
+					'detail-nav' => true,
+					'detail-class' => true,
+					'edit-class' => true,
+				), $act);
+			$row['label_class'] = $label;
 			$data[] = $row;
 		}
 
 		$output = array(
-			'draw' => $_POST['draw'],
-			'recordsTotal' => $this->model_dtable->count_all($param),
-			'recordsFiltered' => $this->model_dtable->count_filtered($param),
+			'draw' => $this->post('draw'),
+			'recordsTotal' => $this->model_dtable->count($param),
+			'recordsFiltered' => $this->model_dtable->filtered($param),
 			'data' => $data,
 		);
+		
 		$this->response($output);
 	}
 
@@ -323,8 +341,10 @@ class Permision extends RestController
 		$this->form_validation->set_data($this->post());
     $data = array(
       array('field' => 'nama',
+				'label' => 'Rule Name',
         'rules' => 'trim|required|min_length[3]|max_length[15]|db_rulename_is_unique'),
       array('field' => 'label',
+				'label' => 'Rule Label',
         'rules' => 'trim|required|min_length[5]|max_length[50]')
     );
     $this->form_validation->set_rules($data);
@@ -377,8 +397,10 @@ class Permision extends RestController
 		$this->form_validation->set_data($this->put());
     $data = array(
       array('field' => 'nama',
+				'label' => 'Rule Name',
         'rules' => 'trim|required|min_length[3]|max_length[15]'),
       array('field' => 'label',
+				'label' => 'Rule Label',
         'rules' => 'trim|required|min_length[5]|max_length[50]')
     );
     $this->form_validation->set_rules($data);

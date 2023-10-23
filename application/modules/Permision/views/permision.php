@@ -1,17 +1,11 @@
 
 
-<style>
-.modal .form-group small.form-control-feedback,
-.modal .form-group small.error {
-	width: 100%;
-	text-align: right !important;
-}
-</style>
+
 <div class="row">
 	<div class="col-12">
 		<div class="card card-edit card-outline-primary">
 			<div class="card-body">
-				<a href="javascript:void(0)" class="btn hover-info btn-secondary pull-right" data-target="#new-data" data-toggle="modal">
+				<a href="javascript:void(0)" class="btn hover-info btn-secondary pull-right action-add" data-target="#new-data" data-toggle="modal" id="action-add">
 					<i class="fa fa-plus"></i> New Data
 				</a>
 				<h5>List of Rules</h5>
@@ -105,12 +99,16 @@
 				<input name="nama_old" type="hidden">
 				<div class="modal-body p-b-0">
 					<div class="form-group row m-b-7 p-r-20">
-						<label class="control-label col-4 m-t-6">Rule Name</label>
+						<label class="control-label col-4 m-t-6">
+							Rule Name <i class="text-danger">*</i>
+						</label>
 						<input type="text" class="form-control col-8" name="nama" placeholder="Enter Rule Name" required minlength="3" maxlength="15">
 					</div>
 
 					<div class="form-group row m-b-7 p-r-20">
-						<label class="control-label col-4 m-t-6">Rule Label</label>
+						<label class="control-label col-4 m-t-6">
+							Rule Label <i class="text-danger">*</i>
+						</label>
 						<input type="text" class="form-control col-8" name="label" placeholder="Enter Rule Label" required minlength="5" maxlength="50">
 					</div>
 
