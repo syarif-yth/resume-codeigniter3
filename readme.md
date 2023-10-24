@@ -1,6 +1,6 @@
 # Resume with CodeIgniter 3.1.13
 
-Pesonal project API Resume with CodeIgniter 3.1.13 for reference needs
+Pesonal project Resume with CodeIgniter 3.1.13 Modular Version for reference needs
 
 ## What is CodeIgniter
 
@@ -44,7 +44,7 @@ password : Adm1n@pp
 ```
 
 ## Well done
-Now you can enjoy my creation in your local, and do not forget for my coffee if you wish
+Now you can enjoy my creation in your local, and do not forget my coffee if you wish
 
 # Donate for coffee
 
