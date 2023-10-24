@@ -23,18 +23,18 @@ for a given task.
 
 ## Installation
 
-# First Step
+## First Step
 clone into local
 ```sh
 git clone https://github.com/syarif-yth/resume-codeigniter3.git
 ```
 
-# Second Step
+## Second Step
 initialization config and database 
 * edit line `'database' => 'your_database_name'` in directory (e.g. `application/config/database.php`)
 * go to url `http://domain/resume-codeigniter3/migrate` and follow instruction
 
-# Last Step
+## Last Step
 * go to url `http://domain/resume-codeigniter3`
 * login use `username` and `password` as below :
 ```sh
@@ -42,10 +42,10 @@ username : admin_app
 password : Adm1n@pp
 ```
 
-# Well done
+## Well done
 Now you can enjoy my creation in your local, and do not forget for my coffee if you wish
 
-## Donate for coffee
+# Donate for coffee
 
 <!-- <img alt="Donate" src="assets/img/barcode.jpeg" width="250px"> -->
 
