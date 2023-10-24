@@ -39,7 +39,7 @@ $('form').on('submit', function(e) {
 			data: $(this).serializeArray(),
 			success: function(res) {
 				alertMsg('Login success, wait for goes to dashboard');
-				localStorage.setItem('loginas', JSON.stringify(res.user));
+				setDataLocal(res.user);
 				setTimeout(function() {
 					window.location.href = BASE_URL+'profile';
 				}, 2000);
@@ -51,6 +51,26 @@ $('form').on('submit', function(e) {
 		})
 	}
 })
+
+var setDataLocal = function(user) {
+	localStorage.setItem('loginas', JSON.stringify(user));
+	dtNav = dataNavigasi();
+	localStorage.setItem('nav', JSON.stringify(dtNav));
+}
+
+var dataNavigasi = function() {
+	data = Array();
+	$.ajax({
+		url: baseUrl()+'api/app/navigasi',
+		type: 'get',
+		dataType: 'json',
+		async: false,
+		success: function(res) {
+			data = res.data;
+		}
+	})
+	return data;
+}
 
 
 

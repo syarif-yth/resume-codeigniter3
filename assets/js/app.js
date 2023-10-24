@@ -1,6 +1,6 @@
 
 $(document).ready(function() {
-	dtNav = dataNavigasi();
+	dtNav = localNav();
 	elmNav = '';
 	$.each(dtNav, function(key, val) {
 		elmNav += '<li class="nav-devider"></li>';
@@ -37,9 +37,11 @@ $(document).ready(function() {
 
 });
 
+
 var reloadNavi = function() {
 	$('ul.navgroup li').remove();
 	dtNav = dataNavigasi();
+	setLocal('nav', dtNav);
 	elmNav = '';
 	$.each(dtNav, function(key, val) {
 		elmNav += '<li class="nav-devider"></li>';
@@ -78,6 +80,11 @@ var dataNavigasi = function() {
 		}
 	})
 	return data;
+}
+
+var localNav = function() {
+	getNav = localStorage.getItem('nav');
+	return JSON.parse(getNav);
 }
 
 var loginAs = function() {

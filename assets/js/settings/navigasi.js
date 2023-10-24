@@ -136,6 +136,7 @@ $('form#edit-nav').on('submit', function(e) {
 				alertMsg(res.message);
 				modalReset('#edit-data');
 				dtTable.draw();
+				manageLocal();
 			},
 			error: function(err) {
 				resAlert(err);
@@ -144,6 +145,14 @@ $('form#edit-nav').on('submit', function(e) {
 		})
 	}
 })
+
+var manageLocal = function() {
+	if(getLocal('param_nav')) {
+		data = parNav();
+		setLocal('param_nav', data);
+	}
+	reloadNavi();
+}
 
 var deleteNav = function(key) {
 	$.ajax({

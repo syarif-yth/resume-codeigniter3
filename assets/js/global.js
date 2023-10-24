@@ -54,6 +54,15 @@ var randomCol = function() {
 	return rand;
 }
 
+var setLocal = function(name, data) {
+	localStorage.setItem(name, JSON.stringify(data));
+}
+
+var getLocal = function(name) {
+	get = localStorage.getItem(name);
+	return JSON.parse(get);
+}
+
 // CONFIG ALERT WITH JQUERY CONFIRM
 var alertMsg = function(content, type) {
 	switch(type) {

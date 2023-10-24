@@ -1,7 +1,7 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-class Migration_group_navigasi extends CI_migration
+class Migration_par_method extends CI_migration
 {
 	private $tb_name;
 	private $tb_key;
@@ -11,7 +11,7 @@ class Migration_group_navigasi extends CI_migration
 	function __construct()
 	{
 		parent::__construct();
-		$this->tb_name = 'group_navigasi';
+		$this->tb_name = 'par_method';
 		$this->tb_key = 'id';
 		$this->tb_engine = array('ENGINE' => 'InnoDB');
 		$this->tb_field = $this->set_field();
@@ -26,38 +26,36 @@ class Migration_group_navigasi extends CI_migration
 				'auto_increment' => true),
 			'nama' => array(
 				'type' => 'VARCHAR',
-				'constraint' => 20,
+				'constraint' => 10,
 				'null' => false,
 				'unique' => true),
 			'label' => array(
 				'type' => 'VARCHAR',
-				'constraint' => 50,
+				'constraint' => 20,
 				'null' => false),
-			'urutan' => array(
-				'type' => 'INT',
-				'constraint' => 2,
-				'null' => true,
-				'unique' => true),
-			'tgl_dibuat datetime default CURRENT_TIMESTAMP',
-			'tgl_modif datetime default CURRENT_TIMESTAMP on update CURRENT_TIMESTAMP'
+			'tgl_dibuat datetime default CURRENT_TIMESTAMP'
 		);
 		return $field;
 	}
 
 	private function set_value()
-	{
-		$data[] = array(
-			'nama' => 'main',
-			'label' => 'Main',
-			'urutan' => '1');
-		$data[] = array(
-			'nama' => 'parameters',
-			'label' => 'Parameters',
-			'urutan' => '2');
-		$data[] = array(
-			'nama' => 'settings',
-			'label' => 'Settings',
-			'urutan' => '3');
+	{		
+		$data = array(
+			array('nama' => 'get',
+				'label' => 'Get'),
+			array('nama' => 'post',
+				'label' => 'Post'),
+			array('nama' => 'put',
+				'label' => 'Put'),
+			array('nama' => 'patch',
+				'label' => 'Patch'),
+			array('nama' => 'delete',
+				'label' => 'Delete'),
+			array('nama' => 'head',
+				'label' => 'Head'),
+			array('nama' => 'options',
+				'label' => 'Options'),
+		);
 		return $data;
 	}
 

@@ -134,12 +134,30 @@ $(document).ready(function() {
 		});
 	});
 
-	
+	setParamLocal();
 });
 
+var setParamLocal = function() {
+	if(!getLocal('param_nav')) {
+		setLocal('param_nav', parNav());
+	}
+
+	if(!getLocal('param_class')) {
+		setLocal('param_class', parClass());
+	}
+
+	if(!getLocal('param_aksi')) {
+		setLocal('param_aksi', parAksi());
+	}
+
+	if(!getLocal('param_method')) {
+		setLocal('param_method', parMethod());
+	}
+}
+
 $('#new-data').on('show.bs.modal', function(event) {
-	var parSelect2 = [{ input: '#navigasi-new', data: parNav() },
-		{ input: '#class-new', data: parClass() }];
+	var parSelect2 = [{ input: '#navigasi-new', data: getLocal('param_nav') },
+		{ input: '#class-new', data: getLocal('param_class') }];
 	setSelect2(parSelect2);
 })
 
@@ -159,12 +177,13 @@ $('#edit-data').on('show.bs.modal', function(event) {
 	}
 
 	var parSelect2 = [
-		{ input: '#navigasi-edit', data: parNav(), value: data.navigasi },
+		{ input: '#navigasi-edit', data: getLocal('param_nav'), value: data.navigasi },
 	];
 	setSelect2(parSelect2);
 })
 
-var del = function(th) {
+
+const del = function(th) {
 	var getRule = $(th).data('rule');
 	confirmMsg({
 		title: 'Delete!',
@@ -187,7 +206,7 @@ $('#modal-details-nav').on('show.bs.modal', function(event) {
 
 	var parSelect2 = { 
 		input : '#input-navigasi', 
-		data : parNav(),
+		data : getLocal('param_nav'),
 		value : getValue.split(",")
 	};
 	setSelect2(parSelect2);
@@ -201,7 +220,7 @@ $('#modal-details-class').on('show.bs.modal', function(event) {
 
 	var parSelect2 = { 
 		input : '#input-class', 
-		data : parClass(),
+		data : getLocal('param_class'),
 		value : getValue.split(",")
 	};
 	setSelect2(parSelect2);
@@ -216,11 +235,11 @@ $('#modal-class').on('show.bs.modal', function(event) {
 	$(this).find('input[name=class]').val(getVal);
 	$(this).find('h4.modal-title').html('Detail Class '+getText);
 
-	get = getDetailClass(getRule, getVal);
+	let get = getDetailClass(getRule, getVal);
 	setElmChild(get.child);
 	var parSelect2 = [
-		{ input: '#input-method', data: parMethod(), value: get.method },
-		{ input: '#input-aksi', data: parAksi(), value: get.aksi },
+		{ input: '#input-method', data: getLocal('param_method'), value: get.method },
+		{ input: '#input-aksi', data: getLocal('param_aksi'), value: get.aksi },
 		{ input: '.input-child', data: parChild(getVal) }
 	];
 	setSelect2(parSelect2);
@@ -259,13 +278,13 @@ var elmChild = function(numb, key, val, set) {
 	'</tr>';
 		
 	$('#child-class tbody').append(tr);
-	var parSelect2 = { input: '.method-child-'+key, data: parMethod(), value: val };
+	var parSelect2 = { input: '.method-child-'+key, data: getLocal('param_method'), value: val };
 	setSelect2(parSelect2);
 }
 
 var setElmChild = function(data) {
 	$('#child-class tbody tr').remove();
-	var no = 0;
+	let no = 0;
 	$.each(data, function(key, val) {
 		elmChild(no, key, val, true);
 		no++;

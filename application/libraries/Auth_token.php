@@ -335,7 +335,7 @@ class Auth_token
 			if($kueri->num_rows() == 1) {
 				$body['user'] = $kueri->result_array()[0];
 				return $this->res($body);
-			} else { return $this->res('Data duplicated', 400); }
+			} else { return $this->res('Access forbidden!', 403); }
 		}
 	}
 }

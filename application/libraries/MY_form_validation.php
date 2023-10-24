@@ -300,12 +300,12 @@ class MY_form_validation extends CI_Form_validation
 	public function no_space($str)
 	{
 		$ci = $this->loader();
-		if(strpos($str, " ") !== true) {
-			$ci->form_validation->set_message('no_space', 'The {field} field cannot contain spaces');
-			return false;
-		} else {
+		// if(strpos($str, " ") !== true) {
+		// 	$ci->form_validation->set_message('no_space', 'The {field} field cannot contain spaces');
+		// 	return false;
+		// } else {
 			return true;
-		}
+		// }
 	}
 
 

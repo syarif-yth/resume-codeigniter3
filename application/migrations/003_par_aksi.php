@@ -1,7 +1,7 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-class Migration_rules extends CI_migration
+class Migration_par_aksi extends CI_migration
 {
 	private $tb_name;
 	private $tb_key;
@@ -11,7 +11,7 @@ class Migration_rules extends CI_migration
 	function __construct()
 	{
 		parent::__construct();
-		$this->tb_name = 'rules';
+		$this->tb_name = 'par_aksi';
 		$this->tb_key = 'id';
 		$this->tb_engine = array('ENGINE' => 'InnoDB');
 		$this->tb_field = $this->set_field();
@@ -26,41 +26,32 @@ class Migration_rules extends CI_migration
 				'auto_increment' => true),
 			'nama' => array(
 				'type' => 'VARCHAR',
-				'constraint' => 15,
+				'constraint' => 10,
 				'null' => false,
 				'unique' => true),
 			'label' => array(
 				'type' => 'VARCHAR',
-				'constraint' => 50,
-				'null' => false,
-				'default' => 'user'),
-			'akses' => array(
-				'type' => 'JSON',
-				'null' => true),
-			'tgl_dibuat datetime default CURRENT_TIMESTAMP',
-			'tgl_modif datetime default CURRENT_TIMESTAMP on update CURRENT_TIMESTAMP'
+				'constraint' => 20,
+				'null' => false),
+			'tgl_dibuat datetime default CURRENT_TIMESTAMP'
 		);
 		return $field;
 	}
 
 	private function set_value()
-	{
-		$akses_admin = array(
-			'navigasi' => ['dashboard','profile','resume','users'],
-			'aksi_users' => ['add','edit','delete','view','export'],
-			'users' => ['get','post','put']);
-		$data[] = array(
-			'nama' => 'admin',
-			'label' => 'Administrator',
-			'akses' => json_encode($akses_admin));
-
-		$akses_user = array(
-			'navigasi' => ['dashboard','profile','resume'],
-			'aksi_resume' => ['view']);
-		$data[] = array(
-			'nama' => 'user',
-			'label' => 'User App',
-			'akses' => json_encode($akses_user));
+	{		
+		$data = array(
+			array('nama' => 'add',
+				'label' => 'Add'),
+			array('nama' => 'edit',
+				'label' => 'Edit'),
+			array('nama' => 'delete',
+				'label' => 'Delete'),
+			array('nama' => 'export',
+				'label' => 'Export'),
+			array('nama' => 'view',
+				'label' => 'View')
+		);
 		return $data;
 	}
 

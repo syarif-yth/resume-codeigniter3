@@ -55,7 +55,14 @@ $(document).ready(function() {
 		],
 	});
 
+	setParamLocal();
 });
+
+var setParamLocal = function() {
+	if(!getLocal('param_class')) {
+		setLocal('param_class', parClass());
+	}
+}
 
 $('input#is-child-new').on('change', function() {
 	checked = $(this).is(':checked');
@@ -63,7 +70,7 @@ $('input#is-child-new').on('change', function() {
 		$('#new-group select').removeAttr('disabled', true);
 		$('#new-group').show();
 
-		var parSelect2 = { input: '#parent-new', data: parClass() };
+		var parSelect2 = { input: '#parent-new', data: getLocal('param_class') };
 		setSelect2(parSelect2);
 	} else {
 		$('#new-group select').attr('disabled', true);
@@ -81,7 +88,7 @@ $('input#is-child-edit').on('change', function() {
 		$('#edit-group select').removeAttr('disabled', true);
 		$('#edit-group').show();
 
-		forData = (isChild==1) ? parClass() : parClassWithout(nama);
+		forData = (isChild==1) ? getLocal('param_class') : parClassWithout(nama);
 		var parSelect2 = { 
 			input: '#parent-edit', 
 			data: forData,
@@ -117,7 +124,7 @@ $('#edit-data').on('show.bs.modal', function(event) {
 		$(this).find('#edit-group').show();
 		var parSelect2 = { 
 			input: '#parent-edit', 
-			data: parClass(),
+			data: getLocal('param_class'),
 			value: data.parent.split(',')
 		};
 		setSelect2(parSelect2);

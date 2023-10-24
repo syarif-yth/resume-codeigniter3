@@ -32,25 +32,24 @@ class Navigasi extends RestController
 		$this->load->database();
 		$this->db->select('group, nama, label, url, icon');
 		$this->db->order_by('urutan', 'ASC');
-		$this->db->where('nama', $nama);
+		$this->db->where_in('nama', $nama);
 		$kueri = $this->db->get('navigasi');
-		return $kueri->result_array()[0];
+		return $kueri->result_array();
 	}
 
 	private function get_data()
 	{
 		$per = $this->access->navigasi($this->rule);
-		$dt_child = [];
 		$grouping = [];
-		foreach($per as $val) {
-			$get = $this->get_child($val);
-			$dt_child[] = $get;
-			$grouping[] = $get['group'];
+		$get = $this->get_child($per);
+		foreach($get as $val) {
+			$grouping[] = $val['group'];
 		}
-
+		
 		$uni = array_unique($grouping);
+		$data = array();
 		foreach($uni as $gr) {
-			foreach($dt_child as $key => $val) {
+			foreach($get as $key => $val) {
 				if($val['group'] == $gr) {
 					unset($val['group']);
 					$data[$gr][] = $val;
