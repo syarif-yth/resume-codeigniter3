@@ -34,8 +34,12 @@ $('input#dark-theme').on('change', function() {
 
 // SET BASE URL
 var baseUrl = function() {
-	pathArray = window.location.pathname.split( '/' );
-	return window.location.origin+'/'+pathArray[1]+'/'+pathArray[2]+'/';
+	split = window.location.pathname.split( '/' );
+	path = '';
+	$.each(split, function(key, val) {
+		path += ((key+1)==split.length) ? '' : val+'/'
+	})
+	return window.location.origin+path;
 }
 
 var randomBg = function() {
