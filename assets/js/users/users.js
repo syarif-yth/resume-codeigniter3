@@ -2,86 +2,74 @@
 
 
 let BASE_URL = baseUrl();
+let dtTable;
 $(document).ready(function() {
-	data = getData();
-
-	dataAksi = data.users.aksi;
-	var table = $('#users_table').DataTable({
+	setAction('api/main/users');
+	dtTable = $('#users_table').DataTable({
+		ajax: {
+			url: BASE_URL+'api/main/users/datatable',
+			type: 'post',
+			error: function(err) { errorPage(err) }
+		},
+    processing: true,
+    serverSide: true,
+		retrieve: true,
 		columns: [
-			{ data: 'no', render: function (data, type, row, meta) {
-					return meta.row+1;
-				}
-			},
+			{ data: 'no', orderable: false },
 			{ data: 'nama' },
 			{ data: 'username' },
 			{ data: 'email' },
 			{ data: 'profesi' },
-			{ data: 'nip', render: function (data, type, row) {
-					btnView = '<button type="button" class="btn btn-secondary btn-custom" onclick="view('+data+')">'+
-						'<i class="fa fa-eye"></i>'+
-					'</button>';
+			{ data: 'action', orderable: false, class: 'action-sm',
+				render: function(data, type, row, meta) {
+					btnEdit = '<button type="button" class="btn btn-secondary btn-custom" onclick="edit(this)" data-key="'+data.nip+'"><i class="fa fa-edit"></i></button>';
+					btnDel = '<button type="button" class="btn btn-secondary btn-custom" data-key="'+data.nip+'" data-nama="'+row['nama']+'" data-target="#modal-close" data-toggle="modal"><i class="fa fa-trash"></i></button>';
 
-					btnEdit = '<button type="button" class="btn btn-secondary btn-custom" onclick="edit('+data+')">'+
-						'<i class="fa fa-edit"></i>'+
-					'</button>';
+					if(data.edit==undefined) btnEdit='';
+					if(data.delete==undefined) btnDel='';
 
-					btnDel = '<button type="button" class="btn btn-secondary btn-custom" onclick="del('+data+')">'+
-						'<i class="fa fa-trash"></i>'+
-					'</button>';
-
-					btnAksi = '';
-					$.each(dataAksi, function(key, val) {
-						if(val=='view') { btnAksi += btnView; }
-						if(val=='edit') { btnAksi += btnEdit; }
-						if(val=='delete') { btnAksi += btnDel; }
-					})
-					return '<div class="btn-group">'+btnAksi+'</div>';
-				} 
+					return '<div class="btn-group">'+
+						btnEdit+
+						btnDel+
+					'</div>';
+				}
 			}
 		],
-		columnDefs: [{
-      "targets"  : 'no-sort',
-      "orderable": false,
-    }]
 	});
-	table.clear();
-	table.rows.add(data.users.table).draw();
 });
 
-var edit = function() {
-	window.location.href = BASE_URL+'users/edit';
+const del = function(th) {
+	var nama = $(th).data('nama');
+	var key = $(th).data('key');
+	confirmMsg({
+		title: 'Delete!',
+		content: 'Are you sure want to Delete User "'+nama+'"?',
+		confirmText: '<i class="fa fa-trash"></i> Delete',
+		confirmAction: function() {
+			deleteUsers(key);
+		}
+	})
 }
 
-var view = function(nip) {
-	console.log(nip);
-	// window.location.href = BASE_URL+'users/view';
+const edit = function(th) {
+	var key = $(th).data('key');
+	window.location.href = BASE_URL+'users/edit/'+key;
 }
 
-var del = function() {
-	confirmMsg();
-}
-
-$('#pdf').on("click", function() {
-	alertMsg('This is success message');
-});
-
-
-var getData = function() {
-	data = Array();
+var deleteUsers = function(key) {
 	$.ajax({
-		url: BASE_URL+'api/users',
-		type: 'get',
+		url: BASE_URL+'api/main/users',
+		type: 'delete',
 		dataType: 'json',
-		async: false,
+		data: { key:key },
 		success: function(res) {
-			data = res.data;
+			alertMsg(res.message);
+			dtTable.draw();
 		},
 		error: function(err) {
-			console.log(err);
-			// resAlert(err);
-			// errValidServer($('form'), err);
+			resAlert(err);
 		},
 	})
-	return data;
 }
+
 

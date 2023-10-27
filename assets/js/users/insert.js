@@ -3,38 +3,61 @@
 
 let BASE_URL = baseUrl();
 $(document).ready(function() {
+	$('#preview-cover').attr('style', 'background-image: url('+baseUrl()+'assets/img/cover-default.jpg)');
+	$('#preview-avatar').attr('src',baseUrl()+'assets/img/avatar-default.jpg');
+
 	// SET MAX BIRTH DAY
 	setMaxBirth('input[name=tgl_lahir]');
 
 	// SET SELECT2
-	var optLokasi = [{ id: 0, text: 'jakarta'},
-		{ id: 1, text: 'bogor' },
-    { id: 2, text: 'depok' },
-    { id: 3, text: 'tangerang' },
-    { id: 4, text: 'bekasi' }];
-	var optGender = [{id:'laki-laki', text:'Laki-Laki'},
+	var optGender = [
+		{id:'laki-laki', text:'Laki-Laki'},
 		{id:'perempuan', text:'Perempuan'}];
 	var parSelect2 = [
-		{ input:'#tempat-lahir, #domisili', data:optLokasi },
-		{ input:'#jenis-kelamin', data:optGender }
+		{ input:'#tempat-lahir, #domisili', data:kabupaten() },
+		{ input:'#jenis-kelamin', data:optGender },
+		{ input:'#rule-input', data:rules() }
 	];
 	setSelect2(parSelect2);
 
 	// SET AUTOCOMPLETE
-	var dummy = [
-		"ActionScript","AppleScript","Asp","BASIC",
-		"C","C++","Clojure","COBOL","ColdFusion",
-		"Erlang","Fortran","Groovy","Haskell",
-		"Java","JavaScript","Lisp","Perl","PHP",
-		"Python","Ruby","Scala","Scheme"
-	];
 	setAutoComplete({
 		trigger: '#auto-profesi',
 		inputName: 'profesi',
 		inputHolder: 'Enter Profesion',
-		data: dummy
+		data: profesi()
 	});
 });
+
+var kabupaten = function() {
+	if(!getLocal('param_loc')) {
+		data = parLoc();
+		setLocal('param_loc', data);
+		return data;
+	} else {
+		return getLocal('param_loc');
+	}
+}
+
+var profesi = function() {
+	if(!getLocal('param_profesi')) {
+		data = parProfesi();
+		setLocal('param_profesi', data);
+		return data;
+	} else {
+		return getLocal('param_profesi');
+	}
+}
+
+var rules = function() {
+	if(!getLocal('param_rules')) {
+		data = parRules();
+		setLocal('param_rules', data);
+		return data;
+	} else {
+		return getLocal('param_rules');
+	}
+}
 
 $("input#cover").on('change', function() {
 	previewImg({
@@ -54,8 +77,35 @@ $("input#avatar").on('change', function() {
 
 $('form#add-user').on('submit', function(e) {
 	e.preventDefault();
-	alertMsg('Add new user success');
-	setTimeout(function() {
-		window.location.href = BASE_URL+'users';
-  }, 1000);
+	var formData = new FormData(this);
+	$.ajax({
+		url: BASE_URL+'api/main/users',
+		type: 'post',
+		dataType: 'json',
+		data: formData,
+		enctype: 'multipart/form-data',
+		cache: false,
+		contentType: false,
+		processData: false,
+		success: function(res) {
+			alertMsg(res.message);
+			delLocal('param_profesi');
+			setTimeout(function() {
+				window.location.href = BASE_URL+'users';
+			}, 1000);
+		},
+		error: function(err) {
+			resAlert(err);
+			errValidServer($('form#add-user'), err);
+			errors = err.responseJSON.errors;
+			$('#err-cover').html(errors.cover);
+			$('#err-avatar').html(errors.avatar);
+			setTimeout(function() {
+				$('#err-cover').html('');
+				$('#err-avatar').html('');
+			}, 20000);
+		},
+	})
+
 })
+

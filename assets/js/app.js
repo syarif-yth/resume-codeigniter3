@@ -104,7 +104,7 @@ var setAction = function(uri) {
 			})
 		},
 		error: function(err) {
-			resAlert(err);
+			errorPage(err);
 		},
 	})
 }
@@ -204,3 +204,45 @@ var errorPage = function(xhr) {
 	'</div>';
 	$('div#container').html(element);
 }
+
+var parLoc = function() {
+	data = Array();
+	$.ajax({
+		url: baseUrl()+'api/app/kabupaten',
+		type: 'get',
+		dataType: 'json',
+		async: false,
+		success: function(res) {
+			data = res.data;
+		}
+	})
+	return data;
+}
+
+var parProfesi = function() {
+	data = Array();
+	$.ajax({
+		url: baseUrl()+'api/main/users/profesi',
+		type: 'get',
+		dataType: 'json',
+		async: false,
+		success: function(res) {
+			data = res.data;
+		}
+	})
+	return data;
+}
+var parRules = function() {
+	data = Array();
+	$.ajax({
+		url: baseUrl()+'api/app/select2/param_rule',
+		type: 'get',
+		dataType: 'json',
+		async: false,
+		success: function(res) {
+			data = res.data;
+		}
+	})
+	return data;
+}
+

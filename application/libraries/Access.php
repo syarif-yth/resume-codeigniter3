@@ -42,10 +42,12 @@ class Access
 				$child = (array) $array[$this->class]->child;
 				$class = (empty($child[$this->func])) ? false : $child[$this->func];
 			} else {
-				$class = $array[$this->class]->method;
+				if(!empty($array[$this->class])) {
+					$class = $array[$this->class]->method;
+				}
 			}
 
-			if($class) {
+			if(!empty($class)) {
 				$body = 'Access forbidden!';
 				$code = 403;
 				foreach($class as $key => $val) {

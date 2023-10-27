@@ -322,10 +322,10 @@ class Auth_token
 	{
 		$this->ci->load->database();
 		$column = array('users.nip', 'users.email', 'username',  
-			'nama', 'avatar', 'profesi', 'attr_users.rule');
+			'nama', 'avatar', 'profesi', 'users_attr.rule');
 		$this->ci->db->select($column);
 		$this->ci->db->from('users');
-		$this->ci->db->join('attr_users', 'attr_users.nip = users.nip');
+		$this->ci->db->join('users_attr', 'users_attr.nip = users.nip');
 		$this->ci->db->where('users.nip', $aud);
 		$kueri = $this->ci->db->get();
 		if(!$kueri) {

@@ -93,7 +93,7 @@ class Migration_navigasi extends CI_migration
 			'nama' => 'jenis_pekerjaan',
 			'label' => 'Type Work',
 			'url' => 'jenis_pekerjaan',
-			'icon' => 'fa fa-bars',
+			'icon' => 'fa fa-vcard',
 			'urutan' => '5');
 		$data[] = array(
 			'group' => 'parameters',

@@ -61,7 +61,7 @@ class Permision extends RestController
 		} else {
 			$res['status'] = false;
 			$res['message'] = 'Your request not valid';
-			$res['errors'] = [$is_valid];
+			$res['errors'] = $is_valid;
 			$this->response($res, 400);
 		}
 	}
@@ -143,7 +143,7 @@ class Permision extends RestController
 		} else {
 			$res['status'] = false;
 			$res['message'] = 'Your request not valid';
-			$res['errors'] = [$is_valid];
+			$res['errors'] = $is_valid;
 			$this->response($res, 400);
 		}
 	}
@@ -350,9 +350,7 @@ class Permision extends RestController
     $this->form_validation->set_rules($data);
 		if($this->form_validation->run($this) == false) {
 			return $this->form_validation->error_array();
-		} else {
-			return true;
-		}
+		} else { return true; }
   }
 
 	private function set_update_class($put)
@@ -406,9 +404,7 @@ class Permision extends RestController
     $this->form_validation->set_rules($data);
 		if($this->form_validation->run($this) == false) {
 			return $this->form_validation->error_array();
-		} else {
-			return true;
-		}
+		} else { return true; }
   }
 }
 ?>

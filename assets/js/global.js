@@ -18,8 +18,24 @@ $(document).ready(function() {
 		$('input#dark-theme').attr('checked', true);
 	}
 	$('body').toggleClass(theme);
-
+	
 });
+
+const appName = function() {
+	var name = null;
+	var scripts = document.getElementsByTagName('script');
+	$.each(scripts, function(key, val) {
+		src = val.getAttribute('src');
+		if(src) {
+			split = src.split('/');
+			me = split[split.length-1];
+			if(me == 'global.js') {
+				name = split[split.length-4];
+			}
+		}
+	})
+	return name;
+}
 
 // TOGGLE CHECKBOX DARKTHEME
 $('input#dark-theme').on('change', function() {
@@ -32,14 +48,11 @@ $('input#dark-theme').on('change', function() {
 	document.location.reload()
 })
 
+
 // SET BASE URL
 var baseUrl = function() {
-	split = window.location.pathname.split( '/' );
-	path = '';
-	$.each(split, function(key, val) {
-		path += ((key+1)==split.length) ? '' : val+'/'
-	})
-	return window.location.origin+path;
+	split = window.location.pathname.split(appName());
+	return window.location.origin+split[0]+appName()+'/';
 }
 
 var randomBg = function() {
@@ -58,13 +71,17 @@ var randomCol = function() {
 	return rand;
 }
 
-var setLocal = function(name, data) {
+const setLocal = function(name, data) {
 	localStorage.setItem(name, JSON.stringify(data));
 }
 
-var getLocal = function(name) {
-	get = localStorage.getItem(name);
-	return JSON.parse(get);
+const getLocal = function(name) {
+	getItem = localStorage.getItem(name);
+	return JSON.parse(getItem);
+}
+
+const delLocal = function(name) {
+	localStorage.removeItem(name);
 }
 
 // CONFIG ALERT WITH JQUERY CONFIRM
@@ -197,7 +214,7 @@ var resAlert = function(errors) {
 // SET ERROR VALIDATION SERVER
 var errValidServer = function(form, errors) {
 	if(errors.responseJSON.errors) {
-		res = errors.responseJSON.errors[0];
+		res = errors.responseJSON.errors;
 		$.each(res, function(key, val) {
 			elm = '<small class="text-danger error">'+val+'</small>';
 			input = $(form).find('[name="'+key+'"]');

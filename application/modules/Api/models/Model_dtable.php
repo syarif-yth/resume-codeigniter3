@@ -81,7 +81,7 @@ class Model_dtable extends CI_Model
 	public function count_users($rule)
 	{
 		$this->db->where('rule', $rule);
-		$this->db->from('attr_users');
+		$this->db->from('users_attr');
 		return $this->db->count_all_results();
 	}
 

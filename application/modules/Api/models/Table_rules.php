@@ -50,7 +50,7 @@ class Table_rules extends CI_Model
 	public function check_user($rule) 
 	{
 		$this->db->where('rule', $rule);
-		$kueri = $this->db->get('attr_users');
+		$kueri = $this->db->get('users_attr');
 		if(!$kueri) {
 			$err = $this->db->error();
 			return db_error($err);

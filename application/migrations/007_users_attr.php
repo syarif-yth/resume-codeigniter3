@@ -1,7 +1,7 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-class Migration_attr_users extends CI_migration
+class Migration_users_attr extends CI_migration
 {
 	private $tb_name;
 	private $tb_key;
@@ -11,7 +11,7 @@ class Migration_attr_users extends CI_migration
 	function __construct()
 	{
 		parent::__construct();
-		$this->tb_name = 'attr_users';
+		$this->tb_name = 'users_attr';
 		$this->tb_key = 'nip';
 		$this->tb_engine = array('ENGINE' => 'InnoDB');
 		$this->tb_field = $this->set_field();

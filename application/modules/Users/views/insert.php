@@ -14,7 +14,7 @@
 							<div class="col-md-6">
 								<div class="row">
 									<div class="col-md-6">
-										<div class="cover-pic" id="preview-cover" style="background-image: url('<?=base_url().$cover?>')"></div>
+										<div class="cover-pic" id="preview-cover"></div>
 									</div>
 									<div class="col-md-5 input-group-cover">
 										<label class="control-label">
@@ -22,16 +22,16 @@
 											<span class="small text-muted">(jpg/jpeg/png. max:2mb)</span>
 										</label>
 										<input type="file" id="cover" name="cover" class="form-control" accept=".jpg,.jpeg,.png">
+										
+										<small class="form-control-feedback text-danger" id="err-cover"></small>
 									</div>
-									
-									<small class="m-l-15 form-control-feedback text-danger" id="err-cover"></small>
 								</div>
 							</div>
 
 							<div class="col-md-6">
 								<div class="row row-avatar">
 									<div class="col-md-4">
-										<img src="<?=base_url().$avatar?>" id="preview-avatar" class="profile-pic m-l-20">
+										<img id="preview-avatar" class="profile-pic m-l-20">
 									</div>
 									<div class="col-md-7">
 										<label class="control-label">
@@ -39,9 +39,10 @@
 											<span class="small text-muted"><br>(jpg/jpeg/png. max:2mb)</span>
 										</label>
 										<input type="file" id="avatar" name="avatar" class="form-control" accept=".jpg,.jpeg,.png">
+
+										<small class="form-control-feedback text-danger" id="err-avatar"></small>
 									</div>
 
-									<small class="m-l-15 form-control-feedback text-danger" id="err-avatar"></small>
 								</div>
 							</div>
 						</div>
@@ -116,15 +117,15 @@
 										<div class="col-6">
 											<div class="form-group">
 												<label class="control-label">Name</label>
-												<input type="text" name="nama" class="form-control" placeholder="Admin App">
-												<small class="form-control-feedback text-danger" id="err-nama"></small>
+												<input type="text" name="nama" class="form-control" placeholder="Default User App">
 											</div>
 										</div>
 										<div class="col-6">
 											<div class="form-group">
-												<label class="control-label">Number Phone</label>
-												<input type="text" name="no_hp" class="form-control" placeholder="Enter Number Phone">
-												<small class="form-control-feedback text-danger" id="err-no_hp"></small>
+												<label class="control-label">
+													Number Phone <span class="small text-muted">(628******)</span>
+												</label>
+												<input type="text" name="no_telp" class="form-control" placeholder="Enter Number Phone">
 											</div>
 										</div>
 									</div>
@@ -137,21 +138,18 @@
 											<div class="form-group">
 												<label class="control-label">Gender</label>
 												<input class="form-control select2" name="jenis_kelamin" id="jenis-kelamin" data-placeholder="Select Gender" data-minimum-results-for-search="-1">
-												<small class="form-control-feedback text-danger" id="err-jenis_kelamin"></small>
 											</div>
 										</div>
 										<div class="col-4">
 											<div class="form-group">
 												<label class="control-label">Date of Birth</label>
 												<input type="date" name="tgl_lahir" class="form-control" placeholder="dd/mm/yyyy">
-												<small class="form-control-feedback text-danger" id="err-tgl_lahir"></small>
 											</div>
 										</div>
 										<div class="col-5">
 											<div class="form-group">
 												<label class="control-label">Place of Birth</label>
 												<input class="form-control select2" name="tempat_lahir" id="tempat-lahir" data-placeholder="Select Place" data-minimum-results-for-search="2">
-												<small class="form-control-feedback text-danger" id="err-tempat_lahir"></small>
 											</div>
 										</div>
 									</div>
@@ -173,16 +171,24 @@
 											<div class="form-group">
 												<label class="control-label">Profession</label>
 												<div id="auto-profesi" class="autocomplete-wrapper"></div>
-												<small class="form-control-feedback text-danger" id="err-profesi"></small>
 											</div>
 										</div>
 									</div>
 								</div>
 								<div class="col-md-6">
-									<div class="form-group">
-										<label class="control-label">Description</label>
-										<textarea name="deskripsi" class="form-control" placeholder="Enter Description" rows="3"></textarea>
-										<small class="form-control-feedback text-danger" id="err-deskripsi"></small>
+									<div class="row">
+										<div class="col-8">
+											<div class="form-group">
+												<label class="control-label">Description</label>
+												<textarea name="deskripsi" class="form-control" placeholder="Enter Description" rows="3"></textarea>
+											</div>
+										</div>
+										<div class="col-4">
+											<div class="form-group">
+												<label class="control-label">Rule</label>
+												<input class="form-control select2" name="rule" id="rule-input" data-placeholder="Default User" data-minimum-results-for-search="-1">
+											</div>
+										</div>
 									</div>
 								</div>
 

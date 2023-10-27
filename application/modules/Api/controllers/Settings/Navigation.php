@@ -49,7 +49,7 @@ class Navigation extends RestController
 		} else {
 			$res['status'] = false;
 			$res['message'] = 'Your request not valid';
-			$res['errors'] = [$is_valid];
+			$res['errors'] = $is_valid;
 			$this->response($res, 400);
 		}
 	}
@@ -76,7 +76,7 @@ class Navigation extends RestController
 		} else {
 			$res['status'] = false;
 			$res['message'] = 'Your request not valid';
-			$res['errors'] = [$is_valid];
+			$res['errors'] = $is_valid;
 			$this->response($res, 400);
 		}
 	}

@@ -6,21 +6,10 @@
 		<div class="card card-edit card-outline-primary">
 			<div class="card-body">
 				<div class="btn-group nav-button">
-					<div class="dropdown">
-						<button class="btn btn btn-secondary hover-danger dropdown-toggle" type="button" data-toggle="dropdown">Danger Zone
-							<span class="caret"></span>
-						</button>
-						<ul class="dropdown-menu dropdown-menu-right">
-							<li>
-								<a href="javascript:void(0)" class="btn btn-block" data-target="#modal-password" data-toggle="modal">Update Password</a>
-							</li>
-							<li>
-								<a href="javascript:void(0)" class="btn btn-block" data-target="#modal-close" data-toggle="modal">Close Account</a>
-							</li>
-						</ul>
-					</div>
+						<button class="btn btn btn-secondary" type="button" data-target="#modal-password" data-toggle="modal">Update Password</button>
 				</div>
-				<form id="edit-profile">
+
+				<form id="edit-user">
 					<div class="form-body">
 						<h3 class="card-title">Edit User</h3>
 						<hr>
@@ -28,7 +17,7 @@
 							<div class="col-md-6">
 								<div class="row">
 									<div class="col-md-6">
-										<div class="cover-pic" id="preview-cover" style="background-image: url('<?=base_url().$cover?>')"></div>
+										<div class="cover-pic" id="preview-cover"></div>
 									</div>
 									<div class="col-md-5 input-group-cover">
 										<label class="control-label">
@@ -36,16 +25,16 @@
 											<span class="small text-muted">(jpg/jpeg/png. max:2mb)</span>
 										</label>
 										<input type="file" id="cover" name="cover" class="form-control" accept=".jpg,.jpeg,.png">
-									</div>
 									
-									<small class="m-l-15 form-control-feedback text-danger" id="err-cover"></small>
+										<small class="form-control-feedback text-danger" id="err-cover"></small>
+									</div>
 								</div>
 							</div>
 
 							<div class="col-md-6">
 								<div class="row row-avatar">
 									<div class="col-md-4">
-										<img src="<?=base_url().$avatar?>" id="preview-avatar" class="profile-pic m-l-20">
+										<img id="preview-avatar" class="profile-pic m-l-20">
 									</div>
 									<div class="col-md-7">
 										<label class="control-label">
@@ -53,9 +42,9 @@
 											<span class="small text-muted"><br>(jpg/jpeg/png. max:2mb)</span>
 										</label>
 										<input type="file" id="avatar" name="avatar" class="form-control" accept=".jpg,.jpeg,.png">
-									</div>
 
-									<small class="m-l-15 form-control-feedback text-danger" id="err-avatar"></small>
+										<small class="form-control-feedback text-danger" id="err-avatar"></small>
+									</div>
 								</div>
 							</div>
 						</div>
@@ -206,7 +195,6 @@
 							<div class="form-group">
 								<label class="control-label">New Email Address</label>
 								<input type="email" name="email" class="form-control" placeholder="Enter New Email Address">
-								<small class="form-control-feedback text-danger" id="err-email"></small>
 							</div>
 						</div>
 					</div>
@@ -214,31 +202,22 @@
 						<div class="col-6">
 							<div class="form-group">
 								<label class="control-label">Password</label>
-								<div class="input-group">
-									<input type="password" name="password" class="form-control" placeholder="&bull;&bull;&bull;&bull;&bull;">
-									<span class="input-group-btn">
-										<button class="btn" type="button" onclick="showPass(this)">
-											<i class="fa fa-eye"></i>
-										</button>
-									</span>
-								</div>
-								<small class="form-control-feedback text-danger" id="err-password"></small>
+								<input type="password" name="password" class="form-control" placeholder="&bull;&bull;&bull;&bull;&bull;">
 							</div>
 						</div>
 
 						<div class="col-6">
 							<div class="form-group">
 								<label class="control-label">Confirm Password</label>
-								<div class="input-group">
-									<input type="password" name="passconf" class="form-control" placeholder="&bull;&bull;&bull;&bull;&bull;">
-									<span class="input-group-btn">
-										<button class="btn" type="button" onclick="showConf(this)">
-											<i class="fa fa-eye"></i>
-										</button>
-									</span>
-								</div>
-								<small class="form-control-feedback text-danger" id="err-passconf"></small>
+								<input type="password" name="passconf" class="form-control" placeholder="&bull;&bull;&bull;&bull;&bull;">
 							</div>
+						</div>
+					</div>
+
+					<div class="row col-12">
+						<div class="checkbox checkbox-success">
+							<input id="showpass-email" type="checkbox" name="show">
+							<label for="showpass-email">Show Password</label>
 						</div>
 					</div>
 				</div>
@@ -337,64 +316,38 @@
 						<div class="col-6">
 							<div class="form-group">
 								<label class="control-label">Current Password</label>
-								<div class="input-group">
-									<input type="password" name="password" class="form-control" placeholder="&bull;&bull;&bull;&bull;&bull;">
-									<span class="input-group-btn">
-										<button class="btn" type="button" onclick="showPass(this)">
-											<i class="fa fa-eye"></i>
-										</button>
-									</span>
-								</div>
-								<small class="form-control-feedback text-danger" id="err-password"></small>
+								<input type="password" name="password" class="form-control" placeholder="&bull;&bull;&bull;&bull;&bull;">
 							</div>
 						</div>
 
 						<div class="col-6">
 							<div class="form-group">
-								<label class="control-label">Confirm Current Password</label>
-								<div class="input-group">
-									<input type="password" name="passconf" class="form-control" placeholder="&bull;&bull;&bull;&bull;&bull;">
-									<span class="input-group-btn">
-										<button class="btn" type="button" onclick="showConf(this)">
-											<i class="fa fa-eye"></i>
-										</button>
-									</span>
-								</div>
-								<small class="form-control-feedback text-danger" id="err-passconf"></small>
+								<label class="control-label">Confirm Current Password</label>w
+								<input type="password" name="passconf" class="form-control" placeholder="&bull;&bull;&bull;&bull;&bull;">
 							</div>
 						</div>
 					</div>
-
 
 					<div class="row m-t-20">
 						<div class="col-6">
 							<div class="form-group">
 								<label class="control-label">New Password</label>
-								<div class="input-group">
-									<input type="password" name="new_password" class="form-control" placeholder="&bull;&bull;&bull;&bull;&bull;">
-									<span class="input-group-btn">
-										<button class="btn" type="button" onclick="showPass(this)">
-											<i class="fa fa-eye"></i>
-										</button>
-									</span>
-								</div>
-								<small class="form-control-feedback text-danger" id="err-new_password"></small>
+								<input type="password" name="new_password" class="form-control" placeholder="&bull;&bull;&bull;&bull;&bull;">
 							</div>
 						</div>
 
 						<div class="col-6">
 							<div class="form-group">
 								<label class="control-label">Confirm New Password</label>
-								<div class="input-group">
-									<input type="password" name="new_passconf" class="form-control" placeholder="&bull;&bull;&bull;&bull;&bull;">
-									<span class="input-group-btn">
-										<button class="btn" type="button" onclick="showConf(this)">
-											<i class="fa fa-eye"></i>
-										</button>
-									</span>
-								</div>
-								<small class="form-control-feedback text-danger" id="err-new_passconf"></small>
+								<input type="password" name="new_passconf" class="form-control" placeholder="&bull;&bull;&bull;&bull;&bull;">
 							</div>
+						</div>
+					</div>
+
+					<div class="row col-12">
+						<div class="checkbox checkbox-success">
+							<input id="showpass-word" type="checkbox" name="show">
+							<label for="showpass-word">Show Password</label>
 						</div>
 					</div>
 				</div>

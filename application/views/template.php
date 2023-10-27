@@ -101,7 +101,7 @@ $title = ucfirst($uri_first);
 
 						<li class="">
 							<a href="#">
-								<i class="fa fa-paypal"></i>
+								<i class="fa fa-coffee"></i>
 								<span class="hide-menu">Donate</span>
 							</a>
 						</li>

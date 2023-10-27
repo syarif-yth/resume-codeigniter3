@@ -9,7 +9,7 @@ class Model_auth extends CI_Model
 	{
 		parent::__construct();
 		$this->tb_users = $this->db->protect_identifiers('users', TRUE);
-		$this->tb_attr = $this->db->protect_identifiers('attr_users', TRUE);
+		$this->tb_attr = $this->db->protect_identifiers('users_attr', TRUE);
 	}
 
 	public function check_username_login($username)

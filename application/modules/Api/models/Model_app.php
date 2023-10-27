@@ -85,6 +85,32 @@ class Model_app extends CI_Model
 			return db_response($kueri->result_array());
 		}
 	}
+
+	public function select2_location()
+	{
+		$this->db->select('kode AS id, nama AS text');
+		$this->db->order_by('kode', 'ASC');
+		$kueri = $this->db->get('kabupaten');
+		if(!$kueri) {
+			$err = $this->db->error();
+			return db_error($err);
+		} else {
+			return db_response($kueri->result_array());
+		}
+	}
+
+	public function select2_rule()
+	{
+		$this->db->select('nama AS id, label AS text');
+		$this->db->order_by('nama', 'ASC');
+		$kueri = $this->db->get('rules');
+		if(!$kueri) {
+			$err = $this->db->error();
+			return db_error($err);
+		} else {
+			return db_response($kueri->result_array());
+		}
+	}
 }
 
 ?>

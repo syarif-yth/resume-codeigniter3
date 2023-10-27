@@ -3,6 +3,28 @@
 
 let BASE_URL = baseUrl();
 $(document).ready(function() {
+	$('input#showpass-word').on('change', function() {
+		checked = $(this).is(':checked');
+		if(checked === true) {
+			$('#modal-password input[type=password]').attr('type', 'text');
+		} else {
+			$('#modal-password input[type=text]').attr('type', 'password');
+		}
+	});
+
+	$('input#showpass-email').on('change', function() {
+		checked = $(this).is(':checked');
+		if(checked === true) {
+			$('#modal-email input[type=password]').attr('type', 'text');
+		} else {
+			$('#modal-email input[type=text]').attr('type', 'password');
+		}
+	});
+
+	$('#preview-cover').attr('style', 'background-image: url('+baseUrl()+'assets/img/cover-default.jpg)');
+	$('#preview-avatar').attr('src',baseUrl()+'assets/img/avatar-default.jpg');
+
+
 	// SET MAX BIRTH DAY
 	setMaxBirth('input[name=tgl_lahir]');
 

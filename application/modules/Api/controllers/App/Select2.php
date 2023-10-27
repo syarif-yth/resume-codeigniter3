@@ -110,5 +110,19 @@ class Select2 extends RestController
 			$this->response($res);
 		}
 	}
+
+	public function param_rule_get()
+	{
+		$get = $this->model_app->select2_rule();
+		if($get['code'] !== 200) {
+			$res['status'] = false;
+			$res['message'] = $get['message'];
+			$this->response($res, $get['code']);
+		} else {
+			$res['status'] = true;
+			$res['data'] = $get['data'];
+			$this->response($res);
+		}
+	}
 }
 ?>

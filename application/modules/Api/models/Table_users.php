@@ -208,5 +208,61 @@ class Table_users extends CI_Model
 			return $res;
 		}
 	}
+
+	public function insert_attr($data)
+	{
+		$this->db->trans_begin();
+		$user = array_remove($data, 'rule');
+		$kueri = $this->db->insert($this->db_table, $user);
+		if(!$kueri) {
+			$err = $this->db->error();
+			return db_error($err);
+		} else {
+			if($this->db->affected_rows() == 0) {
+				$res['code'] = 400;
+				$res['message'] = "no data has been inserted";
+			} else {
+				$dt_attr = array('nip' => $data['nip'],
+					'email' => $data['email'],
+					'rule' => $data['rule']);
+				$attr = $this->db->insert('users_attr', $dt_attr);
+				if(!$attr) {
+					$this->db->trans_rollback();
+					$err = $this->db->error();
+					return db_error($err);
+				} else {
+					$this->db->trans_commit();
+					$res['code'] = 200;
+					$res['message'] = "new data has been inserted";
+					$res['data'] = $data;
+				}
+			}
+			return $res;
+		}
+	}
+
+	public function delete_attr($nip)
+	{
+		$this->db->trans_begin();
+		$this->db->where('nip', $nip);
+		$attr = $this->db->delete('users_attr');
+		if(!$attr) {
+			$err = $this->db->error();
+			return db_error($err);
+		} else {
+			$this->db->where('nip', $nip);
+			$kueri = $this->db->delete($this->db_table);
+			if(!$kueri) {
+				$this->db->trans_rollback();
+				$err = $this->db->error();
+				return db_error($err);
+			} else {
+				$this->db->trans_commit();
+				$res['code'] = 200;
+				$res['message'] = "data has been deleted";
+				return $res;
+			}
+		}
+	}
 }
 ?>

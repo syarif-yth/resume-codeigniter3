@@ -300,12 +300,54 @@ class MY_form_validation extends CI_Form_validation
 	public function no_space($str)
 	{
 		$ci = $this->loader();
-		// if(strpos($str, " ") !== true) {
-		// 	$ci->form_validation->set_message('no_space', 'The {field} field cannot contain spaces');
-		// 	return false;
-		// } else {
-			return true;
-		// }
+		$regex = preg_match('/\s/', $str);
+		if($regex == true) {
+			$ci->form_validation->set_message('no_space', 'The {field} field cannot contain spaces');
+			return false;
+		} else { return true; }
+	}
+
+	public function valid_gender($str) 
+	{
+		$ci = $this->loader();
+		if(!empty($str)) {
+			if(($str!=='laki-laki') && ($str!=='perempuan')) {
+				$ci->form_validation->set_message('valid_gender', 'The {field} field not allowed value.');
+				return false;
+			} else { return true; }
+		} else { return true; }
+	}
+
+	public function valid_birth($str)
+	{
+		$ci = $this->loader();
+		if(!empty($str)) {
+			$ci->load->helper('datetime');
+			$now = now('str');
+			$birth = strtotime($str);
+			$diff = difftime_manual($birth, $now);
+			if($diff['tahun'] < 17) {
+				$ci->form_validation->set_message('valid_birth', 'The {field} field must be greater than 17+');
+				return false;
+			} else { return true; }
+		} else { return true; }
+	}
+
+	public function valid_rule($str)
+	{
+		$ci = $this->loader();
+		if(!empty($str)) {
+			$where = array('nama' => $str);
+			$is_exist = $ci->validation->is_exist('rules', $where);
+			if($is_exist['code'] != 200) {
+				if($is_exist['code'] == 400) {
+					$ci->form_validation->set_message('valid_rule', 'The {field} field not allowed value.');
+				} else {
+					$ci->form_validation->set_message('valid_rule', $is_exist['message']);
+				}
+				return false;
+			} else { return true; }
+		} else { return true; }
 	}
 
 

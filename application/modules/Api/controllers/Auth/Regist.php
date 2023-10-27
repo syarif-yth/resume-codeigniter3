@@ -74,7 +74,7 @@ class Regist extends RestController
         'rules' => 'trim|required|min_length[5]|max_length[20]|valid_username|db_username_is_unique'),
       array('field' => 'password',
 				'label' => 'Password',
-        'rules' => 'required|min_length[5]|valid_password'),
+        'rules' => 'required|min_length[5]|valid_password|matches[passconf]'),
       array('field' => 'passconf',
 				'label' => 'Confirm Password',
         'rules' => 'required|min_length[5]|valid_password|matches[password]')

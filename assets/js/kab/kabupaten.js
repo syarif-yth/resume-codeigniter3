@@ -4,13 +4,14 @@ let BASE_URL = baseUrl();
 $(document).ready(function() {
 	var table = $('#kabupaten_table').DataTable({
 		ajax: {
-			url: BASE_URL+'api/tester/datatable',
+			url: BASE_URL+'api/app/kabupaten/datatable',
 			type: 'post',
+			error: function(err) { errorPage(err) }
 		},
 		columns: [
-			{ data: [0] },
-			{ data: [1] },
-			{ data: [2],
+			{ data: 'no', sortable: false },
+			{ data: 'kode' },
+			{ data: 'nama',
 				render: function(data, type, row, meta) {
 					return data;
 				}
@@ -18,10 +19,6 @@ $(document).ready(function() {
 		],
     processing: true,
     serverSide: true,
-		columnDefs: [{
-      "targets"  : [0],
-      "orderable": false,
-    }],
 	});
 
 })

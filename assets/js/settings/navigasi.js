@@ -115,6 +115,7 @@ $('form#new-nav').on('submit', function(e) {
 				alertMsg(res.message);
 				modalReset('#new-data');
 				dtTable.draw();
+				manageLocal();
 			},
 			error: function(err) {
 				resAlert(err);
@@ -162,6 +163,7 @@ var deleteNav = function(key) {
 		data: { key:key },
 		success: function(res) {
 			alertMsg(res.message);
+			manageLocal();
 			dtTable.draw();
 		},
 		error: function(err) {

@@ -162,6 +162,7 @@ $('form#new-param').on('submit', function(e) {
 				alertMsg(res.message);
 				modalReset('#new-data');
 				dtTable.draw();
+				manageLocal();
 			},
 			error: function(err) {
 				resAlert(err);
@@ -183,6 +184,7 @@ $('form#edit-param').on('submit', function(e) {
 				alertMsg(res.message);
 				modalReset('#edit-data');
 				dtTable.draw();
+				manageLocal();
 			},
 			error: function(err) {
 				resAlert(err);
@@ -205,6 +207,13 @@ var del = function(th) {
 	});
 }
 
+var manageLocal = function() {
+	if(getLocal('param_class')) {
+		data = parClass();
+		setLocal('param_class', data);
+	}
+}
+
 var deleteClass = function(key) {
 	$.ajax({
 		url: BASE_URL+'api/settings/classes',
@@ -214,6 +223,7 @@ var deleteClass = function(key) {
 		success: function(res) {
 			alertMsg(res.message);
 			dtTable.draw();
+			manageLocal();
 		},
 		error: function(err) {
 			resAlert(err);
