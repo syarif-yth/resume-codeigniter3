@@ -223,8 +223,10 @@ class Table_users extends CI_Model
 				$res['message'] = "no data has been inserted";
 			} else {
 				$dt_attr = array('nip' => $data['nip'],
-					'email' => $data['email'],
-					'rule' => $data['rule']);
+					'email' => $data['email']);
+				if(!empty($data['rule'])) {
+					$dt_attr = array_merge($dt_attr, array('rule' => $data['rule']));
+				}
 				$attr = $this->db->insert('users_attr', $dt_attr);
 				if(!$attr) {
 					$this->db->trans_rollback();

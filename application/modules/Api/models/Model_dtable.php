@@ -96,5 +96,17 @@ class Model_dtable extends CI_Model
 			return $kueri->row_array();
 		}
 	}
+
+	public function get_status($nip)
+	{
+		$this->db->select('status');
+		$this->db->where('nip', $nip);
+		$kueri = $this->db->get('users_attr');
+		if($kueri->num_rows() == 1) {
+			return $kueri->row_array()['status'];
+		} else {
+			return $kueri->row_array();
+		}
+	}
 }
 ?>

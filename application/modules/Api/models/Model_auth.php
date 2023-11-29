@@ -39,7 +39,7 @@ class Model_auth extends CI_Model
 			'nama', 'avatar', 'profesi', 'kode_aktifasi', 'password');
 		$this->db->select($column);
 		$this->db->from($this->tb_users);
-		$this->db->join($this->tb_attr, 'attr_users.nip = users.nip');
+		$this->db->join($this->tb_attr, 'users_attr.nip = users.nip');
 		$this->db->where('username', $user);
 		$kueri = $this->db->get_where();
 		if(!$kueri) {
@@ -154,7 +154,7 @@ class Model_auth extends CI_Model
 			'users.email', 'exp_aktifasi');
 		$this->db->select($column);
 		$this->db->from($this->tb_users);
-		$this->db->join($this->tb_attr, 'attr_users.nip = users.nip');
+		$this->db->join($this->tb_attr, 'users_attr.nip = users.nip');
 		$this->db->where('users.email', $email);
 		$this->db->where('kode_aktifasi !=', NULL);
 		$kueri = $this->db->get_where();
@@ -179,7 +179,7 @@ class Model_auth extends CI_Model
 			'users.email', 'nama');
 		$this->db->select($column);
 		$this->db->from($this->tb_users);
-		$this->db->join($this->tb_attr, 'attr_users.nip = users.nip');
+		$this->db->join($this->tb_attr, 'users_attr.nip = users.nip');
 		$this->db->where($where);
 		$kueri = $this->db->get_where();
 		if(!$kueri) {
@@ -463,7 +463,7 @@ class Model_auth extends CI_Model
 	public function reset_password($kode, $pass)
 	{
 		$sql = "UPDATE users
-			JOIN attr_users ON users.nip = attr_users.nip
+			JOIN users_attr ON users.nip = users_attr.nip
 			SET password = ?
 			WHERE 1=1
 			AND kode_recovery = ?";

@@ -20,6 +20,7 @@ $(document).ready(function() {
 			{ data: 'username' },
 			{ data: 'email' },
 			{ data: 'profesi' },
+			{ data: 'status', orderable: false, class: 'center' },
 			{ data: 'action', orderable: false, class: 'action-sm',
 				render: function(data, type, row, meta) {
 					btnEdit = '<button type="button" class="btn btn-secondary btn-custom" onclick="edit(this)" data-key="'+data.nip+'"><i class="fa fa-edit"></i></button>';
@@ -38,6 +39,44 @@ $(document).ready(function() {
 	});
 });
 
+
+$('form#close-account').on('submit', function(e) {
+	e.preventDefault();
+	var array = $(this).serializeArray();
+	var type = array[4].value;
+	var nama = array[1].value;
+
+	confirmMsg({
+		title: 'Close '+type+'!',
+		content: 'Are you sure want to Close '+type+' User "'+nama+'"?',
+		confirmText: '<i class="fa fa-trash"></i> Confrim',
+		confirmAction: function() {
+			// deleteUsers(key);
+			closeAccount(array);
+		}
+	})
+	// console.log(type);
+	return false;
+});
+
+const closeAccount = function(array) {
+	$.ajax({
+		url: BASE_URL+'api/main/users/close',
+		type: 'delete',
+		dataType: 'json',
+		data: array,
+		success: function(res) {
+			console.log(res);
+			// alertMsg(res.message);
+			// dtTable.draw();
+		},
+		error: function(err) {
+			resAlert(err);
+			errValidServer($('form#close-account'), err);
+		},
+	})
+}
+
 const del = function(th) {
 	var nama = $(th).data('nama');
 	var key = $(th).data('key');
@@ -46,7 +85,7 @@ const del = function(th) {
 		content: 'Are you sure want to Delete User "'+nama+'"?',
 		confirmText: '<i class="fa fa-trash"></i> Delete',
 		confirmAction: function() {
-			deleteUsers(key);
+			// deleteUsers(key);
 		}
 	})
 }

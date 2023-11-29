@@ -21,6 +21,7 @@
 								<th>Username</th>
 								<th>Email</th>
 								<th>Profesion</th>
+								<th>Status</th>
 								<th>Action</th>
 							</tr>
 						</thead>

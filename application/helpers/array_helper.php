@@ -6,10 +6,10 @@ if(!function_exists('array_remove')) {
 	function array_remove($array, $remove = null)
 	{
 		if($array && $remove) {
-			return array_diff_key($array, array_flip((array) $remove));
-		} else {
-			return $array;
-		}
+			if(!empty($array[$remove])) {
+				return array_diff_key($array, array_flip((array) $remove));
+			} else { return $array; }
+		} else { return $array; }
 	}
 }
 

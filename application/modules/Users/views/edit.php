@@ -88,14 +88,12 @@
 											<div class="form-group">
 												<label class="control-label">Name</label>
 												<input type="text" name="nama" class="form-control" placeholder="Admin App">
-												<small class="form-control-feedback text-danger" id="err-nama"></small>
 											</div>
 										</div>
 										<div class="col-6">
 											<div class="form-group">
 												<label class="control-label">Number Phone</label>
-												<input type="text" name="no_hp" class="form-control" placeholder="Enter Number Phone">
-												<small class="form-control-feedback text-danger" id="err-no_hp"></small>
+												<input type="text" name="no_telp" class="form-control" placeholder="Enter Number Phone">
 											</div>
 										</div>
 									</div>

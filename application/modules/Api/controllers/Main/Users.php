@@ -62,6 +62,8 @@ class Users extends RestController
 			$row['username'] = $field['username'];
 			$row['email'] = $field['email'];
 			$row['profesi'] = $field['profesi'];
+			$status = $this->model_dtable->get_status($field['nip']);
+			$row['status'] = ucfirst($status);
 
 			$act = $this->access->action_table($this->rule);
 			$row['action'] = array_merge(
@@ -182,6 +184,21 @@ class Users extends RestController
 		}
 	}
 
+	public function close_delete()
+	{
+		$is_valid = $this->valid_close();
+		if($is_valid === true) {
+			$res['status'] = true;
+			$res['data'] = $this->delete();
+			$this->response($res);
+		} else {
+			$res['status'] = false;
+			$res['message'] = 'Your request not valid';
+			$res['errors'] = $is_valid;
+			$this->response($res, 400);
+		}
+	}
+
 	public function profesi_get()
 	{
 		$get = $this->read_json();
@@ -250,6 +267,33 @@ class Users extends RestController
     );
 
     $this->form_validation->set_rules($data);
+		if($this->form_validation->run($this) == false) {
+			return $this->form_validation->error_array();
+		} else { return true; }
+	}
+
+	private function valid_close()
+	{
+		$this->form_validation->set_data($this->delete());
+		$data = array(
+			array('field' => 'email',
+				'label' => 'Email Address',
+        'rules' => 'trim|required|min_length[5]|max_length[100]|no_space|valid_email'),
+			array('field' => 'username',
+				'label' => 'Username',
+        'rules' => 'trim|required|min_length[3]|max_length[50]|no_space|valid_username'),
+      array('field' => 'password',
+				'label' => 'Password',
+        'rules' => 'trim|required|min_length[3]|max_length[50]|valid_password|matches[passconf]'),
+			array('field' => 'passconf',
+				'label' => 'Confirm Password',
+        'rules' => 'trim|required|min_length[3]|max_length[50]|valid_password|matches[password]'),
+			array('field' => 'rule',
+				'label' => 'Rule',
+        'rules' => 'trim|valid_rule'),
+    );
+		
+		$this->form_validation->set_rules($data);
 		if($this->form_validation->run($this) == false) {
 			return $this->form_validation->error_array();
 		} else { return true; }
